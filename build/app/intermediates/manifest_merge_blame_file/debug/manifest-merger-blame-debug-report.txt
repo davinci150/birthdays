@@ -1,0 +1,164 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.birthdays"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+9        android:targetSdkVersion="30" />
+10    <!--
+11         Flutter needs it to communicate with the running application
+12         to allow setting breakpoints, to provide hot reload, etc.
+13    -->
+14    <uses-permission android:name="android.permission.INTERNET" />
+14-->/Users/admin/projects/birthdays/android/app/src/debug/AndroidManifest.xml:6:5-66
+14-->/Users/admin/projects/birthdays/android/app/src/debug/AndroidManifest.xml:6:22-64
+15    <uses-permission android:name="android.permission.READ_CONTACTS" />
+15-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:4:4-71
+15-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:4:21-68
+16    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+16-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:5:4-72
+16-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:5:21-69
+17    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+17-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-81
+17-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-78
+18    <uses-permission android:name="android.permission.VIBRATE" />
+18-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-66
+18-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:8:22-63
+19    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+19-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-81
+19-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:9:22-78
+20    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+20-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-79
+20-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:10:22-76
+21
+22    <queries>
+22-->[:contacts_service] /Users/admin/projects/birthdays/build/contacts_service/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-24:15
+23        <intent>
+23-->[:contacts_service] /Users/admin/projects/birthdays/build/contacts_service/intermediates/library_manifest/debug/AndroidManifest.xml:12:9-14:18
+24            <action android:name="android.accounts.AccountAuthenticator" />
+24-->[:contacts_service] /Users/admin/projects/birthdays/build/contacts_service/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-76
+24-->[:contacts_service] /Users/admin/projects/birthdays/build/contacts_service/intermediates/library_manifest/debug/AndroidManifest.xml:13:21-73
+25        </intent>
+26        <!-- Allows the app to load an icon corresponding to the custom MIME type. -->
+27        <intent>
+27-->[:contacts_service] /Users/admin/projects/birthdays/build/contacts_service/intermediates/library_manifest/debug/AndroidManifest.xml:16:9-23:18
+28            <action android:name="android.intent.action.VIEW" />
+28-->[:contacts_service] /Users/admin/projects/birthdays/build/contacts_service/intermediates/library_manifest/debug/AndroidManifest.xml:17:13-65
+28-->[:contacts_service] /Users/admin/projects/birthdays/build/contacts_service/intermediates/library_manifest/debug/AndroidManifest.xml:17:21-62
+29
+30            <data
+30-->[:contacts_service] /Users/admin/projects/birthdays/build/contacts_service/intermediates/library_manifest/debug/AndroidManifest.xml:19:13-22:44
+31                android:host="com.android.contacts"
+31-->[:contacts_service] /Users/admin/projects/birthdays/build/contacts_service/intermediates/library_manifest/debug/AndroidManifest.xml:20:17-52
+32                android:mimeType="vnd.android.cursor.item/*"
+32-->[:contacts_service] /Users/admin/projects/birthdays/build/contacts_service/intermediates/library_manifest/debug/AndroidManifest.xml:21:17-61
+33                android:scheme="content" />
+33-->[:contacts_service] /Users/admin/projects/birthdays/build/contacts_service/intermediates/library_manifest/debug/AndroidManifest.xml:22:17-41
+34        </intent>
+35    </queries>
+36
+37    <application
+37-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:7:4-44:19
+38        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+38-->[androidx.core:core:1.6.0] /Users/admin/.gradle/caches/transforms-2/files-2.1/5f663b08eec19eef9a9d1af662d9025e/core-1.6.0/AndroidManifest.xml:24:18-86
+39        android:debuggable="true"
+40        android:icon="@mipmap/ic_launcher"
+40-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:9:9-43
+41        android:label="birthdays" >
+41-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:8:9-34
+42        <activity
+42-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:10:9-38:20
+43            android:name="com.example.birthdays.MainActivity"
+43-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:11:13-41
+44            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+44-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:14:13-163
+45            android:hardwareAccelerated="true"
+45-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:15:13-47
+46            android:launchMode="singleTop"
+46-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:12:13-43
+47            android:theme="@style/LaunchTheme"
+47-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:13:13-47
+48            android:windowSoftInputMode="adjustResize" >
+48-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:16:13-55
+49
+50            <!--
+51                 Specifies an Android theme to apply to this Activity as soon as
+52                 the Android process has started. This theme is visible to the user
+53                 while the Flutter UI initializes. After that, this theme continues
+54                 to determine the Window background behind the Flutter UI.
+55            -->
+56            <meta-data
+56-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:21:13-24:17
+57                android:name="io.flutter.embedding.android.NormalTheme"
+57-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:22:15-70
+58                android:resource="@style/NormalTheme" />
+58-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:23:15-52
+59            <!--
+60                 Displays an Android View that continues showing the launch screen
+61                 Drawable until Flutter paints its first frame, then this splash
+62                 screen fades out. A splash screen is useful to avoid any visual
+63                 gap between the end of Android's launch screen and the painting of
+64                 Flutter's first frame.
+65            -->
+66            <meta-data
+66-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:30:13-33:17
+67                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+67-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:31:15-79
+68                android:resource="@drawable/launch_background" />
+68-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:32:15-61
+69
+70            <intent-filter>
+70-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:34:13-37:29
+71                <action android:name="android.intent.action.MAIN" />
+71-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:35:17-68
+71-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:35:25-66
+72
+73                <category android:name="android.intent.category.LAUNCHER" />
+73-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:36:17-76
+73-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:36:27-74
+74            </intent-filter>
+75        </activity>
+76        <!--
+77             Don't delete the meta-data below.
+78             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+79        -->
+80        <meta-data
+80-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:41:9-43:33
+81            android:name="flutterEmbedding"
+81-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:42:13-44
+82            android:value="2" />
+82-->/Users/admin/projects/birthdays/android/app/src/main/AndroidManifest.xml:43:13-30
+83
+84        <receiver
+84-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:13:9-15:40
+85            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"
+85-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-97
+86            android:exported="false" />
+86-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-37
+87        <receiver
+87-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:16:9-25:20
+88            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
+88-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:17:13-101
+89            android:exported="false" >
+89-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:18:13-37
+90            <intent-filter>
+90-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:19:13-24:29
+91                <action android:name="android.intent.action.BOOT_COMPLETED" />
+91-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:20:17-79
+91-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:20:25-76
+92                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+92-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:21:17-84
+92-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:21:25-81
+93                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+93-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:22:17-82
+93-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:22:25-79
+94                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+94-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:23:17-82
+94-->[:flutter_local_notifications] /Users/admin/projects/birthdays/build/flutter_local_notifications/intermediates/library_manifest/debug/AndroidManifest.xml:23:25-79
+95            </intent-filter>
+96        </receiver>
+97    </application>
+98
+99</manifest>
