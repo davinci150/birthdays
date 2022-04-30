@@ -14,6 +14,7 @@ class UserCard extends StatelessWidget {
   final UserModel userModel;
   final String imagePath;
   final Color avatarColor;
+  
   @override
   Widget build(BuildContext context) {
     final date = DateFormat('d MMM yyyy').format(userModel.date!);

@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:birthdays/add_contact_widget.dart';
 import 'package:birthdays/user_card_widet.dart';
 import 'package:birthdays/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import 'notification_service.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -21,10 +23,11 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<UserModel> list = [];
   Iterable<Contact>? _contacts;
 
+  NotificationService notificationService = NotificationService();
+
   @override
   void initState() {
     getContacts();
-
     super.initState();
   }
 
@@ -58,7 +61,9 @@ class _MyHomePageState extends State<MyHomePage> {
           child: FloatingActionButton(
             backgroundColor: const Color(0xFF6100FF),
             child: const Icon(Icons.add, size: 32),
-            onPressed: addContactDialog,
+            onPressed: () {
+              addContactDialog();
+            },
           ),
         ),
         floatingActionButtonLocation:
@@ -149,7 +154,9 @@ class _MyHomePageState extends State<MyHomePage> {
       centerTitle: true,
       actions: [
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              //notificationService.getActiveNotifications(context);
+            },
             icon: const Icon(
               Icons.settings,
               color: Color(0xFF9F8EF6),
@@ -169,6 +176,11 @@ class _MyHomePageState extends State<MyHomePage> {
   final listColors = const [Color(0xFFF8DA89), Color(0xFFD6CAFE)];
 
   Widget body() {
+    String searchText = '';
+    final listContact = searchText.isNotEmpty
+        ? list.where((element) => element.name!.contains(searchText)).toList()
+        : list;
+
     return Column(
       children: [
         const SizedBox(height: 20),
@@ -177,6 +189,10 @@ class _MyHomePageState extends State<MyHomePage> {
           height: 49,
           padding: const EdgeInsets.symmetric(horizontal: 42),
           child: TextField(
+            onChanged: (text) {
+              searchText = text;
+              setState(() {});
+            },
             maxLines: 1,
             cursorColor: Colors.black,
             decoration: InputDecoration(
@@ -205,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemBuilder: (ctx, i) {
                   final rnd = Random().nextInt(2);
                   return UserCard(
-                    userModel: list[i],
+                    userModel: listContact[i],
                     imagePath: listImage[rnd],
                     avatarColor: listColors[rnd],
                   );
@@ -213,72 +229,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 separatorBuilder: (ctx, i) {
                   return const SizedBox(height: 21);
                 },
-                itemCount: list.length)),
+                itemCount: listContact.length)),
       ],
     );
   }
 
   void addContactDialog() {
-    UserModel userModel = UserModel();
-
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => StatefulBuilder(builder: (context, state) {
-        return SizedBox(
-          height: 350,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: TextField(
-                  onChanged: (name) {
-                    userModel = userModel.copyWith(name: name);
-                  },
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Full Name',
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        setData().then((value) {
-                          state(() {
-                            userModel = userModel.copyWith(date: value);
-                          });
-                        });
-                      },
-                      icon: const Icon(Icons.calendar_today)),
-                  Text(userModel.date.toString())
-                ],
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    saveBirthday(userModel);
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('SAVE'))
-            ],
-          ),
-        );
-      }),
+      builder: (ctx) => AddContacWidget(onSaveUser: saveBirthday),
     );
   }
 
   void saveBirthday(UserModel model) {
     list.add(model);
+    notificationService.scheduleNotification(
+        DateTime.now().add(const Duration(seconds: 4)),
+        'День рождения у ${model.name}');
     setState(() {});
-  }
-
-  Future<DateTime?> setData() async {
-    return showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now().subtract(const Duration(days: 365)),
-        lastDate: DateTime.now().add(const Duration(days: 365)));
   }
 }

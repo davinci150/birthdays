@@ -1,6 +1,7 @@
 # This is a generated file; do not edit or check into version control.
 contacts_service=/Users/admin/.pub-cache/hosted/pub.dartlang.org/contacts_service-0.6.3/
 flutter_local_notifications=/Users/admin/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-9.4.1/
+flutter_native_timezone=/Users/admin/.pub-cache/hosted/pub.dartlang.org/flutter_native_timezone-2.0.0/
 permission_handler=/Users/admin/.pub-cache/hosted/pub.dartlang.org/permission_handler-9.2.0/
 permission_handler_android=/Users/admin/.pub-cache/hosted/pub.dartlang.org/permission_handler_android-9.0.2+1/
 permission_handler_apple=/Users/admin/.pub-cache/hosted/pub.dartlang.org/permission_handler_apple-9.0.4/

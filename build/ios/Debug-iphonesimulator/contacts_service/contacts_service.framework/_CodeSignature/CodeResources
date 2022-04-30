@@ -42,7 +42,7 @@
 		</data>
 		<key>Modules/contacts_service.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		qH8b71nP49oEIBra3W3upxJ4LXc=
+		QPZVGEnHuJSz3jr0m1SiG6p7XOs=
 		</data>
 		<key>Modules/contacts_service.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -50,7 +50,7 @@
 		</data>
 		<key>Modules/contacts_service.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		qH8b71nP49oEIBra3W3upxJ4LXc=
+		QPZVGEnHuJSz3jr0m1SiG6p7XOs=
 		</data>
 		<key>Modules/contacts_service.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -58,7 +58,7 @@
 		</data>
 		<key>Modules/contacts_service.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		L9XYruOuQA8F/5l5Vqj1ue42N00=
+		9vuc64c1SfOgYTgeQKcdY5kAkpY=
 		</data>
 		<key>Modules/contacts_service.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -66,7 +66,7 @@
 		</data>
 		<key>Modules/contacts_service.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		L9XYruOuQA8F/5l5Vqj1ue42N00=
+		9vuc64c1SfOgYTgeQKcdY5kAkpY=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -167,11 +167,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			qH8b71nP49oEIBra3W3upxJ4LXc=
+			QPZVGEnHuJSz3jr0m1SiG6p7XOs=
 			</data>
 			<key>hash2</key>
 			<data>
-			wwlQBfwU+8nn43z5oZKmO2qYvgM+qdTFf2/Co4JHwtE=
+			vmsgPEC/JRU4v0VSxkNfYAxkKS3B8O1wBVWkaNZowtI=
 			</data>
 		</dict>
 		<key>Modules/contacts_service.swiftmodule/arm64.swiftdoc</key>
@@ -189,11 +189,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			qH8b71nP49oEIBra3W3upxJ4LXc=
+			QPZVGEnHuJSz3jr0m1SiG6p7XOs=
 			</data>
 			<key>hash2</key>
 			<data>
-			wwlQBfwU+8nn43z5oZKmO2qYvgM+qdTFf2/Co4JHwtE=
+			vmsgPEC/JRU4v0VSxkNfYAxkKS3B8O1wBVWkaNZowtI=
 			</data>
 		</dict>
 		<key>Modules/contacts_service.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -211,11 +211,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			L9XYruOuQA8F/5l5Vqj1ue42N00=
+			9vuc64c1SfOgYTgeQKcdY5kAkpY=
 			</data>
 			<key>hash2</key>
 			<data>
-			26tfCZfWFP/ITV5iJFsQUdwWNLIwRzAikuH9SwSMzys=
+			LsZZOfThQNK4jYFKHtbDs4i9ggil+Ady0+5Di+k4Fhg=
 			</data>
 		</dict>
 		<key>Modules/contacts_service.swiftmodule/x86_64.swiftdoc</key>
@@ -233,11 +233,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			L9XYruOuQA8F/5l5Vqj1ue42N00=
+			9vuc64c1SfOgYTgeQKcdY5kAkpY=
 			</data>
 			<key>hash2</key>
 			<data>
-			26tfCZfWFP/ITV5iJFsQUdwWNLIwRzAikuH9SwSMzys=
+			LsZZOfThQNK4jYFKHtbDs4i9ggil+Ady0+5Di+k4Fhg=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

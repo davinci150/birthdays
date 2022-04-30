@@ -12,6 +12,10 @@
         "source": "/Users/admin/projects/birthdays/android/app/src/main/res/drawable/launch_background.xml"
     },
     {
+        "merged": "/Users/admin/projects/birthdays/build/app/intermediates/res/merged/debug/drawable_app_icon.png.flat",
+        "source": "/Users/admin/projects/birthdays/android/app/src/main/res/drawable/app_icon.png"
+    },
+    {
         "merged": "/Users/admin/projects/birthdays/build/app/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
         "source": "/Users/admin/projects/birthdays/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
     },

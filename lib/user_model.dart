@@ -1,6 +1,7 @@
 class UserModel {
   final String? name;
    final DateTime? date;
+   
 
   UserModel({this.name, this.date});
 

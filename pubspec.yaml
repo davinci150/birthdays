@@ -23,6 +23,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
     
+  flutter_native_timezone: ^2.0.0
   flutter_local_notifications: ^9.4.1
   intl: ^0.17.0
 

@@ -1,4 +1,0 @@
-#Sat Apr 16 18:03:25 MSK 2022
-base.0=/Users/admin/projects/birthdays/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

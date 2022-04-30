@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 
 import 'home_page.dart';
 
-
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -26,3 +25,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
