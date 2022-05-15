@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-import 'home_page.dart';
+import 'home/home_page.dart';
 
-void main() {
+Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
   ));
+  await Hive.initFlutter();
   runApp(const MyApp());
 }
 
@@ -25,4 +29,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

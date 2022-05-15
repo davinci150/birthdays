@@ -6,34 +6,21 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class NotificationService {
-  late FlutterLocalNotificationsPlugin flutterNotificationPlugin;
+  late FlutterLocalNotificationsPlugin notificationPlugin;
   NotificationService() {
     initNotification();
     _configureLocalTimeZone();
   }
   void initNotification() {
-    var initializationSettingsAndroid =
-        const AndroidInitializationSettings('app_icon');
-
-    var initializationSettingsIOS = const IOSInitializationSettings();
-
-    var initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-
-    flutterNotificationPlugin = FlutterLocalNotificationsPlugin();
-
-    flutterNotificationPlugin.initialize(initializationSettings,
-        onSelectNotification: (text) {
+    const initSettingsAndroid = AndroidInitializationSettings('app_icon');
+    const initSettingsIOS = IOSInitializationSettings();
+    const initSettings = InitializationSettings(
+        android: initSettingsAndroid, iOS: initSettingsIOS);
+    notificationPlugin = FlutterLocalNotificationsPlugin();
+    notificationPlugin.initialize(initSettings, onSelectNotification: (text) {
       onSelectNotification(text ?? '');
     });
   }
-
-  //tz.TZDateTime _nextInstanceOfTenAMLastYear(DateTime data) {
-  //  final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-  //  final time = tz.TZDateTime(tz.local, data.year, data.month, data.day,
-  //      data.hour, data.minute, data.second);
-  //  return time;
-  //}
 
   Future<void> _configureLocalTimeZone() async {
     tz.initializeTimeZones();
@@ -42,13 +29,11 @@ class NotificationService {
   }
 
   Future<void> scheduleNotification(DateTime data, String description) async {
-    final time = tz.TZDateTime(tz.local, data.year, data.month, data.day,
-        data.hour, data.minute, data.second);
-    flutterNotificationPlugin.zonedSchedule(
+    return notificationPlugin.zonedSchedule(
         1,
         'Birthday',
         description,
-        time,
+        _nextInstanceOfTenAM(data),
         const NotificationDetails(
             android: AndroidNotificationDetails(
           'Notification Channel ID',
@@ -59,7 +44,14 @@ class NotificationService {
         )),
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
-        androidAllowWhileIdle: true);
+        androidAllowWhileIdle: true,
+        matchDateTimeComponents: DateTimeComponents.dateAndTime);
+  }
+
+  tz.TZDateTime _nextInstanceOfTenAM(DateTime data) {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+
+    return tz.TZDateTime(tz.local, now.year, data.month, data.day, 09, 00, 00);
   }
 
   Future<void> onSelectNotification(String payload) async {

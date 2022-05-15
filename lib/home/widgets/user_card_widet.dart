@@ -1,4 +1,6 @@
-import 'package:birthdays/user_model.dart';
+import 'package:birthdays/model/user_model.dart';
+import 'package:birthdays/service/date_time_utils.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 
@@ -9,17 +11,33 @@ class UserCard extends StatelessWidget {
       {required this.userModel,
       required this.imagePath,
       required this.avatarColor,
+      required this.avatarCallback,
       Key? key})
       : super(key: key);
+
   final UserModel userModel;
   final String imagePath;
   final Color avatarColor;
-  
+  final void Function(LongPressDownDetails details) avatarCallback;
+
   @override
   Widget build(BuildContext context) {
-    final date = DateFormat('d MMM yyyy').format(userModel.date!);
-    final dueData = userModel.date!.difference(DateTime.now()).inDays;
-    DateTime.now();
+    String? date;
+    String? dueData;
+    int? age;
+    final now = DateTime.now();
+    if (userModel.date != null) {
+      date = DateFormat('d MMM yyyy').format(userModel.date!);
+
+      final birhData =
+          DateTime(now.year, userModel.date!.month, userModel.date!.day);
+
+      dueData = DateTimeUtils.daysAgo(birhData.isBefore(now)
+          ? DateTime(now.year + 1, userModel.date!.month, userModel.date!.day)
+          : DateTime(now.year, userModel.date!.month, userModel.date!.day));
+      age = now.year - userModel.date!.year;
+    }
+
     return Container(
       decoration: const BoxDecoration(
           boxShadow: [
@@ -35,21 +53,24 @@ class UserCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              CircleAvatar(
-                radius: 28,
-                backgroundColor: avatarColor,
-              ),
-              Container(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Image.asset(
-                  imagePath,
-                  width: 36,
+          GestureDetector(
+            onLongPressDown: avatarCallback,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 28,
+                  backgroundColor: avatarColor,
                 ),
-              )
-            ],
+                Container(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Image.asset(
+                    imagePath,
+                    width: 36,
+                  ),
+                )
+              ],
+            ),
           ),
           const SizedBox(
             width: 17,
@@ -63,13 +84,16 @@ class UserCard extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.bold)),
               const SizedBox(height: 5),
-              Text('Birthdays : $date',
+              Text('Birthdays: ${date ?? '??'}',
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.w400)),
               const SizedBox(height: 5),
-              Text('Via $dueData days',
+              Text(
+                  dueData!.contains(RegExp('[0-9]'))
+                      ? 'Via $dueData days ${age ?? '??'} age'
+                      : dueData,
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
