@@ -19,8 +19,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // final List<UserModel> list = [];
-  final listImage = ['assets/images/human2.png', 'assets/images/human1.png'];
   final listColors = const [Color(0xFFF8DA89), Color(0xFFD6CAFE)];
   NotificationService notificationService = NotificationService();
   late TextEditingController searchTextController;
@@ -134,7 +132,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         physics: const BouncingScrollPhysics(
                             parent: AlwaysScrollableScrollPhysics()),
                         itemBuilder: (ctx, i) {
-                          final rnd = Random().nextInt(2);
                           return UserCard(
                             avatarCallback: (details) {
                               //_showPopup(context);
@@ -169,8 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ]);
                             },
                             userModel: snapshot.data![i],
-                            imagePath: listImage[rnd],
-                            avatarColor: listColors[rnd],
+                            avatarColor: Colors.white,
                           );
                         },
                         separatorBuilder: (ctx, i) {

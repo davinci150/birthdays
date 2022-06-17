@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:birthdays/home/widgets/user_avatar_wdget.dart';
 import 'package:birthdays/model/user_model.dart';
 import 'package:birthdays/service/date_time_utils.dart';
 import 'package:flutter/gestures.dart';
@@ -9,14 +12,13 @@ import 'package:intl/intl.dart';
 class UserCard extends StatelessWidget {
   const UserCard(
       {required this.userModel,
-      required this.imagePath,
       required this.avatarColor,
       required this.avatarCallback,
       Key? key})
       : super(key: key);
 
   final UserModel userModel;
-  final String imagePath;
+
   final Color avatarColor;
   final void Function(LongPressDownDetails details) avatarCallback;
 
@@ -37,7 +39,6 @@ class UserCard extends StatelessWidget {
           : DateTime(now.year, userModel.date!.month, userModel.date!.day));
       age = now.year - userModel.date!.year;
     }
-
     return Container(
       decoration: const BoxDecoration(
           boxShadow: [
@@ -54,24 +55,10 @@ class UserCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           GestureDetector(
-            onLongPressDown: avatarCallback,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 28,
-                  backgroundColor: avatarColor,
-                ),
-                Container(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Image.asset(
-                    imagePath,
-                    width: 36,
-                  ),
-                )
-              ],
-            ),
-          ),
+              onLongPressDown: avatarCallback,
+              child: UserAvatar(
+                user: userModel,
+              )),
           const SizedBox(
             width: 17,
           ),

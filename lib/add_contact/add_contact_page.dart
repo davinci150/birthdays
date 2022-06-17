@@ -68,13 +68,20 @@ class _AddContactPageState extends State<AddContactPage> {
             : Column(
                 children: [
                   TextButton(
-                    onPressed: () {
-                      showModalBottomSheet(
+                    onPressed: () async {
+                      await showModalBottomSheet(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(29))),
+                          //constraints: const BoxConstraints(minHeight: 500),
+                          backgroundColor: Colors.white,
                           context: context,
                           builder: (ctx) =>
                               AddContacWidget(onSaveUser: (model) {
                                 repository.addUser(model);
                               }));
+
+                      // Navigator.pop(context);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -131,27 +138,28 @@ class _AddContactPageState extends State<AddContactPage> {
           ),
           TextButton(
               onPressed: () async {
-                DateTime? birthday;
-                if (contact?.birthday != null) {
-                  birthday = contact!.birthday!;
-                } else {
-                  birthday = await setData(context);
-                }
-                repository.addUser(
-                    UserModel(name: contact?.displayName, date: birthday));
-                Navigator.pop(context);
+                await showModalBottomSheet(
+                    constraints: const BoxConstraints(minHeight: 500),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(29))),
+                    backgroundColor: Colors.white,
+                    context: context,
+                    builder: (ctx) => AddContacWidget(
+                        userModel: UserModel(
+                            avatar: contact?.avatar,
+                            id: null,
+                            name: contact?.displayName,
+                            date: contact?.birthday),
+                        onSaveUser: (model) {
+                          repository.addUser(model);
+                        }));
+
+                // Navigator.pop(context);
               },
               child: const Text('Add'))
         ],
       ),
     );
-  }
-
-  Future<DateTime?> setData(BuildContext context) async {
-    return showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now().subtract(const Duration(days: 365)),
-        lastDate: DateTime.now().add(const Duration(days: 365)));
   }
 }

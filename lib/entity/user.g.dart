@@ -19,6 +19,8 @@ class UserAdapter extends TypeAdapter<User> {
     return User(
       name: fields[0] as String,
       date: fields[1] as DateTime,
+      avatar: fields[2] as Uint8List?,
+      id: fields[3] as int?,
     );
   }
 

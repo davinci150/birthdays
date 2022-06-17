@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:birthdays/entity/user.dart';
 import 'package:birthdays/model/user_model.dart';
 import 'package:birthdays/service/notification_service.dart';
@@ -29,12 +31,14 @@ class ContactsRepository {
     list.add(model);
     list.sort((a, b) => a.date!.compareTo(b.date!));
     listUsers.sink.add(list);
-    saveGroup(User(name: model.name!, date: model.date!));
-    final now = DateTime.now();
+    saveGroup(User(
+        name: model.name!,
+        avatar: model.avatar,
+        id: model.id,
+        date: model.date!));
+
     notificationService.scheduleNotification(
-        DateTime(now.year, model.date!.month, model.date!.day, 08, 30, 00),
-        //DateTime.now().add(Duration(seconds: 4)),
-        'День рождения у ${model.name}');
+        model.date!, 'День рождения у ${model.name}');
   }
 
   List<User> listUserModel = [];
@@ -54,7 +58,8 @@ class ContactsRepository {
     listUserModel = (await _box).values.toList();
     List<UserModel> list = [];
     for (var user in listUserModel) {
-      final us = UserModel(name: user.name, date: user.date);
+      final us = UserModel(
+          name: user.name, date: user.date, avatar: user.avatar, id: user.id);
       list.add(us);
     }
     listUsers.sink.add(list);
@@ -71,7 +76,8 @@ class ContactsRepository {
 
   Future<void> saveGroup(User user) async {
     final box = await BoxManager.instance.openGroupBox();
-    final group = User(name: user.name, date: user.date);
+    final group = User(
+        name: user.name, avatar: user.avatar, id: user.id, date: user.date);
     await box.add(group);
     await BoxManager.instance.closeBox(box);
   }
