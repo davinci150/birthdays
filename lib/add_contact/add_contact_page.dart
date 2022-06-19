@@ -1,163 +1,190 @@
-import 'package:birthdays/add_contact/add_contact_widget.dart';
-import 'package:birthdays/contacts_repository.dart';
-import 'package:birthdays/model/user_model.dart';
-import 'package:contacts_service/contacts_service.dart';
+import 'dart:math';
+import 'dart:ui';
+
+import 'package:birthdays/presentation/colors.dart';
+import 'package:birthdays/service/image_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:intl/intl.dart';
+import '../home/widgets/date_picker_widget.dart';
+import '../home/widgets/material_button_widget.dart';
+import '../model/user_model.dart';
 
-class AddContactPage extends StatefulWidget {
-  const AddContactPage({Key? key}) : super(key: key);
-
+class AddContacPage extends StatefulWidget {
+  const AddContacPage({
+    Key? key,
+    required this.onSaveUser,
+    this.userModel,
+  }) : super(key: key);
+  final void Function(UserModel) onSaveUser;
+  final UserModel? userModel;
   @override
-  State<AddContactPage> createState() => _AddContactPageState();
+  State<AddContacPage> createState() => _AddContacPageState();
 }
 
-class _AddContactPageState extends State<AddContactPage> {
-  Iterable<Contact>? _contacts;
-  late ContactsRepository repository;
-  Future<PermissionStatus> _getPermission() async {
-    final PermissionStatus permission = await Permission.contacts.status;
-    if (permission != PermissionStatus.granted &&
-        permission != PermissionStatus.denied) {
-      final Map<Permission, PermissionStatus> permissionStatus =
-          await [Permission.contacts].request();
-      return permissionStatus[Permission.contacts] ??
-          PermissionStatus.restricted;
-    } else {
-      return permission;
-    }
-  }
+class _AddContacPageState extends State<AddContacPage> {
+  late UserModel userModel;
 
-  Future<void> getContacts() async {
-    final PermissionStatus permissionStatus = await _getPermission();
-
-    if (permissionStatus == PermissionStatus.granted) {
-      setContact();
-    } else {
-      if (await Permission.contacts.request().isGranted) {
-        setContact();
-      }
-    }
-  }
-
+  final rnd = Random().nextInt(2);
   @override
   void initState() {
-    repository = ContactsRepository.instance;
-    getContacts();
+    if (widget.userModel != null) {
+      userModel = widget.userModel!;
+    } else {
+      userModel = UserModel(name: '', date: DateTime.now());
+    }
     super.initState();
   }
 
-  Future<void> setContact() async {
-    final Iterable<Contact> contacts = await ContactsService.getContacts();
-
-    setState(() {
-      _contacts = contacts;
-    });
-  }
-
+  int inde = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Add new contact'),
-        ),
-        body: _contacts == null
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Column(
-                children: [
-                  TextButton(
-                    onPressed: () async {
-                      await showModalBottomSheet(
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(29))),
-                          //constraints: const BoxConstraints(minHeight: 500),
-                          backgroundColor: Colors.white,
-                          context: context,
-                          builder: (ctx) =>
-                              AddContacWidget(onSaveUser: (model) {
-                                repository.addUser(model);
-                              }));
-
-                      // Navigator.pop(context);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.add),
-                        SizedBox(width: 6),
-                        Text('Create contact')
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: _contacts?.length ?? 0,
-                      itemBuilder: (BuildContext context, int index) {
-                        final contact = _contacts?.elementAt(index);
-                        return userCard(contact);
-                      },
-                    ),
-                  ),
-                ],
-              ));
-  }
-
-  Widget userCard(Contact? contact) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      backgroundColor: AppColors.mortar,
+      appBar: AppBar(
+          backgroundColor: AppColors.mortar,
+          elevation: 0,
+          leading: InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                  padding: const EdgeInsets.all(0),
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle, color: AppColors.lightMortar),
+                  child: const Icon(
+                    Icons.close,
+                    size: 24,
+                  )))),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            children: [
-              (contact?.avatar != null &&
-                      contact!.avatar != null &&
-                      contact.avatar!.isNotEmpty)
-                  ? CircleAvatar(
-                      backgroundImage: MemoryImage(contact.avatar!),
-                    )
-                  : CircleAvatar(
-                      child: Text(contact?.initials() ?? ''),
-                    ),
-              const SizedBox(
-                width: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(contact?.displayName ?? ''),
-                  if ((contact?.phones ?? []).isNotEmpty)
-                    Text(contact?.phones?.first.value ?? ''),
-                ],
-              ),
-            ],
+          const SizedBox(
+            height: 10,
           ),
-          TextButton(
-              onPressed: () async {
-                await showModalBottomSheet(
-                    constraints: const BoxConstraints(minHeight: 500),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(29))),
-                    backgroundColor: Colors.white,
-                    context: context,
-                    builder: (ctx) => AddContacWidget(
-                        userModel: UserModel(
-                            avatar: contact?.avatar,
-                            id: null,
-                            name: contact?.displayName,
-                            date: contact?.birthday),
-                        onSaveUser: (model) {
-                          repository.addUser(model);
-                        }));
-
-                // Navigator.pop(context);
-              },
-              child: const Text('Add'))
+          const Padding(
+            padding: EdgeInsets.only(left: 27.0),
+            child: Text(
+              'Add contact',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700),
+            ),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(51)),
+                  color: Colors.white),
+              child: Column(children: [
+                const SizedBox(
+                  height: 30,
+                ),
+                Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: const BoxDecoration(boxShadow: [
+                        BoxShadow(
+                            blurRadius: 3,
+                            spreadRadius: 3,
+                            color: Color.fromRGBO(0, 0, 0, 0.1))
+                      ], color: Colors.white, shape: BoxShape.circle),
+                      child: CircleAvatar(
+                        backgroundImage: userModel.avatar != null
+                            ? MemoryImage(userModel.avatar!)
+                            : null,
+                        child: userModel.avatar == null
+                            ? Text(
+                                userModel.initials().toUpperCase(),
+                                style: const TextStyle(fontSize: 34),
+                              )
+                            : null,
+                        radius: 70,
+                      ),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          print('camera');
+                        },
+                        child: Container(
+                            padding: const EdgeInsets.all(7),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                            child: const Icon(Icons.camera_alt_outlined)))
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: const [
+                    Text(
+                      'Name',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                TextFormField(
+                  initialValue: userModel.name,
+                  onChanged: (name) {
+                    userModel = userModel.copyWith(name: name);
+                    setState(() {});
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    //isCollapsed: true,
+                    fillColor: AppColors.fillColor,
+                    border: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: AppColors.borderGray),
+                        borderRadius: BorderRadius.circular(8)),
+                    labelText: 'Full Name',
+                  ),
+                ),
+                const SizedBox(
+                  height: 36,
+                ),
+                Row(
+                  children: [
+                    const Text(
+                      'Select date',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 18),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                DatePickerWidget(onDateTimeChanged: (date) {
+                  userModel = userModel.copyWith(date: date);
+                }),
+                const SizedBox(
+                  height: 70,
+                ),
+                MaterialButtonWidget(
+                  text: 'Save',
+                  onTap: userModel.date != null &&
+                          (userModel.name ?? '').isNotEmpty
+                      ? () {
+                          widget.onSaveUser(userModel);
+                          Navigator.of(context).pop();
+                        }
+                      : null,
+                )
+              ]),
+            ),
+          ),
         ],
       ),
     );

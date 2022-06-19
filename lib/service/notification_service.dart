@@ -1,16 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class NotificationService {
-  late FlutterLocalNotificationsPlugin notificationPlugin;
   NotificationService() {
     initNotification();
     _configureLocalTimeZone();
   }
+
+  late FlutterLocalNotificationsPlugin notificationPlugin;
+
   void initNotification() {
     const initSettingsAndroid = AndroidInitializationSettings('app_icon');
     const initSettingsIOS = IOSInitializationSettings();
@@ -24,7 +24,7 @@ class NotificationService {
 
   Future<void> _configureLocalTimeZone() async {
     tz.initializeTimeZones();
-    FlutterNativeTimezone.getLocalTimezone()
+    await FlutterNativeTimezone.getLocalTimezone()
         .then((value) => tz.setLocalLocation(tz.getLocation(value)));
   }
 

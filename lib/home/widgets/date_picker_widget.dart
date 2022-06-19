@@ -1,36 +1,70 @@
+import 'package:birthdays/presentation/colors.dart';
 import 'package:flutter/material.dart';
 
 class DatePickerWidget extends StatefulWidget {
-  const DatePickerWidget({Key? key}) : super(key: key);
-
+  const DatePickerWidget({Key? key, required this.onDateTimeChanged})
+      : super(key: key);
+  final void Function(DateTime) onDateTimeChanged;
   @override
   State<DatePickerWidget> createState() => _DatePickerWidgetState();
 }
 
 class _DatePickerWidgetState extends State<DatePickerWidget> {
-  int dayIndex = 0;
-  int monthIndex = 0;
-  int yearIndex = 0;
+  int dayIndex = DateTime.now().day;
+  int monthIndex = DateTime.now().month;
+  int yearIndex = DateTime.now().year;
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        PickerItemWidget('Day', 30, DateTime.now().day),
-        PickerItemWidget('Month', 12, DateTime.now().month),
-        PickerItemWidget('Year', 2022, DateTime.now().year)
+        PickerItemWidget(
+            title: 'Day',
+            onChangeValue: (value) {
+              dayIndex = value + 1;
+              widget
+                  .onDateTimeChanged(DateTime(yearIndex, monthIndex, dayIndex));
+              setState(() {});
+            },
+            count: 30,
+            initValueIndex: dayIndex),
+        PickerItemWidget(
+            title: 'Month',
+            onChangeValue: (value) {
+              monthIndex = value + 1;
+              widget
+                  .onDateTimeChanged(DateTime(yearIndex, monthIndex, dayIndex));
+              setState(() {});
+            },
+            count: 12,
+            initValueIndex: monthIndex),
+        PickerItemWidget(
+            title: 'Year',
+            onChangeValue: (value) {
+              yearIndex = value + 1;
+              widget
+                  .onDateTimeChanged(DateTime(yearIndex, monthIndex, dayIndex));
+              setState(() {});
+            },
+            count: 2022,
+            initValueIndex: yearIndex)
       ],
     );
   }
 }
 
 class PickerItemWidget extends StatefulWidget {
-  const PickerItemWidget(this.title, this.count, this.initValueIndex,
-      {Key? key})
-      : super(key: key);
+  const PickerItemWidget({
+    required this.title,
+    required this.onChangeValue,
+    required this.count,
+    required this.initValueIndex,
+    Key? key,
+  }) : super(key: key);
   final String title;
   final int count;
   final int initValueIndex;
+  final void Function(int) onChangeValue;
   @override
   State<PickerItemWidget> createState() => _PickerItemWidgetState();
 }
@@ -41,9 +75,9 @@ class _PickerItemWidgetState extends State<PickerItemWidget> {
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 0)).then((value) {
+    Future<dynamic>.delayed(const Duration(seconds: 0)).then((dynamic value) {
       scrollController.animateTo((widget.initValueIndex - 1) * 40,
-          duration: Duration(seconds: 1), curve: Curves.easeIn);
+          duration: const Duration(seconds: 1), curve: Curves.easeIn);
       ind = widget.initValueIndex;
     });
     super.initState();
@@ -52,8 +86,15 @@ class _PickerItemWidgetState extends State<PickerItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(widget.title),
+        Text(
+          widget.title,
+          style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: AppColors.lightGray),
+        ),
         const SizedBox(
           height: 12,
         ),
@@ -62,7 +103,7 @@ class _PickerItemWidgetState extends State<PickerItemWidget> {
           children: [
             SizedBox(
               height: 100,
-              width: 100,
+               width: 100,
               child: ListWheelScrollView.useDelegate(
                 controller: scrollController,
                 physics: const FixedExtentScrollPhysics(),
@@ -70,6 +111,7 @@ class _PickerItemWidgetState extends State<PickerItemWidget> {
                 onSelectedItemChanged: (int index) {
                   setState(() {
                     ind = index;
+                    widget.onChangeValue(ind);
                   });
                 },
                 childDelegate: ListWheelChildBuilderDelegate(
