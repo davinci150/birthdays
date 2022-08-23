@@ -1,12 +1,13 @@
 import 'dart:developer';
 
-import 'package:birthdays/entity/user.dart';
-import 'package:birthdays/model/user_model.dart';
-import 'package:birthdays/service/notification_service.dart';
 import 'package:flutter/foundation.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:rxdart/rxdart.dart';
+
+import 'entity/user.dart';
+import 'model/user_model.dart';
 import 'service/box_manager.dart';
+import 'service/notification_service.dart';
 
 class ContactsRepository {
   ContactsRepository._() {
@@ -26,19 +27,30 @@ class ContactsRepository {
 
   NotificationService notificationService = NotificationService();
 
+  int getUid() {
+    int uid = 0;
+    listUsers.value.forEach((element) {
+      uid = (element.id ?? 0) > uid ? element.id! : uid;
+    });
+
+    return uid + 1;
+  }
+
   void addUser(UserModel model) {
-    final list = listUsers.value;
-    list.add(model);
-    list.sort((a, b) => a.date!.compareTo(b.date!));
+    final userId = getUid();
+    final UserModel userModel = model.copyWith(id: userId);
+    final list = listUsers.value
+      ..add(userModel)
+      ..sort((a, b) => a.date!.compareTo(b.date!));
     listUsers.sink.add(list);
-    saveGroup(User(
-        name: model.name!,
-        avatar: model.avatar,
-        id: model.id,
-        date: model.date!));
+    saveUser(User(
+        name: userModel.name!,
+        avatar: userModel.avatar,
+        id: userModel.id!,
+        date: userModel.date!));
 
     notificationService.scheduleNotification(
-        model.date!, 'День рождения у ${model.name}');
+        userId, userModel.date!, 'День рождения у ${userModel.name}');
   }
 
   List<User> listUserModel = [];
@@ -47,7 +59,7 @@ class ContactsRepository {
   late ValueListenable<Object> _listenableBox;
 
   Future<void> _setup() async {
-    _box = BoxManager.instance.openGroupBox();
+    _box = BoxManager.instance.openUserBox();
 
     await _readGroupsFromHive();
     _listenableBox = (await _box).listenable();
@@ -56,8 +68,8 @@ class ContactsRepository {
 
   Future<void> _readGroupsFromHive() async {
     listUserModel = (await _box).values.toList();
-    List<UserModel> list = [];
-    for (var user in listUserModel) {
+    final List<UserModel> list = [];
+    for (final user in listUserModel) {
       final us = UserModel(
           name: user.name, date: user.date, avatar: user.avatar, id: user.id);
       list.add(us);
@@ -65,20 +77,28 @@ class ContactsRepository {
     listUsers.sink.add(list);
   }
 
-  Future<void> deleteContact(int groupIndex) async {
+  Future<void> deleteContact(int id) async {
     final box = await _box;
-    final groupKey = (await _box).keyAt(groupIndex) as int;
+    final users = (await _box).values.toList();
+    final user = (await _box).values.firstWhere((element) => element.id == id);
+    final groupKey = users.indexOf(user);
+    log('GROUP KEY ${groupKey} ${id}');
     final taskBoxName = BoxManager.instance.makeTaskBoxName(groupKey);
     await Hive.deleteBoxFromDisk(taskBoxName);
 
-    await box.deleteAt(groupIndex);
+    await box.deleteAt(groupKey);
+    await notificationService.cancelNotification(id);
   }
 
-  Future<void> saveGroup(User user) async {
-    final box = await BoxManager.instance.openGroupBox();
+  Future<void> saveUser(User user) async {
+    final box = await BoxManager.instance.openUserBox();
     final group = User(
         name: user.name, avatar: user.avatar, id: user.id, date: user.date);
     await box.add(group);
     await BoxManager.instance.closeBox(box);
+  }
+
+  void close() {
+    listUsers.close();
   }
 }

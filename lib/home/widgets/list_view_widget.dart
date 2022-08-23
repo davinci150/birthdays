@@ -2,6 +2,7 @@ import 'package:birthdays/home/widgets/user_card_widet.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/user_model.dart';
+import '../../utils/physics_list_view.dart';
 import 'search_text_field.dart';
 
 class ListViewWidget extends StatelessWidget {
@@ -9,65 +10,24 @@ class ListViewWidget extends StatelessWidget {
     Key? key,
     required this.listUser,
     required this.onClickDelete,
+    required this.onChanged,
   }) : super(key: key);
 
   final List<UserModel> listUser;
   final void Function(int) onClickDelete;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         const SizedBox(height: 20),
-        SearchTextFiled(),
-        //Container(
-        //  // color: Color(0xFFFDF6F6),
-        //  height: 49,
-        //  padding: const EdgeInsets.symmetric(horizontal: 42),
-        //  child: TextField(
-        //    controller: TextEditingController(),
-        //    onChanged: (text) {
-        //      //searchText = text;
-        //      //setState(() {});
-        //    },
-        //    cursorColor: Colors.black,
-        //    decoration: InputDecoration(
-        //        suffixIcon: false
-        //            ? GestureDetector(
-        //                onTap: () {
-        //                  // searchTextController.clear();
-        //                  // searchText = '';
-        //                  // setState(() {});
-        //                },
-        //                child: const Icon(
-        //                  Icons.cancel_outlined,
-        //                  color: Color(0xFFD5C9F3),
-        //                ),
-        //              )
-        //            : null,
-        //        contentPadding: EdgeInsets.zero,
-        //        hintStyle:
-        //            const TextStyle(color: Color(0xFF8F8F8F), fontSize: 20),
-        //        hintText: 'Search contact',
-        //        prefixIcon: const Icon(
-        //          Icons.search,
-        //          size: 30,
-        //          color: Color(0xFFD5C9F3),
-        //        ),
-        //        filled: true,
-        //        fillColor: const Color(0xFFFDF6F6),
-        //        border: OutlineInputBorder(
-        //          borderRadius: BorderRadius.circular(24),
-        //          borderSide: BorderSide.none,
-        //        )),
-        //  ),
-        //),
+        SearchTextFiled(onChanged: onChanged),
         Expanded(
             child: ListView.separated(
                 padding: const EdgeInsets.fromLTRB(30, 40, 30, 185),
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                itemBuilder: (ctx, i) {
+                physics: const CustomScrollPhysics(),
+                itemBuilder: (ctx, index) {
                   return UserCard(
                     avatarCallback: (details) {
                       showMenu(
@@ -88,7 +48,7 @@ class ListViewWidget extends StatelessWidget {
                                 children: [
                                   IconButton(
                                       onPressed: () {
-                                        onClickDelete(i);
+                                        onClickDelete(listUser[index].id!);
                                       },
                                       // () {
                                       //  // repository.deleteContact(i);
@@ -102,7 +62,7 @@ class ListViewWidget extends StatelessWidget {
                             )
                           ]);
                     },
-                    userModel: listUser[i],
+                    userModel: listUser[index],
                     avatarColor: Colors.white,
                   );
                 },

@@ -1,17 +1,19 @@
 import 'dart:typed_data';
 
-class UserModel {
-  final String? name;
-  final Uint8List? avatar;
-  final DateTime? date;
-  final int? id;
+import 'package:equatable/equatable.dart';
 
-  UserModel({
+class UserModel extends Equatable {
+  const UserModel({
     this.name,
     this.id,
     this.avatar,
     this.date,
   });
+
+  final String? name;
+  final Uint8List? avatar;
+  final DateTime? date;
+  final int? id;
 
   UserModel copyWith({
     int? id,
@@ -25,6 +27,19 @@ class UserModel {
       name: name ?? this.name,
       date: date ?? this.date,
     );
+  }
+
+  @override
+  List<Object?> get props => [
+        name,
+        id,
+        avatar,
+        date,
+      ];
+
+  @override
+  String toString() {
+    return 'User(name: $name, id: $id)';
   }
 }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:birthdays/add_contact/add_contact_page.dart';
 import 'package:birthdays/contacts_repository.dart';
 import 'package:birthdays/model/user_model.dart';
@@ -8,6 +10,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../home/widgets/material_button_widget.dart';
 import '../home/widgets/search_text_field.dart';
+import '../utils/physics_list_view.dart';
 
 class ContactsPage extends StatefulWidget {
   const ContactsPage({Key? key}) : super(key: key);
@@ -52,9 +55,10 @@ class _ContactsPageState extends State<ContactsPage> {
   }
 
   Future<void> setContact() async {
-    final Iterable<Contact> contacts = await ContactsService.getContacts();
+    final List<Contact> contacts = await ContactsService.getContacts();
 
     setState(() {
+      contacts.sort((a, b) => a.displayName!.compareTo(b.displayName!));
       _contacts = contacts;
     });
   }
@@ -113,12 +117,20 @@ class _ContactsPageState extends State<ContactsPage> {
                     //    ),
                     //  ),
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: _contacts?.length ?? 0,
-                        itemBuilder: (BuildContext context, int index) {
-                          final contact = _contacts?.elementAt(index);
-                          return userCard(contact);
-                        },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 4, left: 10),
+                        child: Scrollbar(
+                          thickness: 6,
+                          radius: const Radius.circular(100),
+                          child: ListView.builder(
+                            physics: const CustomScrollPhysics(),
+                            itemCount: _contacts?.length ?? 0,
+                            itemBuilder: (BuildContext context, int index) {
+                              final contact = _contacts?.elementAt(index);
+                              return userCard(contact);
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -134,15 +146,16 @@ class _ContactsPageState extends State<ContactsPage> {
         children: [
           Row(
             children: [
-              (contact?.avatar != null &&
-                      contact!.avatar != null &&
-                      contact.avatar!.isNotEmpty)
-                  ? CircleAvatar(
-                      backgroundImage: MemoryImage(contact.avatar!),
-                    )
-                  : CircleAvatar(
-                      child: Text(contact?.initials() ?? ''),
-                    ),
+              if (contact?.avatar != null &&
+                  contact!.avatar != null &&
+                  contact.avatar!.isNotEmpty)
+                CircleAvatar(
+                  backgroundImage: MemoryImage(contact.avatar!),
+                )
+              else
+                CircleAvatar(
+                  child: Text(contact?.initials() ?? ''),
+                ),
               const SizedBox(
                 width: 10,
               ),
@@ -165,6 +178,7 @@ class _ContactsPageState extends State<ContactsPage> {
           ),
           TextButton(
               onPressed: () {
+              
                 Navigator.push<dynamic>(
                   context,
                   MaterialPageRoute<dynamic>(

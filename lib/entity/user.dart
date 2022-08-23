@@ -17,5 +17,5 @@ class User extends HiveObject {
   Uint8List? avatar;
 
   @HiveField(3)
-  int? id;
+  int id;
 }

@@ -1,14 +1,12 @@
-import 'dart:math';
-import 'dart:ui';
+import 'dart:developer';
 
-import 'package:birthdays/presentation/colors.dart';
-import 'package:birthdays/service/image_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import '../home/widgets/date_picker_widget.dart';
 import '../home/widgets/material_button_widget.dart';
 import '../model/user_model.dart';
+import '../presentation/colors.dart';
+import 'package:intl/intl.dart';
 
 class AddContacPage extends StatefulWidget {
   const AddContacPage({
@@ -16,8 +14,10 @@ class AddContacPage extends StatefulWidget {
     required this.onSaveUser,
     this.userModel,
   }) : super(key: key);
+
   final void Function(UserModel) onSaveUser;
   final UserModel? userModel;
+
   @override
   State<AddContacPage> createState() => _AddContacPageState();
 }
@@ -25,7 +25,6 @@ class AddContacPage extends StatefulWidget {
 class _AddContacPageState extends State<AddContacPage> {
   late UserModel userModel;
 
-  final rnd = Random().nextInt(2);
   @override
   void initState() {
     if (widget.userModel != null) {
@@ -33,12 +32,15 @@ class _AddContacPageState extends State<AddContacPage> {
     } else {
       userModel = UserModel(name: '', date: DateTime.now());
     }
+    if (userModel.date == null) {
+      userModel = userModel.copyWith(date: DateTime.now());
+    }
     super.initState();
   }
 
-  int inde = 0;
   @override
   Widget build(BuildContext context) {
+    log((userModel.date ?? '').toString());
     return Scaffold(
       backgroundColor: AppColors.mortar,
       appBar: AppBar(
@@ -95,18 +97,14 @@ class _AddContacPageState extends State<AddContacPage> {
                             spreadRadius: 3,
                             color: Color.fromRGBO(0, 0, 0, 0.1))
                       ], color: Colors.white, shape: BoxShape.circle),
-                      child: CircleAvatar(
-                        backgroundImage: userModel.avatar != null
-                            ? MemoryImage(userModel.avatar!)
-                            : null,
-                        child: userModel.avatar == null
-                            ? Text(
-                                userModel.initials().toUpperCase(),
-                                style: const TextStyle(fontSize: 34),
-                              )
-                            : null,
-                        radius: 70,
-                      ),
+                      child: userModel.avatar?.isNotEmpty ?? false
+                          ? CircleAvatar(
+                              backgroundImage: MemoryImage(userModel.avatar!),
+                              radius: 70)
+                          : CircleAvatar(
+                              radius: 70,
+                              child: Text(userModel.initials().toUpperCase(),
+                                  style: const TextStyle(fontSize: 34))),
                     ),
                     GestureDetector(
                         onTap: () {
@@ -155,23 +153,26 @@ class _AddContacPageState extends State<AddContacPage> {
                   height: 36,
                 ),
                 Row(
-                  children: [
-                    const Text(
+                  children: const [
+                    Text(
                       'Select date',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w500, fontSize: 18),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
                     ),
                   ],
                 ),
                 const SizedBox(
                   height: 8,
                 ),
-                DatePickerWidget(onDateTimeChanged: (date) {
-                  userModel = userModel.copyWith(date: date);
-                }),
-                const SizedBox(
-                  height: 70,
-                ),
+                DatePickerWidget(
+                    initDate: userModel.date,
+                    onDateTimeChanged: (date) {
+                      //log(DateFormat('yyyy MMM dd').format(date).toString());
+                      userModel = userModel.copyWith(date: date);
+                    }),
+                // const SizedBox(
+                //   height: 70,
+                // ),
                 MaterialButtonWidget(
                   text: 'Save',
                   onTap: userModel.date != null &&

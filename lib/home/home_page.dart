@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../contacts_repository.dart';
@@ -43,7 +45,11 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  //notificationService.getActiveNotifications(context);
+                  //final time = DateTime.now().add(const Duration(seconds: 2));
+                  //final time2 = DateTime.now().add(const Duration(seconds: 4));
+                  //notificationService.scheduleNotification(time, 'Test');
+                  //notificationService.scheduleNotification(time2, 'Test2');
+                  //notificationService.cancelNotification();
                 },
                 icon: const Icon(
                   Icons.settings,
@@ -61,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: StreamBuilder<List<UserModel>>(
             stream: repository.getUsers(searchText),
             builder: (context, snapshot) {
+              log((snapshot.data?.map((e) => e.toString()) ?? '').toString());
               return PageView(
                 onPageChanged: (value) {
                   selectedBottomIndex.value = value;
@@ -68,8 +75,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 controller: controller,
                 children: [
                   ListViewWidget(
-                    onClickDelete: (index) {
-                      repository.deleteContact(index);
+                    onChanged: (text) {},
+                    onClickDelete: (id) {
+                      repository.deleteContact(id);
+                      Navigator.pop(context);
                     },
                     listUser: snapshot.data ?? [],
                   ),

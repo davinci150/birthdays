@@ -1,55 +1,86 @@
-import 'package:birthdays/presentation/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import '../../presentation/colors.dart';
 
 class DatePickerWidget extends StatefulWidget {
-  const DatePickerWidget({Key? key, required this.onDateTimeChanged})
-      : super(key: key);
+  const DatePickerWidget({
+    Key? key,
+    required this.onDateTimeChanged,
+    this.initDate,
+  }) : super(key: key);
+
   final void Function(DateTime) onDateTimeChanged;
+  final DateTime? initDate;
+
   @override
   State<DatePickerWidget> createState() => _DatePickerWidgetState();
 }
 
 class _DatePickerWidgetState extends State<DatePickerWidget> {
-  int dayIndex = DateTime.now().day;
-  int monthIndex = DateTime.now().month;
-  int yearIndex = DateTime.now().year;
+  late int dayIndex;
+  late int monthIndex;
+  late int yearIndex;
+
+  @override
+  void initState() {
+    final DateTime startDate = widget.initDate ?? DateTime.now();
+    dayIndex = startDate.day;
+    monthIndex = startDate.month;
+    yearIndex = startDate.year;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final countDays = daysCount(DateTime(yearIndex, monthIndex));
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         PickerItemWidget(
             title: 'Day',
             onChangeValue: (value) {
-              dayIndex = value + 1;
+              dayIndex = value;
               widget
                   .onDateTimeChanged(DateTime(yearIndex, monthIndex, dayIndex));
               setState(() {});
             },
-            count: 30,
+            max: countDays,
             initValueIndex: dayIndex),
         PickerItemWidget(
             title: 'Month',
+            isShowName: true,
             onChangeValue: (value) {
-              monthIndex = value + 1;
+              monthIndex = value;
               widget
                   .onDateTimeChanged(DateTime(yearIndex, monthIndex, dayIndex));
               setState(() {});
             },
-            count: 12,
+            max: 12,
             initValueIndex: monthIndex),
         PickerItemWidget(
             title: 'Year',
             onChangeValue: (value) {
-              yearIndex = value + 1;
+              yearIndex = value;
               widget
                   .onDateTimeChanged(DateTime(yearIndex, monthIndex, dayIndex));
               setState(() {});
             },
-            count: 2022,
+            max: DateTime.now().year,
+            min: 1930,
             initValueIndex: yearIndex)
       ],
     );
+  }
+
+  int daysCount(DateTime dateTime) {
+    final DateTime init = DateTime(dateTime.year, dateTime.month).toUtc();
+    final count = DateTime(dateTime.year, dateTime.month + 1)
+        .toUtc()
+        .difference(init)
+        .inDays;
+    return count;
   }
 }
 
@@ -57,14 +88,20 @@ class PickerItemWidget extends StatefulWidget {
   const PickerItemWidget({
     required this.title,
     required this.onChangeValue,
-    required this.count,
+    required this.max,
+    this.min,
     required this.initValueIndex,
+    this.isShowName = false,
     Key? key,
   }) : super(key: key);
+
+  final bool isShowName;
   final String title;
-  final int count;
+  final int? min;
+  final int max;
   final int initValueIndex;
   final void Function(int) onChangeValue;
+
   @override
   State<PickerItemWidget> createState() => _PickerItemWidgetState();
 }
@@ -85,6 +122,7 @@ class _PickerItemWidgetState extends State<PickerItemWidget> {
 
   @override
   Widget build(BuildContext context) {
+    //Intl.defaultLocale = "zh_HK";
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -103,7 +141,7 @@ class _PickerItemWidgetState extends State<PickerItemWidget> {
           children: [
             SizedBox(
               height: 100,
-               width: 100,
+              width: 100,
               child: ListWheelScrollView.useDelegate(
                 controller: scrollController,
                 physics: const FixedExtentScrollPhysics(),
@@ -111,12 +149,23 @@ class _PickerItemWidgetState extends State<PickerItemWidget> {
                 onSelectedItemChanged: (int index) {
                   setState(() {
                     ind = index;
-                    widget.onChangeValue(ind);
+                    widget.onChangeValue(ind + 1);
                   });
                 },
                 childDelegate: ListWheelChildBuilderDelegate(
-                    childCount: widget.count,
+                    childCount: widget.max,
                     builder: (BuildContext context, int index) {
+                      if (widget.isShowName) {
+                        final date = DateTime(DateTime.now().year, index + 1);
+                        return Text(
+                          DateFormat('MMM').format(date),
+                          style: TextStyle(
+                            fontSize: 30,
+                            color: ind == index ? Colors.black : Colors.grey,
+                            //color: Colors.grey,
+                          ),
+                        );
+                      }
                       return Text(
                         '${index + 1}',
                         style: TextStyle(

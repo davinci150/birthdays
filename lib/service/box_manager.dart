@@ -8,7 +8,7 @@ class BoxManager {
   static final BoxManager instance = BoxManager._();
   final Map<String, int> _boxCounter = <String, int>{};
 
-  Future<Box<User>> openGroupBox() async {
+  Future<Box<User>> openUserBox() async {
     return _openBox(name: 'groups_box', typeId: 1, adapter: UserAdapter());
   }
 
