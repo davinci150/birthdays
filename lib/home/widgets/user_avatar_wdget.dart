@@ -2,8 +2,14 @@ import 'package:birthdays/model/user_model.dart';
 import 'package:flutter/material.dart';
 
 class UserAvatar extends StatelessWidget {
-  const UserAvatar({Key? key, required this.user}) : super(key: key);
+  const UserAvatar({Key? key,
+    required this.height,
+    required this.radius,
+    required this.user}
+      ) : super(key: key);
   final UserModel user;
+  final double radius;
+  final double height;
   @override
   Widget build(BuildContext context) {
     final listImage =
@@ -11,21 +17,21 @@ class UserAvatar extends StatelessWidget {
 
     return user.avatar != null
         ? CircleAvatar(
-            radius: 28,
+            radius: radius,
             backgroundImage: MemoryImage(user.avatar!),
           )
         : Stack(
             alignment: Alignment.center,
             children: [
               CircleAvatar(
-                radius: 28,
+                radius: 35,
                 backgroundColor: stringToHslColor(user.name!, 0.4, 0.7),
               ),
               Container(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Image.asset(
                   listImage[avatarFromName(user.name!, listImage.length)],
-                  height: 54,
+                  height: height,
                 ),
               )
             ],

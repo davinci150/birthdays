@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
-
 class UserModel extends Equatable {
   const UserModel({
     this.name,

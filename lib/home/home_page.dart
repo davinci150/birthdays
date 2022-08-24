@@ -69,7 +69,6 @@ class _MyHomePageState extends State<MyHomePage> {
             builder: (context, snapshot) {
               log((snapshot.data?.map((e) => e.toString()) ?? '').toString());
               return PageView(
-                reverse: true,
                 onPageChanged: (value) {
                   selectedBottomIndex.value = value;
                 },
