@@ -25,6 +25,7 @@ dependencies:
   hive_flutter: ^1.0.0
   flutter_svg: ^1.0.3
   table_calendar: ^3.0.6
+  snapping_page_scroll: ^2.1.0
 
 dev_dependencies:
   build_runner: ^2.2.0  

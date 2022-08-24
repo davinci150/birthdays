@@ -9,67 +9,48 @@ class ListViewWidget extends StatelessWidget {
   const ListViewWidget({
     Key? key,
     required this.listUser,
-    required this.onClickDelete,
-    required this.onChanged,
+    //required this.onClickDelete,
   }) : super(key: key);
-
   final List<UserModel> listUser;
-  final void Function(int) onClickDelete;
-  final void Function(String)? onChanged;
+
+  //final void Function(int) onClickDelete;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         const SizedBox(height: 20),
-        SearchTextFiled(onChanged: onChanged),
-        Expanded(
-            child: ListView.separated(
-                padding: const EdgeInsets.fromLTRB(30, 40, 30, 185),
-                physics: const CustomScrollPhysics(),
-                itemBuilder: (ctx, index) {
-                  return UserCard(
-                    avatarCallback: (details) {
-                      showMenu(
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(36.0))),
-                          context: context,
-                          position: RelativeRect.fromRect(
-                              Rect.fromCenter(
-                                  center: details.globalPosition,
-                                  width: 0,
-                                  height: 0),
-                              Rect.zero),
-                          items: [
-                            PopupMenuItem<String>(
-                              onTap: null,
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        onClickDelete(listUser[index].id!);
-                                      },
-                                      // () {
-                                      //  // repository.deleteContact(i);
-                                      //},
-                                      icon: const Icon(Icons.delete)),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.edit)),
-                                ],
-                              ),
-                            )
-                          ]);
-                    },
+        const SearchTextFiled(),
+        const SizedBox(
+          height: 100,
+        ),
+        Center(
+          child: SizedBox(
+            height: 361,
+            width: double.infinity,
+            child: PageView.builder(
+              controller: PageController(
+                initialPage: 2,
+                viewportFraction: 0.8,
+              ),
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: UserCard(
+                    avatarColor: Colors.indigoAccent,
+                    avatarCallback: (details) {},
                     userModel: listUser[index],
-                    avatarColor: Colors.white,
-                  );
-                },
-                separatorBuilder: (ctx, i) {
-                  return const SizedBox(height: 21);
-                },
-                itemCount: listUser.length)),
+                  ),
+                );
+              },
+              itemCount: listUser.length,
+              //listUser.length,
+            ),
+          ),
+        ),
       ],
     );
   }

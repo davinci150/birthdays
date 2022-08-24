@@ -14,12 +14,12 @@ class MaterialButtonWidget extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
           primary: AppColors.coral,
-          padding: EdgeInsets.fromLTRB(75, 17, 75, 17)),
+          padding: const EdgeInsets.fromLTRB(75, 17, 75, 17)),
+      onPressed: onTap,
       child: Text(
         text ?? '',
-        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
       ),
-      onPressed: onTap,
     );
   }
 }

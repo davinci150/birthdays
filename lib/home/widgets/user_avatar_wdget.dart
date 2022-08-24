@@ -6,12 +6,6 @@ class UserAvatar extends StatelessWidget {
   final UserModel user;
   @override
   Widget build(BuildContext context) {
-   //final listImage = [ '😀', '😃', '😄', '😁', '😆', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🥸', '🤩', '🥳', '😏', '😒', '😞', '😔', '😟', '😕', '🙁', '😣', '😖', '😫', '😩', '🥺', '😢', '😭', '😤', '😠', '😡', '🤬', '🤯', '😳', '🥵', '🥶', '😱', '😨', '😰', '😥', '😓', '🤗', '🤔', '🤭', '🤫', '🤥', '😶', '😐', '😑', '😬', '🙄', '😯', '😦', '😧', '😮', '😲', '🥱', '😴', '🤤', '😪', '😵', '🤐', '🥴', '🤢', '🤮', '🤧', '😷', '🤒', '🤕', '🤑', '🤠', '😈', '👿', '👹', '👺', '🤡', ];
-   //return Text(
-   //    listImage[avatarFromName(user.name!, listImage.length)],
-   //    style: TextStyle(fontSize: 36),
-   //  );
- 
     final listImage =
         List.generate(12, (index) => 'assets/images/human$index.png');
 
@@ -62,3 +56,25 @@ class UserAvatar extends StatelessWidget {
     return hash % lenght;
   }
 }
+
+
+// Container(
+// width: 297,
+// height: 361,
+// decoration: const BoxDecoration(
+// color: Colors.white,
+// borderRadius: BorderRadius.all(Radius.circular(40))
+// ),
+// child: PageView.builder(
+// itemBuilder: (ctx, index){
+// return UserCard(
+// avatarCallback: avatarCallback,
+// userModel: listUser[index],
+// avatarColor: Colors.deepPurple,
+// );
+// },
+// itemCount:4,
+// //listUser.length,
+//
+// ),
+// ),

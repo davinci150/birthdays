@@ -69,18 +69,17 @@ class _MyHomePageState extends State<MyHomePage> {
             builder: (context, snapshot) {
               log((snapshot.data?.map((e) => e.toString()) ?? '').toString());
               return PageView(
+                reverse: true,
                 onPageChanged: (value) {
                   selectedBottomIndex.value = value;
                 },
                 controller: controller,
                 children: [
-                  ListViewWidget(
-                    onChanged: (text) {},
-                    onClickDelete: (id) {
-                      repository.deleteContact(id);
-                      Navigator.pop(context);
-                    },
-                    listUser: snapshot.data ?? [],
+                   ListViewWidget(
+                    // onClickDelete: (index) {
+                    //   repository.deleteContact(index);
+                    // },
+                   listUser: snapshot.data ?? [],
                   ),
                   CalendarViewWidget(
                     listUser: snapshot.data ?? [],
