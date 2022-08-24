@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:birthdays/home/widgets/user_avatar_wdget.dart';
 import 'package:birthdays/model/user_model.dart';
@@ -39,20 +38,22 @@ class UserCard extends StatelessWidget {
           : DateTime(now.year, userModel.date!.month, userModel.date!.day));
       age = now.year - userModel.date!.year;
     }
-    return Container(
-      decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(0, 1),
-                blurRadius: 6,
-                spreadRadius: 1,
-                color: Color.fromRGBO(0, 0, 0, 0.25))
-          ],
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(19))),
-      padding: const EdgeInsets.fromLTRB(18, 12, 0, 9),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+    return
+      // Container(
+      // decoration: const BoxDecoration(
+      //     boxShadow: [
+      //       BoxShadow(
+      //           offset: Offset(0, 1),
+      //           blurRadius: 6,
+      //           spreadRadius: 1,
+      //           color: Color.fromRGBO(0, 0, 0, 0.25))
+      //     ],
+      //     color: Colors.white,
+      //     borderRadius: BorderRadius.all(Radius.circular(19))),
+      // padding: const EdgeInsets.fromLTRB(18, 12, 0, 9),
+      // child:
+      Row(
+       // mainAxisAlignment: MainAxisAlignment.start,
         children: [
           GestureDetector(
               onLongPressDown: avatarCallback,
@@ -88,7 +89,7 @@ class UserCard extends StatelessWidget {
             ],
           )
         ],
-      ),
-    );
+      );
+    //);
   }
 }

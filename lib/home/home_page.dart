@@ -62,16 +62,17 @@ class _MyHomePageState extends State<MyHomePage> {
             stream: repository.getUsers(searchText),
             builder: (context, snapshot) {
               return PageView(
+                reverse: true,
                 onPageChanged: (value) {
                   selectedBottomIndex.value = value;
                 },
                 controller: controller,
                 children: [
-                  ListViewWidget(
-                    onClickDelete: (index) {
-                      repository.deleteContact(index);
-                    },
-                    listUser: snapshot.data ?? [],
+                   ListViewWidget(
+                    // onClickDelete: (index) {
+                    //   repository.deleteContact(index);
+                    // },
+                   listUser: snapshot.data ?? [],
                   ),
                   CalendarViewWidget(
                     listUser: snapshot.data ?? [],
