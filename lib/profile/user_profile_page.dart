@@ -5,9 +5,9 @@ import '../model/user_model.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key,
-    required this.id,
+    //required this.id,
   }) : super(key: key);
-  final int id;
+  //final int id;
 
   @override
   State<UserProfilePage> createState() => _UserProfilPageState();
@@ -24,6 +24,6 @@ class _UserProfilPageState extends State<UserProfilePage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Scaffold();
   }
 }

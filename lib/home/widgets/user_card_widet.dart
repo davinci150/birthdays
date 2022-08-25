@@ -15,7 +15,6 @@ class UserCard extends StatelessWidget {
       : super(key: key);
 
   final UserModel userModel;
-
   final Color avatarColor;
 
   //final void Function(LongPressDownDetails details) avatarCallback;

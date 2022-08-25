@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/user_model.dart';
+import '../../profile/user_profile_page.dart';
 import 'search_text_field.dart';
 import 'user_card_widet.dart';
 
@@ -26,9 +27,17 @@ class ListViewWidget extends StatelessWidget {
         ),
         CarouselSlider.builder(
           itemCount: listUser.length,
-          itemBuilder: (context, itemIndex, pageViewIndex) {
-            return UserCard(
-                avatarColor: Colors.white, userModel: listUser[itemIndex]);
+          itemBuilder: (ctx, itemIndex, pageViewIndex) {
+            return GestureDetector(
+              onTap: (){
+                Navigator.push<void>(context, MaterialPageRoute(
+                    builder: (context) => const UserProfilePage()));
+              },
+              child: UserCard(
+                  avatarColor: Colors.white,
+                  userModel: listUser[itemIndex],
+              ),
+            );
           },
           options: CarouselOptions(
             viewportFraction: 0.79,
