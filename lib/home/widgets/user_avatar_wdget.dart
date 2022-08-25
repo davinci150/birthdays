@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({Key? key,
-    required this.height,
-    required this.radius,
+    this.radius = 35,
     required this.user}
       ) : super(key: key);
   final UserModel user;
   final double radius;
-  final double height;
   @override
   Widget build(BuildContext context) {
     final listImage =
@@ -24,14 +22,14 @@ class UserAvatar extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               CircleAvatar(
-                radius: 35,
+                radius: radius,
                 backgroundColor: stringToHslColor(user.name!, 0.4, 0.7),
               ),
               Container(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Image.asset(
                   listImage[avatarFromName(user.name!, listImage.length)],
-                  height: height,
+                  height: radius*2 - 5,
                 ),
               )
             ],
@@ -62,25 +60,3 @@ class UserAvatar extends StatelessWidget {
     return hash % lenght;
   }
 }
-
-
-// Container(
-// width: 297,
-// height: 361,
-// decoration: const BoxDecoration(
-// color: Colors.white,
-// borderRadius: BorderRadius.all(Radius.circular(40))
-// ),
-// child: PageView.builder(
-// itemBuilder: (ctx, index){
-// return UserCard(
-// avatarCallback: avatarCallback,
-// userModel: listUser[index],
-// avatarColor: Colors.deepPurple,
-// );
-// },
-// itemCount:4,
-// //listUser.length,
-//
-// ),
-// ),

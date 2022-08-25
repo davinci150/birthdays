@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/user_model.dart';
-import '../../service/date_time_utils.dart';
 import 'user_avatar_wdget.dart';
 
 class UserCard extends StatelessWidget {
@@ -24,18 +23,18 @@ class UserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? date;
-    String? dueData;
+    //String? dueData;
     int? age;
     final now = DateTime.now();
     if (userModel.date != null) {
       date = DateFormat('d MMM yyyy').format(userModel.date!);
-
-      final birhData =
-          DateTime(now.year, userModel.date!.month, userModel.date!.day);
-
-      dueData = DateTimeUtils.daysAgo(birhData.isBefore(now)
-          ? DateTime(now.year + 1, userModel.date!.month, userModel.date!.day)
-          : DateTime(now.year, userModel.date!.month, userModel.date!.day));
+      //
+      // final birhData =
+      //     DateTime(now.year, userModel.date!.month, userModel.date!.day);
+      //
+      // dueData = DateTimeUtils.daysAgo(birhData.isBefore(now)
+      //     ? DateTime(now.year + 1, userModel.date!.month, userModel.date!.day)
+      //     : DateTime(now.year, userModel.date!.month, userModel.date!.day));
       age = now.year - userModel.date!.year;
     }
     return Container(
@@ -53,8 +52,6 @@ class UserCard extends StatelessWidget {
             const SizedBox(height: 10),
             UserAvatar(
               user: userModel,
-              radius: 35.0,
-              height: 65,
             ),
             // ),
             const SizedBox(
@@ -72,10 +69,10 @@ class UserCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text(
-                    dueData!.contains(RegExp('[0-9]'))
-                        ? 'Via $dueData days ${age ?? '??'} age'
-                        : dueData,
+                Text('$age years',
+                    // dueData!.contains(RegExp('[0-9]'))
+                    //     ? 'Via $dueData days ${age ?? '??'} age'
+                    //     : dueData,
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 36,
