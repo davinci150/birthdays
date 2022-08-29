@@ -56,10 +56,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
               ),
             ),
           ),
-          CircleAvatar(
+          Container(
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [BoxShadow(blurRadius: 1)],
+            ),
+            child: CircleAvatar(
               backgroundColor: Colors.white,
-              radius: radiusAvatar + 5,
-              child: UserAvatar(radius: radiusAvatar, user: user)),
+                radius: radiusAvatar+8,
+                child: UserAvatar(radius: radiusAvatar, user: user)),
+          ),
           Padding(
             padding: EdgeInsets.only(top: radiusAvatar * 2, bottom: 20),
             child: Column(
