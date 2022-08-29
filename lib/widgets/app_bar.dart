@@ -18,20 +18,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: child,
         backgroundColor: AppColors.mortar,
         elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: InkWell(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                  padding: const EdgeInsets.all(0),
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: AppColors.white),
-                  child: const Icon(
-                    Icons.arrow_back_rounded,
-                    size: 35,
-                    color: AppColors.codGray,
-                  ))),
-        )
+        leading: InkWell(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              margin: const EdgeInsets.only(left: 17),
+                padding: const EdgeInsets.all(0),
+                decoration: const BoxDecoration(
+                    shape: BoxShape.circle, color: AppColors.white),
+                child: const Icon(
+                  Icons.arrow_back_rounded,
+                  size: 35,
+                  color: AppColors.codGray,
+                )))
     );
   }
 }

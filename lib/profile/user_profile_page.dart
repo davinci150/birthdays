@@ -36,6 +36,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   late double sizeIcon;
   String? date;
   Contact? contact;
+
   @override
   Widget build(BuildContext context) {
     sizeIcon = 40;
@@ -80,14 +81,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           children: [
                             Column(
                               children: [
-                                Icon(
-                                  Icons.cake,
-                                  size: sizeIcon,
+                                Image.asset(
+                                  'assets/images/mono_pie.png',
                                 ),
                                 const SizedBox(height: 20),
-                                Icon(
-                                  Icons.phone_in_talk_outlined,
-                                  size: sizeIcon,
+                                Image.asset(
+                                  'assets/images/phone_call.png',
                                 ),
                               ],
                             ),
@@ -121,15 +120,24 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    IconButton(
-                        onPressed: (){},
-                        icon: const Icon(Icons.phone_in_talk_outlined,),),
-                    IconButton(
-                      onPressed: (){},
-                      icon:const  Icon(Icons.messenger_outline_outlined),),
-                    IconButton(
-                      onPressed: (){},
-                      icon: const Icon(Icons.share_outlined),),
+                    InkWell(
+                      onTap: (){},
+                      child: Image.asset(
+                        'assets/images/call.png',
+                      ),
+                    ),
+                   InkWell(
+                     onTap: (){},
+                     child:  Image.asset(
+                       'assets/images/message.png',
+                     ),
+                   ),
+                    InkWell(
+                      onTap: (){},
+                      child: Image.asset(
+                        'assets/images/share.png',
+                      ),
+                    ),
                   ],
                 )
               ],
