@@ -56,7 +56,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
               ),
             ),
           ),
-          UserAvatar(radius: radiusAvatar, user: user),
+          CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: radiusAvatar + 5,
+              child: UserAvatar(radius: radiusAvatar, user: user)),
           Padding(
             padding: EdgeInsets.only(top: radiusAvatar * 2, bottom: 20),
             child: Column(
@@ -121,19 +124,19 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     InkWell(
-                      onTap: (){},
+                      onTap: () {},
                       child: Image.asset(
                         'assets/images/call.png',
                       ),
                     ),
-                   InkWell(
-                     onTap: (){},
-                     child:  Image.asset(
-                       'assets/images/message.png',
-                     ),
-                   ),
                     InkWell(
-                      onTap: (){},
+                      onTap: () {},
+                      child: Image.asset(
+                        'assets/images/message.png',
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {},
                       child: Image.asset(
                         'assets/images/share.png',
                       ),
