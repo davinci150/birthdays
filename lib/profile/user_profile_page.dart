@@ -57,14 +57,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
             ),
           ),
           Container(
+            padding: const EdgeInsets.all(5),
             decoration: const BoxDecoration(
+              color: Colors.white,
               shape: BoxShape.circle,
               boxShadow: [BoxShadow(blurRadius: 1)],
             ),
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-                radius: radiusAvatar+8,
-                child: UserAvatar(radius: radiusAvatar, user: user)),
+            child: UserAvatar(radius: radiusAvatar, user: user),
           ),
           Padding(
             padding: EdgeInsets.only(top: radiusAvatar * 2, bottom: 20),
