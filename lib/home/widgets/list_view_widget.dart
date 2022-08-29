@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../model/user_model.dart';
 import '../../profile/user_profile_page.dart';
 import 'search_text_field.dart';
-import 'user_card_widet.dart';
+import 'user_card_widget.dart';
 
 class ListViewWidget extends StatelessWidget {
   const ListViewWidget({
@@ -28,40 +28,25 @@ class ListViewWidget extends StatelessWidget {
         CarouselSlider.builder(
           itemCount: listUser.length,
           itemBuilder: (ctx, itemIndex, pageViewIndex) {
-            return GestureDetector(
+            final user = listUser[itemIndex];
+            return InkWell(
               onTap: (){
-                Navigator.push<void>(context, MaterialPageRoute(
-                    builder: (context) => const UserProfilePage()));
+                Navigator.push< void>(context, MaterialPageRoute
+                  (builder: (context) =>  UserProfilePage(id: user.id!)));
               },
               child: UserCard(
                   avatarColor: Colors.white,
-                  userModel: listUser[itemIndex],
+                  userModel: user,
               ),
             );
           },
           options: CarouselOptions(
             viewportFraction: 0.79,
-            initialPage: 2,
+            enableInfiniteScroll: false,
             height: MediaQuery.of(context).size.height / 2.3,
             enlargeCenterPage: true,
           ),
         ),
-
-        // PageView.builder(
-        //   controller: PageController(
-        //     initialPage: 2,
-        //     viewportFraction: 0.8,
-        //   ),
-        //   itemBuilder: (context, index) {
-        //     return UserCard(
-        //       avatarColor: Colors.indigoAccent,
-        //       avatarCallback: (details) {},
-        //       userModel: listUser[index],
-        //     );
-        //   },
-        //   itemCount: listUser.length,
-        //   //listUser.length,
-        // ),
       ],
     );
   }

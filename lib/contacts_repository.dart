@@ -35,6 +35,9 @@ class ContactsRepository {
 
     return uid + 1;
   }
+  UserModel getById(int id){
+    return listUsers.value.firstWhere((user) => user.id==id);
+  }
 
   void addUser(UserModel model) {
     final userId = getUid();
