@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../contacts_repository.dart';
 import '../home/widgets/user_avatar_wdget.dart';
+import '../icons/custom_icons.dart';
 import '../model/user_model.dart';
 import '../presentation/colors.dart';
 import '../widgets/app_bar.dart';
@@ -82,77 +83,60 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         ),
                       ),
                       const SizedBox(height: 30),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20,right: 60),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              children: [
-                                Image.asset(
-                                  'assets/images/mono_pie.png',
-                                ),
-                                const SizedBox(height: 20),
-                                Image.asset(
-                                  'assets/images/phone_call.png',
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  '$date',
-                                  style: const TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                const SizedBox(height: 20),
-                                if ((contact?.phones ?? []).isEmpty)
-                                  Text(
-                                    contact?.phones?.first.value ?? '',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ],
-                        ),
+                      _userDataItem(
+                        CustomIcons.pieIcon,
+                        '$date'
+                      ),
+                      const SizedBox(height: 20),
+                      _userDataItem(CustomIcons.phone,
+                        contact?.phones?.first.value ?? '',
                       ),
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: Image.asset(
-                        'assets/images/call.png',
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Image.asset(
-                        'assets/images/message.png',
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Image.asset(
-                        'assets/images/share.png',
-                      ),
-                    ),
-                  ],
-                )
+                _customNavigationBar(),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+  Widget _userDataItem(IconData icon, String text){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(icon,
+        size: 40,),
+        const SizedBox(width: 20),
+        if ((contact?.phones ?? []).isEmpty)
+        Text(text,
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _customNavigationBar(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        InkWell(
+          onTap: () {},
+          child: const Icon(CustomIcons.phone),
+        ),
+        InkWell(
+          onTap: () {},
+          child:const  Icon(CustomIcons.message),
+        ),
+        InkWell(
+          onTap: () {},
+          child: const Icon(CustomIcons.share),
+        ),
+      ],
     );
   }
 }
