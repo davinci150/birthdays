@@ -24,11 +24,7 @@ class CustomAvatar extends StatelessWidget {
                 spreadRadius: 3,
                 color: Color.fromRGBO(0, 0, 0, 0.1))
           ], color: Colors.white, shape: BoxShape.circle),
-          child: userModel.avatar?.isNotEmpty ?? false
-              ? CircleAvatar(
-              backgroundImage: MemoryImage(userModel.avatar!),
-              radius: radius)
-              : UserAvatar(user: userModel, radius: radius,),
+          child: UserAvatar(user: userModel, radius: radius,),
         ),
         GestureDetector(
             onTap: () {

@@ -49,3 +49,6 @@ flutter:
     - family: CustomIcons
       fonts:
         - asset: assets/fonts/CustomIcons.ttf
+    - family: Rubik-Regular
+      fonts:
+        - asset: assets/fonts/Rubik-Regular.ttf
