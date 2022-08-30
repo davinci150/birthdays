@@ -1,13 +1,12 @@
-import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../contacts_repository.dart';
-import '../home/widgets/user_avatar_wdget.dart';
 import '../icons/custom_icons.dart';
 import '../model/user_model.dart';
 import '../presentation/colors.dart';
 import '../widgets/app_bar.dart';
+import '../widgets/avatar.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({
@@ -32,15 +31,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
     super.initState();
   }
 
-  final double appbarHeight = 170;
   final radiusAvatar = 60.0;
-  late double sizeIcon;
   String? date;
-  Contact? contact;
+  //Contact? contact;
 
   @override
   Widget build(BuildContext context) {
-    sizeIcon = 40;
     date = DateFormat('d MMM yyyy').format(user.date!);
     return Scaffold(
       backgroundColor: AppColors.mortar,
@@ -57,15 +53,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(5),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [BoxShadow(blurRadius: 1)],
-            ),
-            child: UserAvatar(radius: radiusAvatar, user: user),
-          ),
+          CustomAvatar(userModel: user),
           Padding(
             padding: EdgeInsets.only(top: radiusAvatar * 2, bottom: 20),
             child: Column(
@@ -89,7 +77,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       ),
                       const SizedBox(height: 20),
                       _userDataItem(CustomIcons.phone,
-                        contact?.phones?.first.value ?? '',
+                        ''
+                        //contact?.phones?.first.value ?? '',
                       ),
                     ],
                   ),
@@ -109,7 +98,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
         Icon(icon,
         size: 40,),
         const SizedBox(width: 20),
-        if ((contact?.phones ?? []).isEmpty)
+       // if ((contact?.phones ?? []).isEmpty)
         Text(text,
           style: const TextStyle(
             fontSize: 24,

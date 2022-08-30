@@ -6,7 +6,8 @@ import '../home/widgets/date_picker_widget.dart';
 import '../home/widgets/material_button_widget.dart';
 import '../model/user_model.dart';
 import '../presentation/colors.dart';
-import 'package:intl/intl.dart';
+
+import '../widgets/avatar.dart';
 
 class AddContacPage extends StatefulWidget {
   const AddContacPage({
@@ -86,37 +87,7 @@ class _AddContacPageState extends State<AddContacPage> {
                 const SizedBox(
                   height: 30,
                 ),
-                Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: const BoxDecoration(boxShadow: [
-                        BoxShadow(
-                            blurRadius: 3,
-                            spreadRadius: 3,
-                            color: Color.fromRGBO(0, 0, 0, 0.1))
-                      ], color: Colors.white, shape: BoxShape.circle),
-                      child: userModel.avatar?.isNotEmpty ?? false
-                          ? CircleAvatar(
-                              backgroundImage: MemoryImage(userModel.avatar!),
-                              radius: 70)
-                          : CircleAvatar(
-                              radius: 70,
-                              child: Text(userModel.initials().toUpperCase(),
-                                  style: const TextStyle(fontSize: 34))),
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          print('camera');
-                        },
-                        child: Container(
-                            padding: const EdgeInsets.all(7),
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.white),
-                            child: const Icon(Icons.camera_alt_outlined)))
-                  ],
-                ),
+                CustomAvatar(userModel: userModel,),
                 const SizedBox(
                   height: 30,
                 ),
