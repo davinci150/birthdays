@@ -25,4 +25,5 @@ class CustomIcons {
   static const IconData pieIcon = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData message = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData share = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData userDelete = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

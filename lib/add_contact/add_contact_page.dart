@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 import '../home/widgets/date_picker_widget.dart';
 import '../home/widgets/material_button_widget.dart';
+import '../icons/custom_icons.dart';
 import '../model/user_model.dart';
 import '../presentation/colors.dart';
 
+import '../widgets/app_bar.dart';
 import '../widgets/avatar.dart';
 
 class AddContacPage extends StatefulWidget {
@@ -44,19 +46,15 @@ class _AddContacPageState extends State<AddContacPage> {
     log((userModel.date ?? '').toString());
     return Scaffold(
       backgroundColor: AppColors.mortar,
-      appBar: AppBar(
-          backgroundColor: AppColors.mortar,
-          elevation: 0,
-          leading: InkWell(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                  padding: const EdgeInsets.all(0),
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: AppColors.lightMortar),
-                  child: const Icon(
-                    Icons.close,
-                    size: 24,
-                  )))),
+      appBar:  CustomAppBar(
+        actions: [
+          IconButton(
+            padding: const EdgeInsets.only(right: 17),
+            onPressed: (){},
+            icon: const Icon(CustomIcons.userDelete),
+          ),
+        ],
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
