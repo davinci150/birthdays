@@ -9,7 +9,7 @@ import '../model/user_model.dart';
 import '../presentation/colors.dart';
 
 import '../widgets/app_bar.dart';
-import '../widgets/avatar.dart';
+import '../widgets/custom_avatar.dart';
 
 class AddContacPage extends StatefulWidget {
   const AddContacPage({

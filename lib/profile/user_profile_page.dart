@@ -6,7 +6,7 @@ import '../icons/custom_icons.dart';
 import '../model/user_model.dart';
 import '../presentation/colors.dart';
 import '../widgets/app_bar.dart';
-import '../widgets/avatar.dart';
+import '../widgets/custom_avatar.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({
