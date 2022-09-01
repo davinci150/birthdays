@@ -31,8 +31,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
     super.initState();
   }
 
-  void onPressed(){
+  void deleteUser(){
     repository.deleteContact(widget.id);
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   final radiusAvatar = 60.0;
@@ -51,7 +53,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             onPressed: (){
               showDialog<dynamic>(
                 context: context,
-                builder: (context) =>  CustomAlertDialog(onPressed: onPressed),
+                builder: (context) =>  CustomAlertDialog(onPressed: deleteUser),
               );
             },
             icon: const Icon(CustomIcons.userDelete),
@@ -160,9 +162,6 @@ class CustomAlertDialog extends StatelessWidget {
     const double size = 8;
     const double sizeIcon = 4;
     const IconData icon = Icons.circle;
-    String t1,t2,t3,t4;
-    t1 = 'birthday'; t2 = 'notification';
-    t3 = 'profile'; t4 = 'user avatar';
     return AlertDialog(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25))
@@ -216,30 +215,26 @@ class CustomAlertDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
-                    children: [
-                      const Icon(icon,size: sizeIcon),
-                      const SizedBox(width: size),
-                      Text(t1),
-                    ],
-                  ),
-                  Row(children: [
-                    const SizedBox(width: 11),
-                    Text(t2)
-                  ]),
-                  const SizedBox(height: size),
-                  Row(
-                    children: [
-                      const Icon(icon,size: sizeIcon),
-                      const SizedBox(width: size),
-                      Text(t3)
+                    children: const [
+                      Icon(icon,size: sizeIcon),
+                      SizedBox(width: size),
+                      Text('birthday\n notification'),
                     ],
                   ),
                   const SizedBox(height: size),
                   Row(
-                    children: [
-                      const Icon(icon,size: sizeIcon),
-                      const SizedBox(width: size),
-                      Text(t4),
+                    children: const [
+                      Icon(icon,size: sizeIcon),
+                      SizedBox(width: size),
+                      Text('profile')
+                    ],
+                  ),
+                  const SizedBox(height: size),
+                  Row(
+                    children: const [
+                      Icon(icon,size: sizeIcon),
+                      SizedBox(width: size),
+                      Text('user avatar'),
                     ],
                   ),
                 ],
