@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../contacts_repository.dart';
 import '../model/user_model.dart';
 import '../presentation/colors.dart';
+import 'settings_page.dart';
 import 'widgets/bottom_bar_widget.dart';
 import 'widgets/calendar_view_widget.dart';
 import 'widgets/list_view_widget.dart';
@@ -45,6 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             IconButton(
                 onPressed: () {
+                  Navigator.of(context).push<void>(
+                      MaterialPageRoute(builder: (context) => const SettingsPage()));
                   //final time = DateTime.now().add(const Duration(seconds: 2));
                   //final time2 = DateTime.now().add(const Duration(seconds: 4));
                   //notificationService.scheduleNotification(time, 'Test');
