@@ -102,6 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       curve: Curves.ease);
                 },
               );
-            }));
+            })
+    );
   }
 }

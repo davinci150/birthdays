@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../icons/custom_icons.dart';
 import '../presentation/colors.dart';
 import '../widgets/app_bar.dart';
-import 'widgets/bottom_bar_widget.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -14,15 +13,11 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  late PageController controller;
-  ValueNotifier<int> selectedBottomIndex = ValueNotifier(0);
-
   late  DateTime now;
   late  TimeOfDay time;
 
   @override
   void initState() {
-    controller = PageController();
     now = DateTime.now();
     time = TimeOfDay(hour: now.hour, minute: now.minute);
     super.initState();
@@ -75,20 +70,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
       ),
-      bottomNavigationBar: ValueListenableBuilder<int>(
-          valueListenable: selectedBottomIndex,
-          builder: (ctx, value, _) {
-            return BottomBarWidget(
-              selectedIndex: value,
-              onChange: (index) {
-                selectedBottomIndex.value = index;
-                controller.animateTo(
-                    index * MediaQuery.of(context).size.width,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.ease);
-              },
-            );
-          })
     );
   }
 }
