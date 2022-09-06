@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:birthdays/add_contact/add_contact_page.dart';
 import 'package:birthdays/contacts_repository.dart';
@@ -12,15 +11,16 @@ import '../home/widgets/material_button_widget.dart';
 import '../home/widgets/search_text_field.dart';
 import '../utils/physics_list_view.dart';
 
-class ContactsPage extends StatefulWidget {
-  const ContactsPage({Key? key}) : super(key: key);
+class ContactsPage1 extends StatefulWidget {
+  const ContactsPage1({Key? key}) : super(key: key);
 
   @override
-  State<ContactsPage> createState() => _ContactsPageState();
+  State<ContactsPage1> createState() => _ContactsPageState();
 }
 
-class _ContactsPageState extends State<ContactsPage> {
+class _ContactsPageState extends State<ContactsPage1> {
   Iterable<Contact>? _contacts;
+  List<Contact> listContact = [];
   late ContactsRepository repository;
   Future<PermissionStatus> _getPermission() async {
     final PermissionStatus permission = await Permission.contacts.status;
@@ -46,11 +46,26 @@ class _ContactsPageState extends State<ContactsPage> {
       }
     }
   }
+  final  controller = TextEditingController();
+  //late List<ContactsRepository> users;
+
+  void searchUser(String query) {
+  if (query.isNotEmpty){
+    listContact=listContact.where((element) => element.displayName!.toLowerCase().contains(query.toLowerCase())
+    || element.phones!.first.value!.toLowerCase().contains(query.toLowerCase())
+    ).toList();
+  }
+  else {
+    listContact = _contacts!.toList();
+  }
+  setState((){});
+  }
 
   @override
   void initState() {
     repository = ContactsRepository.instance;
     getContacts();
+    //users = repository.listUsers as List<ContactsRepository>;
     super.initState();
   }
 
@@ -60,6 +75,7 @@ class _ContactsPageState extends State<ContactsPage> {
     setState(() {
       contacts.sort((a, b) => a.displayName!.compareTo(b.displayName!));
       _contacts = contacts;
+      listContact = _contacts!.toList();
     });
   }
 
@@ -99,7 +115,8 @@ class _ContactsPageState extends State<ContactsPage> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const SearchTextFiled(),
+                    SearchTextFiled(controller: controller,
+                        onChanged:searchUser),
                     const SizedBox(
                       height: 20,
                     ),
@@ -124,9 +141,9 @@ class _ContactsPageState extends State<ContactsPage> {
                           radius: const Radius.circular(100),
                           child: ListView.builder(
                             physics: const CustomScrollPhysics(),
-                            itemCount: _contacts?.length ?? 0,
+                            itemCount: listContact.length,
                             itemBuilder: (BuildContext context, int index) {
-                              final contact = _contacts?.elementAt(index);
+                              final contact = listContact.elementAt(index);
                               return userCard(contact);
                             },
                           ),
@@ -192,24 +209,6 @@ class _ContactsPageState extends State<ContactsPage> {
                             },
                           )),
                 );
-                //await showModalBottomSheet(
-                //    constraints: const BoxConstraints(minHeight: 500),
-                //    shape: const RoundedRectangleBorder(
-                //        borderRadius:
-                //            BorderRadius.vertical(top: Radius.circular(29))),
-                //    backgroundColor: Colors.white,
-                //    context: context,
-                //    builder: (ctx) => AddContacPage(
-                //        userModel: UserModel(
-                //            avatar: contact?.avatar,
-                //            id: null,
-                //            name: contact?.displayName,
-                //            date: contact?.birthday),
-                //        onSaveUser: (model) {
-                //          repository.addUser(model);
-                //        }));
-
-                // Navigator.pop(context);
               },
               child: const Icon(
                 Icons.add,
@@ -218,6 +217,56 @@ class _ContactsPageState extends State<ContactsPage> {
               )
         ],
       ),
+    );
+  }
+}
+
+class ContactsPage extends StatefulWidget {
+  const ContactsPage({Key? key}) : super(key: key);
+
+  @override
+  State<ContactsPage> createState() => _ContactPage1State();
+}
+
+class _ContactPage1State extends State<ContactsPage> {
+  final List<String> list = [];
+  final controller = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                    controller: controller,
+                ),
+              ),
+              IconButton(onPressed: (){
+                list.add(controller.text);
+                controller.clear();
+                setState((){
+                });
+              }, icon: const Icon(Icons.add))
+            ],
+          ),
+          Column(
+            children: list.map((e) => Row(
+              children: [
+                Text(e),
+                IconButton(onPressed: (){
+                  list.remove(e);
+                  setState((){
+                  });
+                }, icon: const Icon(Icons.delete))
+              ],
+            )).toList(),
+          )
+        ],
+      ),
+
     );
   }
 }
