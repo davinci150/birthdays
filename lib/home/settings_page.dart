@@ -26,7 +26,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _selectTime(BuildContext context) async {
-    return showDialog<dynamic>(
+    return showDialog<void>(
         context: context,
         builder: (context) {
           TimeOfDay selectedTime = time;
@@ -46,12 +46,9 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> saveTime(TimeOfDay timeOfDay) async {
-    log('save time ${timeOfDay}');
     final pref = await SharedPreferences.getInstance();
-    final bool isSave =
-        await pref.setString(timeKey, '${time.hour}:${time.minute}');
-    log('isSave: $isSave');
     time = timeOfDay;
+    await pref.setString(timeKey, '${time.hour}:${time.minute}');
     setState(() {});
   }
 
@@ -59,7 +56,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final pref = await SharedPreferences.getInstance();
     final String? initTime = pref.getString(timeKey);
     if (initTime != null && initTime.isNotEmpty) {
-      log('init ${initTime}');
+      log('init $initTime');
       time = TimeOfDay(
           hour: int.parse(initTime.split(':')[0]),
           minute: int.parse(initTime.split(':')[1]));
