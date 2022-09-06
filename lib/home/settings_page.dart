@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,7 +16,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-   TimeOfDay time = const TimeOfDay(hour: 9, minute: 0);
+  TimeOfDay time = const TimeOfDay(hour: 9, minute: 0);
   final String timeKey = 'timeKey';
 
   @override
@@ -24,36 +26,47 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _selectTime(BuildContext context) async {
-      return showDialog<dynamic>(context: context, builder: (context)
-      => CustomDialog(
-          content: TimeOfDayPicker(onDateTimeChanged: saveTime,),
-          selectedTime: initTime,
-      ));
-    //  await showTimePicker(context: context, initialTime: time).then((value) async {
-    //   if (value != null) {
-    //     await saveTime(value);
-    //     time = value;
-    //     setState(() {});
-    //
-    //   }
-    // });
-  }
-  Future<void> saveTime(TimeOfDay time) async {
-    final pref = await SharedPreferences.getInstance();
-    await pref.setString(timeKey, '${time.hour}:${time.minute}');
+    return showDialog<dynamic>(
+        context: context,
+        builder: (context) {
+          TimeOfDay selectedTime = time;
+          return CustomDialog(
+            content: TimeOfDayPicker(
+              onDateTimeChanged: (TimeOfDay timeOfDay) {
+                selectedTime = timeOfDay;
+              },
+              initDate: time,
+            ),
+            onTapOk: () {
+              saveTime(selectedTime);
+              Navigator.pop(context);
+            },
+          );
+        });
   }
 
-  Future<void> initTime() async{
+  Future<void> saveTime(TimeOfDay timeOfDay) async {
+    log('save time ${timeOfDay}');
+    final pref = await SharedPreferences.getInstance();
+    final bool isSave =
+        await pref.setString(timeKey, '${time.hour}:${time.minute}');
+    log('isSave: $isSave');
+    time = timeOfDay;
+    setState(() {});
+  }
+
+  Future<void> initTime() async {
     final pref = await SharedPreferences.getInstance();
     final String? initTime = pref.getString(timeKey);
-    if (initTime != null && initTime.isNotEmpty)
-    {
-     time = TimeOfDay(hour: int.parse(initTime.split(':')[0]), minute: int.parse(initTime.split(':')[1]));
+    if (initTime != null && initTime.isNotEmpty) {
+      log('init ${initTime}');
+      time = TimeOfDay(
+          hour: int.parse(initTime.split(':')[0]),
+          minute: int.parse(initTime.split(':')[1]));
     } else {
       time = const TimeOfDay(hour: 9, minute: 0);
     }
-    setState((){});
-    Navigator.pop(context);
+    setState(() {});
   }
 
   @override
@@ -86,7 +99,7 @@ class _SettingsPageState extends State<SettingsPage> {
               _selectTime(context);
             },
             child: Text(
-              '${time.hour}:${time.minute} AM',
+              time.format(context),
               style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -100,40 +113,41 @@ class _SettingsPageState extends State<SettingsPage> {
 }
 
 class CustomDialog extends StatelessWidget {
-  const CustomDialog({Key? key,
+  const CustomDialog({
+    Key? key,
     required this.content,
-    required this.selectedTime,
+    required this.onTapOk,
   }) : super(key: key);
- final Widget? content;
- final void Function() selectedTime;
+  final Widget? content;
+  final void Function() onTapOk;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25))
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(25))),
       content: content,
-      contentPadding: const EdgeInsets.only(left:40, top: 30, right: 40, bottom: 10),
+      contentPadding:
+          const EdgeInsets.only(left: 40, top: 30, right: 40, bottom: 10),
       actions: [
         TextButton(
-          style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.grey)),
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400
-            ),)
-        ),
-        TextButton(
-            onPressed: selectedTime,
-            child:  const Text('OK',
+            child: const Text(
+              'Cancel',
               style: TextStyle(
-                color: Color.fromRGBO(0, 209, 59, 1),
                   fontSize: 16,
-                  fontWeight: FontWeight.w400
-              ),)
-        ),
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w400),
+            )),
+        TextButton(
+            onPressed: onTapOk,
+            child: const Text(
+              'OK',
+              style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400),
+            )),
       ],
       actionsPadding: const EdgeInsets.only(right: 17),
     );
