@@ -1,24 +1,24 @@
 
-import 'package:birthdays/add_contact/add_contact_page.dart';
-import 'package:birthdays/contacts_repository.dart';
-import 'package:birthdays/model/user_model.dart';
-import 'package:birthdays/presentation/colors.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../contacts_repository.dart';
 import '../home/widgets/material_button_widget.dart';
 import '../home/widgets/search_text_field.dart';
+import '../model/user_model.dart';
+import '../presentation/colors.dart';
 import '../utils/physics_list_view.dart';
+import 'add_contact_page.dart';
 
-class ContactsPage1 extends StatefulWidget {
-  const ContactsPage1({Key? key}) : super(key: key);
+class ContactsPage extends StatefulWidget {
+  const ContactsPage({Key? key}) : super(key: key);
 
   @override
-  State<ContactsPage1> createState() => _ContactsPageState();
+  State<ContactsPage> createState() => _ContactsPageState();
 }
 
-class _ContactsPageState extends State<ContactsPage1> {
+class _ContactsPageState extends State<ContactsPage> {
   Iterable<Contact>? _contacts;
   List<Contact> listContact = [];
   late ContactsRepository repository;
@@ -221,52 +221,3 @@ class _ContactsPageState extends State<ContactsPage1> {
   }
 }
 
-class ContactsPage extends StatefulWidget {
-  const ContactsPage({Key? key}) : super(key: key);
-
-  @override
-  State<ContactsPage> createState() => _ContactPage1State();
-}
-
-class _ContactPage1State extends State<ContactsPage> {
-  final List<String> list = [];
-  final controller = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                    controller: controller,
-                ),
-              ),
-              IconButton(onPressed: (){
-                list.add(controller.text);
-                controller.clear();
-                setState((){
-                });
-              }, icon: const Icon(Icons.add))
-            ],
-          ),
-          Column(
-            children: list.map((e) => Row(
-              children: [
-                Text(e),
-                IconButton(onPressed: (){
-                  list.remove(e);
-                  setState((){
-                  });
-                }, icon: const Icon(Icons.delete))
-              ],
-            )).toList(),
-          )
-        ],
-      ),
-
-    );
-  }
-}

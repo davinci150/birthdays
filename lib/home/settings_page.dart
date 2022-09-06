@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../icons/custom_icons.dart';
 import '../presentation/colors.dart';
 import '../widgets/app_bar.dart';
+import 'widgets/time_of_day_picker_widget.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -22,17 +23,21 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
   }
 
-  Future<TimeOfDay?> _selectTime(BuildContext context) async {
-    return showTimePicker(context: context, initialTime: time).then((value) async {
-      if (value != null) {
-        await saveTime(value);
-        time = value;
-        setState(() {});
-
-      }
-    });
+  Future<void> _selectTime(BuildContext context) async {
+      return showDialog<dynamic>(context: context, builder: (context)
+      => CustomDialog(
+          content: TimeOfDayPicker(onDateTimeChanged: saveTime,),
+          selectedTime: initTime,
+      ));
+    //  await showTimePicker(context: context, initialTime: time).then((value) async {
+    //   if (value != null) {
+    //     await saveTime(value);
+    //     time = value;
+    //     setState(() {});
+    //
+    //   }
+    // });
   }
-  //TimeOfDay time = TimeOfDay(hour: s.split(":")[0], minute: s.split(":")[1]);
   Future<void> saveTime(TimeOfDay time) async {
     final pref = await SharedPreferences.getInstance();
     await pref.setString(timeKey, '${time.hour}:${time.minute}');
@@ -43,12 +48,12 @@ class _SettingsPageState extends State<SettingsPage> {
     final String? initTime = pref.getString(timeKey);
     if (initTime != null && initTime.isNotEmpty)
     {
-      print(initTime);
-     time = TimeOfDay(hour: int.parse(initTime.split(":")[0]), minute: int.parse(initTime.split(":")[1]));
+     time = TimeOfDay(hour: int.parse(initTime.split(':')[0]), minute: int.parse(initTime.split(':')[1]));
     } else {
       time = const TimeOfDay(hour: 9, minute: 0);
     }
     setState((){});
+    Navigator.pop(context);
   }
 
   @override
@@ -90,6 +95,47 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomDialog extends StatelessWidget {
+  const CustomDialog({Key? key,
+    required this.content,
+    required this.selectedTime,
+  }) : super(key: key);
+ final Widget? content;
+ final void Function() selectedTime;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25))
+      ),
+      content: content,
+      contentPadding: const EdgeInsets.only(left:40, top: 30, right: 40, bottom: 10),
+      actions: [
+        TextButton(
+          style: ButtonStyle(foregroundColor: MaterialStateProperty.all(Colors.grey)),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400
+            ),)
+        ),
+        TextButton(
+            onPressed: selectedTime,
+            child:  const Text('OK',
+              style: TextStyle(
+                color: Color.fromRGBO(0, 209, 59, 1),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400
+              ),)
+        ),
+      ],
+      actionsPadding: const EdgeInsets.only(right: 17),
     );
   }
 }
