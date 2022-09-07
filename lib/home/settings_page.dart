@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,7 +14,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  TimeOfDay time = const TimeOfDay(hour: 9, minute: 0);
+  TimeOfDay notificationTime = const TimeOfDay(hour: 9, minute: 0);
   final String timeKey = 'timeKey';
 
   @override
@@ -29,13 +27,13 @@ class _SettingsPageState extends State<SettingsPage> {
     return showDialog<void>(
         context: context,
         builder: (context) {
-          TimeOfDay selectedTime = time;
+          TimeOfDay selectedTime = notificationTime;
           return CustomDialog(
             content: TimeOfDayPicker(
               onDateTimeChanged: (TimeOfDay timeOfDay) {
                 selectedTime = timeOfDay;
               },
-              initDate: time,
+              initDate: notificationTime,
             ),
             onTapOk: () {
               saveTime(selectedTime);
@@ -47,8 +45,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Future<void> saveTime(TimeOfDay timeOfDay) async {
     final pref = await SharedPreferences.getInstance();
-    time = timeOfDay;
-    await pref.setString(timeKey, '${time.hour}:${time.minute}');
+    notificationTime = timeOfDay;
+    await pref.setString(
+        timeKey, '${notificationTime.hour}:${notificationTime.minute}');
     setState(() {});
   }
 
@@ -56,12 +55,9 @@ class _SettingsPageState extends State<SettingsPage> {
     final pref = await SharedPreferences.getInstance();
     final String? initTime = pref.getString(timeKey);
     if (initTime != null && initTime.isNotEmpty) {
-      log('init $initTime');
-      time = TimeOfDay(
+      notificationTime = TimeOfDay(
           hour: int.parse(initTime.split(':')[0]),
           minute: int.parse(initTime.split(':')[1]));
-    } else {
-      time = const TimeOfDay(hour: 9, minute: 0);
     }
     setState(() {});
   }
@@ -81,6 +77,9 @@ class _SettingsPageState extends State<SettingsPage> {
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: ListTile(
+          onTap: () {
+            _selectTime(context);
+          },
           leading: const Icon(
             CustomIcons.myNotification,
             size: 40,
@@ -91,17 +90,12 @@ class _SettingsPageState extends State<SettingsPage> {
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
           ),
-          trailing: InkWell(
-            onTap: () {
-              _selectTime(context);
-            },
-            child: Text(
-              time.format(context),
-              style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white),
-            ),
+          trailing: Text(
+            notificationTime.format(context),
+            style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
           ),
         ),
       ),
