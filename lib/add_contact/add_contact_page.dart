@@ -7,6 +7,7 @@ import '../home/widgets/material_button_widget.dart';
 import '../model/user_model.dart';
 import '../presentation/colors.dart';
 
+import '../utils/image_utils.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/custom_avatar.dart';
 
@@ -76,7 +77,15 @@ class _AddContacPageState extends State<AddContacPage> {
                 const SizedBox(
                   height: 30,
                 ),
-                CustomAvatar(userModel: userModel,),
+                CustomAvatar(userModel: userModel,
+                  onChanged:() async {
+                  final avatar = await ImageUtils().setImage();
+                    if (avatar != null){
+                      userModel = userModel.copyWith(avatar: avatar);
+                    }
+                    setState((){});
+                  }
+                ),
                 const SizedBox(
                   height: 30,
                 ),

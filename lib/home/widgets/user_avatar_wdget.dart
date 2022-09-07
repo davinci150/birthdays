@@ -1,5 +1,6 @@
-import 'package:birthdays/model/user_model.dart';
 import 'package:flutter/material.dart';
+
+import '../../model/user_model.dart';
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({Key? key,
