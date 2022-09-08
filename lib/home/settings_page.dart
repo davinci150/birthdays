@@ -19,7 +19,10 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void initState() {
-    initTime();
+    getTime().then((value) {
+      notificationTime = value!;
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -46,21 +49,38 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> saveTime(TimeOfDay timeOfDay) async {
     final pref = await SharedPreferences.getInstance();
     notificationTime = timeOfDay;
+    final time = timeOfDayToString();
     await pref.setString(
         timeKey, '${notificationTime.hour}:${notificationTime.minute}');
     setState(() {});
   }
 
-  Future<void> initTime() async {
+  // Future<void> initTime() async {
+  //   final pref = await SharedPreferences.getInstance();
+  //   final String? initTime = pref.getString(timeKey);
+  //   if (initTime != null && initTime.isNotEmpty) {
+  //     notificationTime = TimeOfDay(
+  //         hour: int.parse(initTime.split(':')[0]),
+  //         minute: int.parse(initTime.split(':')[1]));
+  //   }
+  //   setState(() {});
+  // }
+
+  Future<TimeOfDay?> getTime() async {
     final pref = await SharedPreferences.getInstance();
     final String? initTime = pref.getString(timeKey);
     if (initTime != null && initTime.isNotEmpty) {
-      notificationTime = TimeOfDay(
+      return notificationTime = TimeOfDay(
           hour: int.parse(initTime.split(':')[0]),
           minute: int.parse(initTime.split(':')[1]));
     }
-    setState(() {});
   }
+
+  String timeOfDayToString(TimeOfDay time) {
+    return '${time.hour}:${time.minute}';
+  }
+
+  TimeOfDay timeOfDayFromString(String time) {}
 
   @override
   Widget build(BuildContext context) {
@@ -93,9 +113,7 @@ class _SettingsPageState extends State<SettingsPage> {
           trailing: Text(
             notificationTime.format(context),
             style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
+                fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
           ),
         ),
       ),
