@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 
 class SearchTextFiled extends StatefulWidget {
-  const SearchTextFiled({Key? key, this.onChanged, this.controller})
+  const SearchTextFiled({Key? key,
+    this.onChanged,
+    this.controller,
+    this.padding = const EdgeInsets.only(left: 42, right: 42),
+    this.size = 49,
+  })
       : super(key: key);
   final void Function(String)? onChanged;
   final TextEditingController? controller;
+  final EdgeInsetsGeometry? padding;
+  final double size;
   @override
   State<SearchTextFiled> createState() => _SearchTextFiledState();
 }
@@ -13,9 +20,8 @@ class _SearchTextFiledState extends State<SearchTextFiled> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Color(0xFFFDF6F6),
-      height: 49,
-      padding: const EdgeInsets.symmetric(horizontal: 42),
+      height: widget.size,
+      padding: widget.padding,
       child: TextField(
         controller: widget.controller,
         onChanged: widget.onChanged,
