@@ -5,6 +5,7 @@ import '../contacts_repository.dart';
 import '../icons/custom_icons.dart';
 import '../model/user_model.dart';
 import '../presentation/colors.dart';
+import '../test_page.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/custom_avatar.dart';
 
@@ -133,7 +134,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push<void>(MaterialPageRoute(
+                builder: (context)=>const TestMethod()));
+          },
           child: const Icon(CustomIcons.phone),
         ),
         InkWell(

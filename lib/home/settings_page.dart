@@ -19,7 +19,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void initState() {
-    initTime();
+    getTime();
     super.initState();
   }
 
@@ -46,20 +46,20 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> saveTime(TimeOfDay timeOfDay) async {
     final pref = await SharedPreferences.getInstance();
     notificationTime = timeOfDay;
-    await pref.setString(
-        timeKey, '${notificationTime.hour}:${notificationTime.minute}');
-    setState(() {});
+    final String time = '${notificationTime.hour}:${notificationTime.minute}';
+    await pref.setString(timeKey, time);
   }
 
-  Future<void> initTime() async {
+
+  Future<TimeOfDay?> getTime() async {
     final pref = await SharedPreferences.getInstance();
     final String? initTime = pref.getString(timeKey);
     if (initTime != null && initTime.isNotEmpty) {
-      notificationTime = TimeOfDay(
+     notificationTime = TimeOfDay(
           hour: int.parse(initTime.split(':')[0]),
           minute: int.parse(initTime.split(':')[1]));
     }
-    setState(() {});
+    return notificationTime;
   }
 
   @override
@@ -93,9 +93,7 @@ class _SettingsPageState extends State<SettingsPage> {
           trailing: Text(
             notificationTime.format(context),
             style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
+                fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
           ),
         ),
       ),
