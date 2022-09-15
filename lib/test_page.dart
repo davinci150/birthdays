@@ -43,17 +43,18 @@ class _TestMethodState extends State<TestMethod> {
     setState((){});
   }
   void _sortByDate(){
-    testList.sort((a,b)=>a.name.compareTo(b.data.toString()));
+    testList..sort((a,b)=>a.data.compareTo(b.data))
+    ..toString();
     setState((){});
   }
   void _sortByDateRevers(){
-  testList.sort((a,b)=>a.name.compareTo(b.data.toString()));
-  setState((){});
-  testList.reversed.toList();
-  setState((){});
+    _sortByDate();
+  for (var i = 0; i < testList.length / 2; i++){
+    final tempValue = testList[i];
+    testList[i] = testList[testList.length - 1 - i];
+    testList[testList.length -1 -i]=tempValue;
   }
-  void _countList(){
-    print(testList.length);
+    setState((){});
   }
 
   @override
@@ -80,13 +81,11 @@ class _TestMethodState extends State<TestMethod> {
                 listButton('Mix', onTap: _mixElementList),
                 listButton('Sort by date', onTap: _sortByDate),
                 listButton('Sort by date reverse', onTap:_sortByDateRevers),
-                listButton('Count:1', onTap: _countList),
+                listButton('Count: ${testList.length} ', onTap: (){}),
               ],
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           Expanded(
             //flex: 10,
             child: ListView.builder(
