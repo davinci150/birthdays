@@ -16,6 +16,7 @@ class _SearchTextFiledState extends State<SearchTextFiled> {
     return Container(
       // color: Color(0xFFFDF6F6),
       height: 49,
+      width: MediaQuery.of(context).size.width /0.6,
       padding: const EdgeInsets.symmetric(horizontal: 42),
       child: TextField(
         controller: widget.controller,
