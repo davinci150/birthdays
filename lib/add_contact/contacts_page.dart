@@ -79,6 +79,12 @@ class _ContactsPageState extends State<ContactsPage> {
     });
   }
 
+  void restoreListContact() {
+    controller.clear();
+    listContact = _contacts!.toList();
+    setState((){});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,7 +122,7 @@ class _ContactsPageState extends State<ContactsPage> {
                       height: 10,
                     ),
                     SearchTextFiled(controller: controller,
-                        onChanged:searchUser),
+                        onChanged:searchUser, onTapRestoreList: restoreListContact,),
                     const SizedBox(
                       height: 20,
                     ),

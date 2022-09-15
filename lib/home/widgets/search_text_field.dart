@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SearchTextFiled extends StatefulWidget {
-  const SearchTextFiled({Key? key, this.onChanged, this.controller})
+  const SearchTextFiled({Key? key, this.onChanged, this.controller,this.onTapRestoreList})
       : super(key: key);
   final void Function(String)? onChanged;
+  final void Function()? onTapRestoreList;
   final TextEditingController? controller;
   @override
   State<SearchTextFiled> createState() => _SearchTextFiledState();
@@ -23,12 +24,13 @@ class _SearchTextFiledState extends State<SearchTextFiled> {
         decoration: InputDecoration(
             suffixIcon: widget.controller?.text.isNotEmpty ?? false
                 ? GestureDetector(
-                    onTap: () {
-                      widget.controller!.clear();
+                    onTap: widget.onTapRestoreList,
+                      //  () {
+                      //widget.controller!.clear();
 
                       // searchText = '';
                       // setState(() {});
-                    },
+                    //},
                     child: const Icon(
                       Icons.cancel_outlined,
                       color: Color(0xFFD5C9F3),
