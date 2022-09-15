@@ -43,17 +43,11 @@ class _TestMethodState extends State<TestMethod> {
     setState((){});
   }
   void _sortByDate(){
-    testList..sort((a,b)=>a.data.compareTo(b.data))
-    ..toString();
+    testList.sort((a,b)=>a.data.compareTo(b.data));
     setState((){});
   }
   void _sortByDateRevers(){
-    _sortByDate();
-  for (var i = 0; i < testList.length / 2; i++){
-    final tempValue = testList[i];
-    testList[i] = testList[testList.length - 1 - i];
-    testList[testList.length -1 -i]=tempValue;
-  }
+    testList.sort((a,b)=>b.data.compareTo(a.data));
     setState((){});
   }
 
