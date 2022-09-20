@@ -93,6 +93,11 @@ class ContactsRepository {
     await notificationService.cancelNotification(id);
   }
 
+    Future<void> editUser(UserModel user) async{
+    await deleteContact(user.id!);
+    await _saveUser(User(name: user.name!, id: user.id!, date: user.date!));
+    }
+
   Future<void> _saveUser(User user) async {
     final box = await BoxManager.instance.openUserBox();
     final group = User(

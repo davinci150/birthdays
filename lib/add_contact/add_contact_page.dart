@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import '../contacts_repository.dart';
-import '../home/home_page.dart';
 import '../home/widgets/date_picker_widget.dart';
 import '../home/widgets/material_button_widget.dart';
 import '../model/user_model.dart';
@@ -49,16 +48,17 @@ class _AddContacPageState extends State<AddContacPage> {
     super.initState();
   }
 
-  void editUser(){
-    widget.isEditor ? repository.deleteContact(userModel.id!) :
+  void editUser(UserModel user){
+    repository.editUser(user);
+    Navigator.pop(context);
+  }
+  void addUser(){
     userModel.date != null &&
         (userModel.name ?? '').isNotEmpty
         ?
-      repository.addUser(userModel)
+    repository.addUser(userModel)
         : null;
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (context) => const MyHomePage())
-    );
+    Navigator.pop(context);
   }
 
   @override
@@ -164,7 +164,10 @@ class _AddContacPageState extends State<AddContacPage> {
                 // ),
                 MaterialButtonWidget(
                   text: 'Save',
-                  onTap:  editUser
+                  onTap:(){
+                    widget.isEditor ? editUser(userModel)
+                      : addUser();
+                  }
                 )
               ]),
             ),
