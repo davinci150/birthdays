@@ -9,6 +9,7 @@ import '../home/widgets/search_text_field.dart';
 import '../model/user_model.dart';
 import '../presentation/colors.dart';
 import '../utils/physics_list_view.dart';
+import '../widgets/app_bar.dart';
 import 'add_contact_page.dart';
 
 class ContactsPage extends StatefulWidget {
@@ -82,6 +83,13 @@ class _ContactsPageState extends State<ContactsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(child:
+          SearchTextFiled(controller: controller,
+          onChanged:searchUser,
+            padding: EdgeInsets.zero,
+            size: 39,
+          ),
+        ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.only(bottom: 31),
           child: Row(
@@ -112,11 +120,6 @@ class _ContactsPageState extends State<ContactsPage> {
             : SafeArea(
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SearchTextFiled(controller: controller,
-                        onChanged:searchUser),
                     const SizedBox(
                       height: 20,
                     ),

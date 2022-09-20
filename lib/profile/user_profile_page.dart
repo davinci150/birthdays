@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../add_contact/add_contact_page.dart';
 import '../contacts_repository.dart';
 import '../icons/custom_icons.dart';
 import '../model/user_model.dart';
@@ -48,6 +49,14 @@ class _UserProfilePageState extends State<UserProfilePage> {
       backgroundColor: AppColors.mortar,
       appBar: CustomAppBar(
         actions: [
+          IconButton(
+            onPressed: (){
+          Navigator.of(context).push<void>(MaterialPageRoute(
+              builder: (context) =>AddContacPage.edit(
+                onSaveUser: (UserModel user) {  }, userModel: user,) ));
+            },
+            icon: const Icon(Icons.edit_outlined, size: 27.5,),
+          ),
           IconButton(
             padding: const EdgeInsets.only(right: 17),
             onPressed: (){

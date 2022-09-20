@@ -16,10 +16,19 @@ class AddContacPage extends StatefulWidget {
     Key? key,
     required this.onSaveUser,
     this.userModel,
-  }) : super(key: key);
+  }) : isEditor = false,
+        super(key: key);
+
+  const AddContacPage.edit({
+    Key? key,
+    required this.onSaveUser,
+    required this.userModel,
+  }) : isEditor = true,
+        super(key: key);
 
   final void Function(UserModel) onSaveUser;
   final UserModel? userModel;
+  final bool isEditor;
 
   @override
   State<AddContacPage> createState() => _AddContacPageState();
@@ -27,7 +36,6 @@ class AddContacPage extends StatefulWidget {
 
 class _AddContacPageState extends State<AddContacPage> {
   late UserModel userModel;
-
   @override
   void initState() {
     if (widget.userModel != null) {
@@ -54,11 +62,11 @@ class _AddContacPageState extends State<AddContacPage> {
           const SizedBox(
             height: 10,
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 27.0),
+            Padding(
+            padding: const EdgeInsets.only(left: 27.0),
             child: Text(
-              'Add contact',
-              style: TextStyle(
+            ! widget.isEditor ? 'Add contact': 'Edit contact',
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
                   fontWeight: FontWeight.w700),
