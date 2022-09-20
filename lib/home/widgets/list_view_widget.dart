@@ -21,7 +21,10 @@ class ListViewWidget extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 20),
-        const SearchTextFiled(),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 42),
+          child: SearchTextFiled(),
+        ),
         SizedBox(
           height: MediaQuery.of(context).size.height / 8,
         ),
@@ -30,13 +33,15 @@ class ListViewWidget extends StatelessWidget {
           itemBuilder: (ctx, itemIndex, pageViewIndex) {
             final user = listUser[itemIndex];
             return InkWell(
-              onTap: (){
-                Navigator.push< void>(context, MaterialPageRoute
-                  (builder: (context) =>  UserProfilePage(id: user.id!)));
+              onTap: () {
+                Navigator.push<void>(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UserProfilePage(id: user.id!)));
               },
               child: UserCard(
-                  avatarColor: Colors.white,
-                  userModel: user,
+                avatarColor: Colors.white,
+                userModel: user,
               ),
             );
           },

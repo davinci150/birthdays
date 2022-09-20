@@ -51,7 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> saveTime(TimeOfDay timeOfDay) async {
     final pref = await SharedPreferences.getInstance();
     notificationTime = timeOfDay;
-   // final time = timeOfDayToString();
+    // final time = timeOfDayToString();
     await pref.setString(
         timeKey, '${notificationTime.hour}:${notificationTime.minute}');
     setState(() {});
@@ -103,7 +103,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Row(
               children: [
                 const Expanded(
-                  child:  Text(
+                  child: Text(
                     'Notification time',
                     style: TextStyle(
                         fontSize: 20,
@@ -112,7 +112,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 InkWell(
-                  onTap:(){ _selectTime(context);},
+                  onTap: () {
+                    _selectTime(context);
+                  },
                   child: Text(
                     notificationTime.format(context),
                     style: const TextStyle(
@@ -123,7 +125,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ],
             ),
-           const SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
                 const Expanded(
@@ -141,7 +143,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: CupertinoSwitch(
                       activeColor: Colors.white,
                       trackColor: Colors.white,
-                      thumbColor: toggled ? const Color.fromRGBO(232, 161, 24, 1)
+                      thumbColor: toggled
+                          ? const Color.fromRGBO(232, 161, 24, 1)
                           : Colors.black,
                       value: toggled,
                       onChanged: (bool value) => setState(() {

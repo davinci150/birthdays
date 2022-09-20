@@ -95,10 +95,14 @@ class _ContactsPageState extends State<ContactsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(
-          child: SearchTextFiled(
-            controller: controller,
-            onChanged: searchUser,
-            padding: EdgeInsets.zero,
+          child: Container(
+            height: 44,
+            padding: const EdgeInsets.only(right: 40),
+            child: SearchTextFiled(
+              controller: controller,
+              onChanged: searchUser,
+              onTapRestoreList: restoreListContact,
+            ),
           ),
         ),
         bottomNavigationBar: Padding(
@@ -128,51 +132,19 @@ class _ContactsPageState extends State<ContactsPage> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : SafeArea(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SearchTextFiled(
-                      controller: controller,
-                      onChanged: searchUser,
-                      onTapRestoreList: restoreListContact,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    //  TextButton(
-                    //    onPressed: () async {
-                    //
-                    //    },
-                    //    child: Row(
-                    //      mainAxisAlignment: MainAxisAlignment.center,
-                    //      children: const [
-                    //        Icon(Icons.add),
-                    //        SizedBox(width: 6),
-                    //        Text('Create contact')
-                    //      ],
-                    //    ),
-                    //  ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 4, left: 10),
-                        child: Scrollbar(
-                          thickness: 6,
-                          radius: const Radius.circular(100),
-                          child: ListView.builder(
-                            physics: const CustomScrollPhysics(),
-                            itemCount: listContact.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final contact = listContact.elementAt(index);
-                              return userCard(contact);
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+            : Padding(
+                padding: const EdgeInsets.only(right: 4, left: 10),
+                child: Scrollbar(
+                  thickness: 6,
+                  radius: const Radius.circular(100),
+                  child: ListView.builder(
+                    physics: const CustomScrollPhysics(),
+                    itemCount: listContact.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final contact = listContact.elementAt(index);
+                      return userCard(contact);
+                    },
+                  ),
                 ),
               ));
   }
