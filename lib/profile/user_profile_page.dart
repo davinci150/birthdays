@@ -53,7 +53,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             onPressed: (){
           Navigator.of(context).push<void>(MaterialPageRoute(
               builder: (context) =>AddContacPage.edit(
-                onSaveUser: (UserModel user) {  }, userModel: user,) ));
+                 userModel: user,) ));
             },
             icon: const Icon(Icons.edit_outlined, size: 27.5,),
           ),

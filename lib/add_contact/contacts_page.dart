@@ -116,11 +116,7 @@ class _ContactsPageState extends State<ContactsPage> {
                   Navigator.push<dynamic>(
                     context,
                     MaterialPageRoute<dynamic>(
-                        builder: (context) => AddContacPage(
-                              onSaveUser: (UserModel user) {
-                                repository.addUser(user);
-                              },
-                            )),
+                        builder: (context) => const AddContacPage()),
                   );
                 },
               )
@@ -196,11 +192,7 @@ class _ContactsPageState extends State<ContactsPage> {
                             userModel: UserModel(
                                 avatar: contact?.avatar,
                                 name: contact?.displayName,
-                                date: contact?.birthday),
-                            onSaveUser: (UserModel user) {
-                              repository.addUser(user);
-                            },
-                          )),
+                                date: contact?.birthday),)),
                 );
               },
               child: const Icon(

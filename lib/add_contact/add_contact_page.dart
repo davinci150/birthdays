@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
+import '../contacts_repository.dart';
+import '../home/home_page.dart';
 import '../home/widgets/date_picker_widget.dart';
 import '../home/widgets/material_button_widget.dart';
 import '../model/user_model.dart';
@@ -14,27 +16,24 @@ import '../widgets/custom_avatar.dart';
 class AddContacPage extends StatefulWidget {
   const AddContacPage({
     Key? key,
-    required this.onSaveUser,
     this.userModel,
   }) : isEditor = false,
         super(key: key);
 
   const AddContacPage.edit({
     Key? key,
-    required this.onSaveUser,
     required this.userModel,
   }) : isEditor = true,
         super(key: key);
 
-  final void Function(UserModel) onSaveUser;
   final UserModel? userModel;
   final bool isEditor;
-
   @override
   State<AddContacPage> createState() => _AddContacPageState();
 }
 
 class _AddContacPageState extends State<AddContacPage> {
+  late ContactsRepository repository;
   late UserModel userModel;
   @override
   void initState() {
@@ -46,7 +45,20 @@ class _AddContacPageState extends State<AddContacPage> {
     if (userModel.date == null) {
       userModel = userModel.copyWith(date: DateTime.now());
     }
+     repository = ContactsRepository.instance;
     super.initState();
+  }
+
+  void editUser(){
+    widget.isEditor ? repository.deleteContact(userModel.id!) :
+    userModel.date != null &&
+        (userModel.name ?? '').isNotEmpty
+        ?
+      repository.addUser(userModel)
+        : null;
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (context) => const MyHomePage())
+    );
   }
 
   @override
@@ -152,13 +164,7 @@ class _AddContacPageState extends State<AddContacPage> {
                 // ),
                 MaterialButtonWidget(
                   text: 'Save',
-                  onTap: userModel.date != null &&
-                          (userModel.name ?? '').isNotEmpty
-                      ? () {
-                          widget.onSaveUser(userModel);
-                          Navigator.of(context).pop();
-                        }
-                      : null,
+                  onTap:  editUser
                 )
               ]),
             ),
