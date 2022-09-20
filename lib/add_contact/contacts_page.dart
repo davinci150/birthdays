@@ -1,4 +1,3 @@
-
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -47,19 +46,25 @@ class _ContactsPageState extends State<ContactsPage> {
       }
     }
   }
-  final  controller = TextEditingController();
+
+  final controller = TextEditingController();
   //late List<ContactsRepository> users;
 
   void searchUser(String query) {
-  if (query.isNotEmpty){
-    listContact=listContact.where((element) => element.displayName!.toLowerCase().contains(query.toLowerCase())
-    || element.phones!.first.value!.toLowerCase().contains(query.toLowerCase())
-    ).toList();
-  }
-  else {
-    listContact = _contacts!.toList();
-  }
-  setState((){});
+    if (query.isNotEmpty) {
+      listContact = listContact
+          .where((element) =>
+              element.displayName!
+                  .toLowerCase()
+                  .contains(query.toLowerCase()) ||
+              element.phones!.first.value!
+                  .toLowerCase()
+                  .contains(query.toLowerCase()))
+          .toList();
+    } else {
+      listContact = _contacts!.toList();
+    }
+    setState(() {});
   }
 
   @override
@@ -80,14 +85,20 @@ class _ContactsPageState extends State<ContactsPage> {
     });
   }
 
+  void restoreListContact() {
+    controller.clear();
+    listContact = _contacts!.toList();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(child:
-          SearchTextFiled(controller: controller,
-          onChanged:searchUser,
+        appBar: CustomAppBar(
+          child: SearchTextFiled(
+            controller: controller,
+            onChanged: searchUser,
             padding: EdgeInsets.zero,
-            size: 39,
           ),
         ),
         bottomNavigationBar: Padding(
@@ -120,6 +131,14 @@ class _ContactsPageState extends State<ContactsPage> {
             : SafeArea(
                 child: Column(
                   children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SearchTextFiled(
+                      controller: controller,
+                      onChanged: searchUser,
+                      onTapRestoreList: restoreListContact,
+                    ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -198,7 +217,6 @@ class _ContactsPageState extends State<ContactsPage> {
           ),
           TextButton(
               onPressed: () {
-              
                 Navigator.push<dynamic>(
                   context,
                   MaterialPageRoute<dynamic>(
@@ -223,4 +241,3 @@ class _ContactsPageState extends State<ContactsPage> {
     );
   }
 }
-
