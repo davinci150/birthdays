@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../icons/custom_icons.dart';
 import '../presentation/colors.dart';
 import '../widgets/app_bar.dart';
 import 'widgets/time_of_day_picker_widget.dart';
@@ -16,6 +17,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   TimeOfDay notificationTime = const TimeOfDay(hour: 9, minute: 0);
   final String timeKey = 'timeKey';
+  bool toggled = true;
 
   @override
   void initState() {
@@ -49,7 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> saveTime(TimeOfDay timeOfDay) async {
     final pref = await SharedPreferences.getInstance();
     notificationTime = timeOfDay;
-    final time = timeOfDayToString();
+   // final time = timeOfDayToString();
     await pref.setString(
         timeKey, '${notificationTime.hour}:${notificationTime.minute}');
     setState(() {});
@@ -80,7 +82,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return '${time.hour}:${time.minute}';
   }
 
-  TimeOfDay timeOfDayFromString(String time) {}
+  //TimeOfDay timeOfDayFromString(String time) {}
 
   @override
   Widget build(BuildContext context) {
@@ -95,26 +97,85 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       )),
       body: Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: ListTile(
-          onTap: () {
-            _selectTime(context);
-          },
-          leading: const Icon(
-            CustomIcons.myNotification,
-            size: 40,
-            color: Colors.white,
-          ),
-          title: const Text(
-            'Notification time',
-            style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
-          ),
-          trailing: Text(
-            notificationTime.format(context),
-            style: const TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
-          ),
+        padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const Expanded(
+                  child:  Text(
+                    'Notification time',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                ),
+                InkWell(
+                  onTap:(){ _selectTime(context);},
+                  child: Text(
+                    notificationTime.format(context),
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+           const SizedBox(height: 20),
+            Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'Show past birthdays',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                Transform.scale(
+                  scale: 0.7,
+                  child: CupertinoSwitch(
+                      activeColor: Colors.white,
+                      trackColor: Colors.white,
+                      thumbColor: toggled ? const Color.fromRGBO(232, 161, 24, 1)
+                          : Colors.black,
+                      value: toggled,
+                      onChanged: (bool value) => setState(() {
+                            toggled = value;
+                          })),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'Not receiving notification?',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {
+                      openAppSettings();
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.settings_outlined,
+                      size: 30,
+                      color: Colors.white,
+                    ))
+              ],
+            ),
+          ],
         ),
       ),
     );
