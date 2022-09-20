@@ -27,7 +27,7 @@ class ContactsRepository {
 
   NotificationService notificationService = NotificationService();
 
-  int getUid() {
+  int _getUid() {
     int uid = 0;
     listUsers.value.forEach((element) {
       uid = (element.id ?? 0) > uid ? element.id! : uid;
@@ -40,13 +40,13 @@ class ContactsRepository {
   }
 
   void addUser(UserModel model) {
-    final userId = getUid();
+    final userId = _getUid();
     final UserModel userModel = model.copyWith(id: userId);
     final list = listUsers.value
       ..add(userModel)
       ..sort((a, b) => a.date!.compareTo(b.date!));
     listUsers.sink.add(list);
-    saveUser(User(
+    _saveUser(User(
         name: userModel.name!,
         avatar: userModel.avatar,
         id: userModel.id!,
@@ -93,7 +93,7 @@ class ContactsRepository {
     await notificationService.cancelNotification(id);
   }
 
-  Future<void> saveUser(User user) async {
+  Future<void> _saveUser(User user) async {
     final box = await BoxManager.instance.openUserBox();
     final group = User(
         name: user.name, avatar: user.avatar, id: user.id, date: user.date);
