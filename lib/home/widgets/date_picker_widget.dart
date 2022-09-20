@@ -140,7 +140,7 @@ class _PickerItemWidgetState extends State<PickerItemWidget> {
           alignment: Alignment.center,
           children: [
             SizedBox(
-              height: 100,
+              height: MediaQuery.of(context).size.height < 670 ? 50 : 100,
               width: 100,
               child: ListWheelScrollView.useDelegate(
                 controller: scrollController,

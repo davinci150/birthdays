@@ -50,10 +50,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
       appBar: CustomAppBar(
         actions: [
           IconButton(
-            onPressed: (){
-          Navigator.of(context).push<void>(MaterialPageRoute(
+            onPressed: () async {
+          final dynamic userModel = await Navigator.of(context).push<dynamic>(
+              MaterialPageRoute<dynamic>(
               builder: (context) =>AddContacPage.edit(
-                 userModel: user,) ));
+                 userModel: user) ));
+          if (userModel is UserModel) {
+            user = userModel;
+            setState((){});
+          }
             },
             icon: const Icon(Icons.edit_outlined, size: 27.5,),
           ),

@@ -16,17 +16,18 @@ class AddContacPage extends StatefulWidget {
   const AddContacPage({
     Key? key,
     this.userModel,
-  }) : isEditor = false,
+  })  : isEditor = false,
         super(key: key);
 
   const AddContacPage.edit({
     Key? key,
     required this.userModel,
-  }) : isEditor = true,
+  })  : isEditor = true,
         super(key: key);
 
   final UserModel? userModel;
   final bool isEditor;
+
   @override
   State<AddContacPage> createState() => _AddContacPageState();
 }
@@ -34,6 +35,7 @@ class AddContacPage extends StatefulWidget {
 class _AddContacPageState extends State<AddContacPage> {
   late ContactsRepository repository;
   late UserModel userModel;
+
   @override
   void initState() {
     if (widget.userModel != null) {
@@ -44,21 +46,20 @@ class _AddContacPageState extends State<AddContacPage> {
     if (userModel.date == null) {
       userModel = userModel.copyWith(date: DateTime.now());
     }
-     repository = ContactsRepository.instance;
+    repository = ContactsRepository.instance;
     super.initState();
   }
 
-  void editUser(UserModel user){
+  void editUser(UserModel user) {
     repository.editUser(user);
-    Navigator.pop(context);
+    Navigator.of(context).pop(userModel);
   }
-  void addUser(){
-    userModel.date != null &&
-        (userModel.name ?? '').isNotEmpty
-        ?
-    repository.addUser(userModel)
+
+  void addUser() {
+    userModel.date != null && (userModel.name ?? '').isNotEmpty
+        ? repository.addUser(userModel)
         : null;
-    Navigator.pop(context);
+    Navigator.of(context).pop(userModel);
   }
 
   @override
@@ -66,30 +67,31 @@ class _AddContacPageState extends State<AddContacPage> {
     log((userModel.date ?? '').toString());
     return Scaffold(
       backgroundColor: AppColors.mortar,
-      appBar:  const CustomAppBar(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-            Padding(
-            padding: const EdgeInsets.only(left: 27.0),
-            child: Text(
-            ! widget.isEditor ? 'Add contact': 'Edit contact',
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700),
+      appBar: const CustomAppBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(
+              height: 10,
             ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+            Padding(
+              padding: const EdgeInsets.only(left: 27.0),
+              child: Text(
+                !widget.isEditor ? 'Add contact' : 'Edit contact',
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+              padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(51)),
                   color: Colors.white),
@@ -97,15 +99,15 @@ class _AddContacPageState extends State<AddContacPage> {
                 const SizedBox(
                   height: 30,
                 ),
-                CustomAvatar(userModel: userModel,
-                  onChanged:() async {
-                  final avatar = await ImageUtils().setImage();
-                    if (avatar != null){
-                      userModel = userModel.copyWith(avatar: avatar);
-                    }
-                    setState((){});
-                  }
-                ),
+                CustomAvatar(
+                    userModel: userModel,
+                    onChanged: () async {
+                      final avatar = await ImageUtils().setImage();
+                      if (avatar != null) {
+                        userModel = userModel.copyWith(avatar: avatar);
+                      }
+                      setState(() {});
+                    }),
                 const SizedBox(
                   height: 30,
                 ),
@@ -159,24 +161,18 @@ class _AddContacPageState extends State<AddContacPage> {
                       //log(DateFormat('yyyy MMM dd').format(date).toString());
                       userModel = userModel.copyWith(date: date);
                     }),
-                // const SizedBox(
-                //   height: 70,
-                // ),
-                MaterialButtonWidget(
-                  text: 'Save',
-                  onTap:(){
-                    widget.isEditor ? editUser(userModel)
-                      : addUser();
-                  }
-                )
+                const SizedBox(height: 20),
               ]),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
+      floatingActionButton: MaterialButtonWidget(
+          text: 'Save',
+          onTap: () {
+            widget.isEditor ? editUser(userModel) : addUser();
+          }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
-
-
-
