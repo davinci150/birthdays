@@ -10,9 +10,11 @@ class ListViewWidget extends StatelessWidget {
   const ListViewWidget({
     Key? key,
     required this.listUser,
+    required this.lastBirthday,
     //required this.onClickDelete,
   }) : super(key: key);
   final List<UserModel> listUser;
+  final bool lastBirthday;
 
   //final void Function(int) onClickDelete;
 
@@ -42,6 +44,7 @@ class ListViewWidget extends StatelessWidget {
               child: UserCard(
                 avatarColor: Colors.white,
                 userModel: user,
+                showLastBirthday: lastBirthday,
               ),
             );
           },

@@ -8,7 +8,11 @@ import '../widgets/app_bar.dart';
 import 'widgets/time_of_day_picker_widget.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({Key? key, required this.lastBirthday,
+    required this.showLastBirthday,
+  }) : super(key: key);
+ final bool lastBirthday;
+ final void Function(bool value) showLastBirthday;
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -17,8 +21,6 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   TimeOfDay notificationTime = const TimeOfDay(hour: 9, minute: 0);
   final String timeKey = 'timeKey';
-  bool toggled = true;
-
   @override
   void initState() {
     getTime().then((value) {
@@ -143,13 +145,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: CupertinoSwitch(
                       activeColor: Colors.white,
                       trackColor: Colors.white,
-                      thumbColor: toggled
+                      thumbColor: widget.lastBirthday
                           ? const Color.fromRGBO(232, 161, 24, 1)
                           : Colors.black,
-                      value: toggled,
-                      onChanged: (bool value) => setState(() {
-                            toggled = value;
-                          })),
+                      value: widget.lastBirthday,
+                      onChanged: widget.showLastBirthday
+                          ),
                 ),
               ],
             ),

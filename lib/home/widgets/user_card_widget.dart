@@ -4,18 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/user_model.dart';
+import 'last_birthday_widget.dart';
 import 'user_avatar_wdget.dart';
 
 class UserCard extends StatelessWidget {
   const UserCard(
       {required this.userModel,
       required this.avatarColor,
+        required this.showLastBirthday,
       //required this.avatarCallback,
       Key? key})
       : super(key: key);
 
   final UserModel userModel;
   final Color avatarColor;
+  final bool showLastBirthday;
 
   //final void Function(LongPressDownDetails details) avatarCallback;
 
@@ -48,16 +51,15 @@ class UserCard extends StatelessWidget {
             //GestureDetector(
             //onLongPressDown: avatarCallback,
             //child:
-            const SizedBox(height: 10),
+            const SizedBox(height: 6),
             UserAvatar(
               user: userModel,
             ),
             // ),
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   userModel.name ?? '',
@@ -67,7 +69,7 @@ class UserCard extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 Text('$age years',
                     // dueData!.contains(RegExp('[0-9]'))
                     //     ? 'Via $dueData days ${age ?? '??'} age'
@@ -76,12 +78,14 @@ class UserCard extends StatelessWidget {
                         color: Colors.black,
                         fontSize: 36,
                         fontWeight: FontWeight.w400)),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 Text('Birthdays: ${date ?? '??'}',
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 20,
                         fontWeight: FontWeight.w400)),
+                if (showLastBirthday) ...[
+                  LastBirthdayWidget(userModel: userModel)],
               ],
             )
           ],
