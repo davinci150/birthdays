@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../model/user_model.dart';
+import '../../profile/user_profile_page.dart';
 
 class CalendarViewWidget extends StatefulWidget {
   const CalendarViewWidget({Key? key, required this.listUser})
@@ -183,7 +184,15 @@ class _CalendarViewWidgetState extends State<CalendarViewWidget> {
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     child: ListTile(
-                      onTap: () => print('${value[index]}'),
+                      onTap: (){
+                        final user = widget.listUser[index];
+                        Navigator.of(context).push<void>(
+                          MaterialPageRoute(builder: (context) => UserProfilePage(
+                              id: user.id!
+                          ))
+                        );
+
+                      },
                       title: Text(
                         '${value[index]}',
                         style: const TextStyle(color: Colors.white),
