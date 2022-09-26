@@ -40,13 +40,12 @@ class UserCard extends StatelessWidget {
       age = now.year - userModel.date!.year;
     }
     return Container(
-        width: 297,
+        width: MediaQuery.of(context).size.width * 0.8,
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(19))),
         // padding: const EdgeInsets.fromLTRB(18, 12, 0, 9),
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             //GestureDetector(
             //onLongPressDown: avatarCallback,
