@@ -30,7 +30,7 @@ class LastBirthdayWidget extends StatelessWidget {
             ?  'Was: $day day ago'
             : (month == 0 && day == 0)
             ? 'Birthday: today'
-            : (day == 1)
+            : (day == 1 && month == 0)
             ?  'Was: yesterday'
             : (day == 0)
             ?  'Was: $month month ago'
