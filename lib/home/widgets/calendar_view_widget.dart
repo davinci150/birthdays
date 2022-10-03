@@ -34,7 +34,7 @@ class _CalendarViewWidgetState extends State<CalendarViewWidget> {
     widget.listUser.forEach((e) {
       _kEventSource.addAll({
         DateTime(_focusedDay.year, e.date!.month, e.date!.day): [
-          Event('Birtday ${e.name}')
+          Event('Birtday ${e.name}', e.id!)
         ]
       });
       // _kEventSource[e.date!] = [Event('Birtday ${e.name}')];
@@ -185,10 +185,11 @@ class _CalendarViewWidgetState extends State<CalendarViewWidget> {
                     ),
                     child: ListTile(
                       onTap: (){
-                        final user = widget.listUser[index];
+
+                        final userId = value[index].userId;
                         Navigator.of(context).push<void>(
                           MaterialPageRoute(builder: (context) => UserProfilePage(
-                              id: user.id!
+                              id: userId
                           ))
                         );
 
@@ -210,10 +211,10 @@ class _CalendarViewWidgetState extends State<CalendarViewWidget> {
 }
 
 class Event {
-  const Event(this.title);
+  const Event(this.title, this.userId );
 
   final String title;
-
+  final int userId;
   @override
   String toString() => title;
 }
