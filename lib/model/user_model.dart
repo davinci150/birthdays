@@ -7,24 +7,29 @@ class UserModel extends Equatable {
     this.id,
     this.avatar,
     this.date,
+    this.phone,
   });
 
   final String? name;
   final Uint8List? avatar;
   final DateTime? date;
   final int? id;
+  final String? phone;
 
   UserModel copyWith({
     int? id,
     String? name,
     Uint8List? avatar,
     DateTime? date,
+    String? phone,
   }) {
     return UserModel(
       id: id ?? this.id,
       avatar: avatar ?? this.avatar,
       name: name ?? this.name,
       date: date ?? this.date,
+      phone: phone ?? this.phone,
+
     );
   }
 
@@ -34,6 +39,7 @@ class UserModel extends Equatable {
         id,
         avatar,
         date,
+        phone,
       ];
 
   @override

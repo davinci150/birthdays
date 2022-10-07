@@ -22,6 +22,7 @@ class _ContactsPageState extends State<ContactsPage> {
   Iterable<Contact>? _contacts;
   List<Contact> listContact = [];
   late ContactsRepository repository;
+
   Future<PermissionStatus> _getPermission() async {
     final PermissionStatus permission = await Permission.contacts.status;
     if (permission != PermissionStatus.granted &&
@@ -191,7 +192,8 @@ class _ContactsPageState extends State<ContactsPage> {
                             userModel: UserModel(
                                 avatar: contact?.avatar,
                                 name: contact?.displayName,
-                                date: contact?.birthday),)),
+                                date: contact?.birthday,
+                                phone: contact?.phones?.single.value),)),
                 );
               },
               child: const Icon(

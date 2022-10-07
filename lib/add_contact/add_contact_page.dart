@@ -97,7 +97,7 @@ class _AddContacPageState extends State<AddContacPage> {
                   color: Colors.white),
               child: Column(children: [
                 const SizedBox(
-                  height: 30,
+                  height: 5,
                 ),
                 CustomAvatar(
                     userModel: userModel,
@@ -109,39 +109,36 @@ class _AddContacPageState extends State<AddContacPage> {
                       setState(() {});
                     }),
                 const SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
-                Row(
-                  children: const [
-                    Text(
-                      'Name',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-                    ),
-                  ],
+                _nameTextFormDateUser('Name'),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textFormDateUser(
+                  initialValue: userModel.name,
+                  onChanged: (name) {
+                    userModel = userModel.copyWith(name: name);
+                    setState((){});
+                  },
+                  label: 'Full Name'
                 ),
                 const SizedBox(
                   height: 8,
                 ),
-                TextFormField(
-                  initialValue: userModel.name,
-                  onChanged: (name) {
-                    userModel = userModel.copyWith(name: name);
-                    setState(() {});
+                _nameTextFormDateUser('Phone'),
+                const SizedBox(
+                  height: 8,
+                ),
+                _textFormDateUser(
+                  initialValue: userModel.phone,
+                  onChanged: (name){
+                    userModel = userModel.copyWith(phone: name);
                   },
-                  decoration: InputDecoration(
-                    filled: true,
-                    //isCollapsed: true,
-                    fillColor: AppColors.fillColor,
-                    border: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: AppColors.borderGray),
-                        borderRadius: BorderRadius.circular(8)),
-                    labelText: 'Full Name',
-                  ),
+                  label: 'Phone number'
                 ),
                 const SizedBox(
-                  height: 36,
+                  height: 10,
                 ),
                 Row(
                   children: const [
@@ -175,4 +172,34 @@ class _AddContacPageState extends State<AddContacPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
+
+  Widget _nameTextFormDateUser(String name){
+    return Row(
+      children: [
+        Text(
+          name,
+          style:
+          const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+        ),
+      ],
+    );
+  }
+  Widget _textFormDateUser ({
+      String? initialValue, void Function(String)? onChanged, String? label}){
+    return TextFormField(
+      initialValue: initialValue,
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        filled: true,
+        //isCollapsed: true,
+        fillColor: AppColors.fillColor,
+        border: OutlineInputBorder(
+            borderSide:
+            const BorderSide(color: AppColors.borderGray),
+            borderRadius: BorderRadius.circular(8)),
+        labelText: label,
+      ),
+    );
+  }
 }
+

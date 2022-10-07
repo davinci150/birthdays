@@ -50,7 +50,8 @@ class ContactsRepository {
         name: userModel.name!,
         avatar: userModel.avatar,
         id: userModel.id!,
-        date: userModel.date!));
+        date: userModel.date!,
+        phone: userModel.phone!));
 
     notificationService.scheduleNotification(
         userId, userModel.date!, 'День рождения у ${userModel.name}');
@@ -95,13 +96,13 @@ class ContactsRepository {
 
     Future<void> editUser(UserModel user) async{
     await deleteContact(user.id!);
-    await _saveUser(User(name: user.name!, id: user.id!, date: user.date!));
+    await _saveUser(User(name: user.name!, id: user.id!, date: user.date!, phone: user.phone!));
     }
 
   Future<void> _saveUser(User user) async {
     final box = await BoxManager.instance.openUserBox();
     final group = User(
-        name: user.name, avatar: user.avatar, id: user.id, date: user.date);
+        name: user.name, avatar: user.avatar, id: user.id, date: user.date, phone: user.phone);
     await box.add(group);
     await BoxManager.instance.closeBox(box);
   }

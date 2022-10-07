@@ -40,11 +40,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   final radiusAvatar = 60.0;
   String? date;
+  String? phone;
   //Contact? contact;
 
   @override
   Widget build(BuildContext context) {
     date = DateFormat('d MMM yyyy').format(user.date!);
+    phone = user.phone;
     return Scaffold(
       backgroundColor: AppColors.mortar,
       appBar: CustomAppBar(
@@ -109,8 +111,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         '$date'
                       ),
                       const SizedBox(height: 20),
-                      _userDataItem(CustomIcons.phone,
-                        ''
+                        _userDataItem(CustomIcons.phone,
+                        phone != null ?
+                        '$phone' : 'number not defined',
                         //contact?.phones?.first.value ?? '',
                       ),
                     ],
@@ -125,20 +128,25 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
   Widget _userDataItem(IconData icon, String text){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon,
-        size: 40,),
-        const SizedBox(width: 20),
-       // if ((contact?.phones ?? []).isEmpty)
-        Text(text,
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w400,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon,
+          size: 40,),
+          const SizedBox(width: 20),
+         // if ((contact?.phones ?? []).isEmpty)
+          Expanded(
+            child: Text(text,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

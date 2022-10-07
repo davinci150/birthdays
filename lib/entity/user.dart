@@ -5,7 +5,7 @@ part 'user.g.dart';
 
 @HiveType(typeId: 1)
 class User extends HiveObject {
-  User({required this.name, this.avatar, required this.id, required this.date});
+  User({required this.name, this.avatar, required this.id, required this.date, required this.phone});
 
   @HiveField(0)
   String name;
@@ -18,4 +18,7 @@ class User extends HiveObject {
 
   @HiveField(3)
   int id;
+
+  @HiveField(4)
+  String phone;
 }
