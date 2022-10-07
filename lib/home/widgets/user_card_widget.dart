@@ -4,21 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/user_model.dart';
-import 'last_birthday_widget.dart';
 import 'user_avatar_wdget.dart';
 
 class UserCard extends StatelessWidget {
   const UserCard(
       {required this.userModel,
       required this.avatarColor,
-        required this.showLastBirthday,
       //required this.avatarCallback,
       Key? key})
       : super(key: key);
 
   final UserModel userModel;
   final Color avatarColor;
-  final bool showLastBirthday;
 
   //final void Function(LongPressDownDetails details) avatarCallback;
 
@@ -30,13 +27,6 @@ class UserCard extends StatelessWidget {
     final now = DateTime.now();
     if (userModel.date != null) {
       date = DateFormat('d MMM yyyy').format(userModel.date!);
-      //
-      // final birhData =
-      //     DateTime(now.year, userModel.date!.month, userModel.date!.day);
-      //
-      // dueData = DateTimeUtils.daysAgo(birhData.isBefore(now)
-      //     ? DateTime(now.year + 1, userModel.date!.month, userModel.date!.day)
-      //     : DateTime(now.year, userModel.date!.month, userModel.date!.day));
       age = now.year - userModel.date!.year;
     }
     return Container(
@@ -83,8 +73,6 @@ class UserCard extends StatelessWidget {
                         color: Colors.black,
                         fontSize: 20,
                         fontWeight: FontWeight.w400)),
-                if (showLastBirthday) ...[
-                  LastBirthdayWidget(userModel: userModel)],
               ],
             )
           ],

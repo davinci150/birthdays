@@ -71,7 +71,6 @@ class _ContactsPageState extends State<ContactsPage> {
   void initState() {
     repository = ContactsRepository.instance;
     getContacts();
-    //users = repository.listUsers as List<ContactsRepository>;
     super.initState();
   }
 

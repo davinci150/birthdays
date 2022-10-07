@@ -10,14 +10,11 @@ class ListViewWidget extends StatelessWidget {
   const ListViewWidget({
     Key? key,
     required this.listUser,
-    required this.lastBirthday,
     //required this.onClickDelete,
   }) : super(key: key);
   final List<UserModel> listUser;
-  final bool lastBirthday;
 
   //final void Function(int) onClickDelete;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,19 +31,19 @@ class ListViewWidget extends StatelessWidget {
           itemCount: listUser.length,
           itemBuilder: (ctx, itemIndex, pageViewIndex) {
             final user = listUser[itemIndex];
-            return InkWell(
+           return  InkWell(
               onTap: () {
                 Navigator.push<void>(
                     context,
                     MaterialPageRoute(
                         builder: (context) => UserProfilePage(id: user.id!)));
               },
-              child: UserCard(
-                avatarColor: Colors.white,
-                userModel: user,
-                showLastBirthday: lastBirthday,
-              ),
+               child: UserCard(
+                 avatarColor: Colors.white,
+                 userModel: user,
+               ),
             );
+
           },
           options: CarouselOptions(
             viewportFraction: 0.79,

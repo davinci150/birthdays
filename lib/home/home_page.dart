@@ -32,8 +32,6 @@ class _MyHomePageState extends State<MyHomePage> {
     controller = PageController();
     searchTextController = TextEditingController();
     repository = ContactsRepository.instance;
-    lastBirthday = true;
-    setState((){});
     super.initState();
   }
 
@@ -48,14 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
             IconButton(
                 onPressed: () {
                   Navigator.of(context).push<void>(
-                      MaterialPageRoute(builder: (context) =>  SettingsPage(
-                        showLastBirthday: (value) {
-                          setState((){
-                            lastBirthday = value;
-                          });
-                          },
-                        lastBirthday: lastBirthday,
-                      )));
+                      MaterialPageRoute(builder: (context) => const SettingsPage()));
                   //final time = DateTime.now().add(const Duration(seconds: 2));
                   //final time2 = DateTime.now().add(const Duration(seconds: 4));
                   //notificationService.scheduleNotification(time, 'Test');
@@ -85,8 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 controller: controller,
                 children: [
-                   ListViewWidget(
-                     lastBirthday: lastBirthday,
+                  ListViewWidget(
                     // onClickDelete: (index) {
                     //   repository.deleteContact(index);
                     // },
