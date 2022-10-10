@@ -193,7 +193,9 @@ class _ContactsPageState extends State<ContactsPage> {
                                 avatar: contact?.avatar,
                                 name: contact?.displayName,
                                 date: contact?.birthday,
-                                phone: contact?.phones?.single.value),)),
+                                phone: (contact?.phones ?? []).isNotEmpty ?
+                                (contact?.phones?.first.value  ?? '') : ''
+                            ),)),
                 );
               },
               child: const Icon(

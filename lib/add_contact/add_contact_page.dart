@@ -57,6 +57,7 @@ class _AddContacPageState extends State<AddContacPage> {
 
   void addUser() {
     userModel.date != null && (userModel.name ?? '').isNotEmpty
+      && (userModel.phone ?? '').isNotEmpty
         ? repository.addUser(userModel)
         : null;
     Navigator.of(context).pop(userModel);
@@ -132,8 +133,9 @@ class _AddContacPageState extends State<AddContacPage> {
                 ),
                 _textFormDateUser(
                   initialValue: userModel.phone,
-                  onChanged: (name){
-                    userModel = userModel.copyWith(phone: name);
+                  onChanged: (phone){
+                    userModel = userModel.copyWith(phone: phone);
+                    setState((){});
                   },
                   label: 'Phone number'
                 ),
@@ -168,6 +170,7 @@ class _AddContacPageState extends State<AddContacPage> {
           text: 'Save',
           onTap: () {
             widget.isEditor ? editUser(userModel) : addUser();
+            setState((){});
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
