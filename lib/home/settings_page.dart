@@ -8,7 +8,8 @@ import '../widgets/app_bar.dart';
 import 'widgets/time_of_day_picker_widget.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key,
+  const SettingsPage({
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -22,8 +23,10 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     getTime().then((value) {
-      notificationTime = value!;
-      setState(() {});
+      if (value != null) {
+        notificationTime = value;
+        setState(() {});
+      }
     });
     super.initState();
   }
@@ -147,12 +150,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           ? const Color.fromRGBO(232, 161, 24, 1)
                           : Colors.black,
                       value: isShowUser,
-                      onChanged: (settings){
-                        setState((){
+                      onChanged: (settings) {
+                        setState(() {
                           isShowUser = settings;
                         });
-                      }
-                          ),
+                      }),
                 ),
               ],
             ),
