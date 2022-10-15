@@ -78,28 +78,31 @@ class _AddContacPageState extends State<AddContacPage> {
         backgroundColor: AppColors.mortar,
         appBar: const CustomAppBar(),
         body: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 27.0),
-                child: Text(
-                  !widget.isEditor ? 'Add contact' : 'Edit contact',
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700),
-                ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 27.0),
+                    child: Text(
+                      !widget.isEditor ? 'Add contact' : 'Edit contact',
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 30,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.8,
                 padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                 decoration: const BoxDecoration(
                     borderRadius:
@@ -167,19 +170,19 @@ class _AddContacPageState extends State<AddContacPage> {
                         //log(DateFormat('yyyy MMM dd').format(date).toString());
                         userModel = userModel.copyWith(date: date);
                       }),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
+                  MaterialButtonWidget(
+                      text: 'Save',
+                      onTap: () {
+                        widget.isEditor ? editUser(userModel) : addUser();
+                        setState(() {});
+                      }),
+                  SizedBox(height: MediaQuery.of(context).padding.bottom + 20),
                 ]),
               ),
             ],
           ),
         ),
-        floatingActionButton: MaterialButtonWidget(
-            text: 'Save',
-            onTap: () {
-              widget.isEditor ? editUser(userModel) : addUser();
-              setState(() {});
-            }),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }
