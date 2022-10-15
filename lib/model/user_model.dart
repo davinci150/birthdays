@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
+
 class UserModel extends Equatable {
   const UserModel({
     this.name,
@@ -29,7 +30,6 @@ class UserModel extends Equatable {
       name: name ?? this.name,
       date: date ?? this.date,
       phone: phone ?? this.phone,
-
     );
   }
 
@@ -44,7 +44,7 @@ class UserModel extends Equatable {
 
   @override
   String toString() {
-    return 'User(name: $name, id: $id)';
+    return 'User(name: $name, id: $id, phone: $phone)';
   }
 }
 

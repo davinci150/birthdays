@@ -35,8 +35,9 @@ class ContactsRepository {
 
     return uid + 1;
   }
-  UserModel getById(int id){
-    return listUsers.value.firstWhere((user) => user.id==id);
+
+  UserModel getById(int id) {
+    return listUsers.value.firstWhere((user) => user.id == id);
   }
 
   void addUser(UserModel model) {
@@ -75,7 +76,11 @@ class ContactsRepository {
     final List<UserModel> list = [];
     for (final user in listUserModel) {
       final us = UserModel(
-          name: user.name, date: user.date, avatar: user.avatar, id: user.id);
+          name: user.name,
+          date: user.date,
+          avatar: user.avatar,
+          id: user.id,
+          phone: user.phone);
       list.add(us);
     }
     listUsers.sink.add(list);
@@ -94,15 +99,20 @@ class ContactsRepository {
     await notificationService.cancelNotification(id);
   }
 
-    Future<void> editUser(UserModel user) async{
+  Future<void> editUser(UserModel user) async {
     await deleteContact(user.id!);
-    await _saveUser(User(name: user.name!, id: user.id!, date: user.date!, phone: user.phone!));
-    }
+    await _saveUser(User(
+        name: user.name!, id: user.id!, date: user.date!, phone: user.phone!));
+  }
 
   Future<void> _saveUser(User user) async {
     final box = await BoxManager.instance.openUserBox();
     final group = User(
-        name: user.name, avatar: user.avatar, id: user.id, date: user.date, phone: user.phone);
+        name: user.name,
+        avatar: user.avatar,
+        id: user.id,
+        date: user.date,
+        phone: user.phone);
     await box.add(group);
     await BoxManager.instance.closeBox(box);
   }

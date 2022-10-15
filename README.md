@@ -5,7 +5,7 @@ A new Flutter project.
 ## Getting Started
 
 #Generate entity
-flutter packages pub run build_runner watch 
+flutter packages pub run build_runner watch --delete-conflicting-outputs
 
 This project is a starting point for a Flutter application.
 
