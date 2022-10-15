@@ -25,13 +25,17 @@ class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController searchTextController;
   late ContactsRepository repository;
   String searchText = '';
-  ValueNotifier<int> selectedBottomIndex = ValueNotifier(0);
+  ValueNotifier<double> selectedBottomIndex = ValueNotifier(0);
 
   @override
   void initState() {
-    controller = PageController();
+    controller = PageController()
+      ..addListener(() {
+        selectedBottomIndex.value = controller.page ?? 0;
+      });
     searchTextController = TextEditingController();
     repository = ContactsRepository.instance;
+
     super.initState();
   }
 
@@ -45,8 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.of(context).push<void>(
-                      MaterialPageRoute(builder: (context) => const SettingsPage()));
+                  Navigator.of(context).push<void>(MaterialPageRoute(
+                      builder: (context) => const SettingsPage()));
                   //final time = DateTime.now().add(const Duration(seconds: 2));
                   //final time2 = DateTime.now().add(const Duration(seconds: 4));
                   //notificationService.scheduleNotification(time, 'Test');
@@ -71,16 +75,16 @@ class _MyHomePageState extends State<MyHomePage> {
             builder: (context, snapshot) {
               log((snapshot.data?.map((e) => e.toString()) ?? '').toString());
               return PageView(
-                onPageChanged: (value) {
-                  selectedBottomIndex.value = value;
-                },
+                // onPageChanged: (value) {
+                //   selectedBottomIndex.value = value;
+                // },
                 controller: controller,
                 children: [
                   ListViewWidget(
                     // onClickDelete: (index) {
                     //   repository.deleteContact(index);
                     // },
-                   listUser: snapshot.data ?? [],
+                    listUser: snapshot.data ?? [],
                   ),
                   CalendarViewWidget(
                     listUser: snapshot.data ?? [],
@@ -88,20 +92,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               );
             }),
-        bottomNavigationBar: ValueListenableBuilder<int>(
+        bottomNavigationBar: ValueListenableBuilder<double>(
             valueListenable: selectedBottomIndex,
             builder: (ctx, value, _) {
               return BottomBarWidget(
                 selectedIndex: value,
                 onChange: (index) {
-                  selectedBottomIndex.value = index;
+                  //selectedBottomIndex.value = index;
                   controller.animateTo(
                       index * MediaQuery.of(context).size.width,
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.ease);
                 },
               );
-            })
-    );
+            }));
   }
 }
