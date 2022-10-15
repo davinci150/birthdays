@@ -49,19 +49,15 @@ class _ContactsPageState extends State<ContactsPage> {
   }
 
   final controller = TextEditingController();
-  //late List<ContactsRepository> users;
 
   void searchUser(String query) {
     if (query.isNotEmpty) {
-      listContact = listContact
-          .where((element) =>
-              element.displayName!
-                  .toLowerCase()
-                  .contains(query.toLowerCase()) ||
-              element.phones!.first.value!
-                  .toLowerCase()
-                  .contains(query.toLowerCase()))
-          .toList();
+      listContact = _contacts!.where((element) {
+        final phone = (element.phones ?? []).first.value ?? '';
+        final name = element.displayName ?? '';
+        return name.toLowerCase().contains(query.toLowerCase()) ||
+            phone.toLowerCase().contains(query.toLowerCase());
+      }).toList();
     } else {
       listContact = _contacts!.toList();
     }
@@ -193,9 +189,10 @@ class _ContactsPageState extends State<ContactsPage> {
                                 avatar: contact?.avatar,
                                 name: contact?.displayName,
                                 date: contact?.birthday,
-                                phone: (contact?.phones ?? []).isNotEmpty ?
-                                (contact?.phones?.first.value  ?? '') : ''
-                            ),)),
+                                phone: (contact?.phones ?? []).isNotEmpty
+                                    ? (contact?.phones?.first.value ?? '')
+                                    : ''),
+                          )),
                 );
               },
               child: const Icon(
