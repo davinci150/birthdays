@@ -56,139 +56,147 @@ class _AddContacPageState extends State<AddContacPage> {
   }
 
   void addUser() {
-    userModel.date != null && (userModel.name ?? '').isNotEmpty
-      && (userModel.phone ?? '').isNotEmpty
-        ? repository.addUser(userModel)
-        : null;
-    Navigator.of(context).pop(userModel);
+    if (userModel.date != null &&
+        (userModel.name ?? '').isNotEmpty &&
+        (userModel.phone ?? '').isNotEmpty) {
+      repository.addUser(userModel);
+      Navigator.of(context).pop(userModel);
+    }
+    //
+    else {
+      //TODO: show error fields
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    log((userModel.date ?? '').toString());
-    return Scaffold(
-      backgroundColor: AppColors.mortar,
-      appBar: const CustomAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 27.0),
-              child: Text(
-                !widget.isEditor ? 'Add contact' : 'Edit contact',
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.mortar,
+        appBar: const CustomAppBar(),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                height: 10,
               ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.8,
-              padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(51)),
-                  color: Colors.white),
-              child: Column(children: [
-                const SizedBox(
-                  height: 5,
+              Padding(
+                padding: const EdgeInsets.only(left: 27.0),
+                child: Text(
+                  !widget.isEditor ? 'Add contact' : 'Edit contact',
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700),
                 ),
-                CustomAvatar(
-                    userModel: userModel,
-                    onChanged: () async {
-                      final avatar = await ImageUtils().setImage();
-                      if (avatar != null) {
-                        userModel = userModel.copyWith(avatar: avatar);
-                      }
-                      setState(() {});
-                    }),
-                const SizedBox(
-                  height: 10,
-                ),
-                _nameTextFormDateUser('Name'),
-                const SizedBox(
-                  height: 8,
-                ),
-                _textFormDateUser(
-                  initialValue: userModel.name,
-                  onChanged: (name) {
-                    userModel = userModel.copyWith(name: name);
-                    setState((){});
-                  },
-                  label: 'Full Name'
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                _nameTextFormDateUser('Phone'),
-                const SizedBox(
-                  height: 8,
-                ),
-                _textFormDateUser(
-                  initialValue: userModel.phone,
-                  onChanged: (phone){
-                    userModel = userModel.copyWith(phone: phone);
-                    setState((){});
-                  },
-                  label: 'Phone number'
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: const [
-                    Text(
-                      'Select date',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                DatePickerWidget(
-                    initDate: userModel.date,
-                    onDateTimeChanged: (date) {
-                      //log(DateFormat('yyyy MMM dd').format(date).toString());
-                      userModel = userModel.copyWith(date: date);
-                    }),
-                const SizedBox(height: 20),
-              ]),
-            ),
-          ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.8,
+                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                decoration: const BoxDecoration(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(51)),
+                    color: Colors.white),
+                child: Column(children: [
+                  const SizedBox(
+                    height: 26,
+                  ),
+                  CustomAvatar(
+                      userModel: userModel,
+                      onChanged: () async {
+                        final avatar = await ImageUtils().setImage();
+                        if (avatar != null) {
+                          userModel = userModel.copyWith(avatar: avatar);
+                        }
+                        setState(() {});
+                      }),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _nameTextFormDateUser('Name'),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  _textFormDateUser(
+                      initialValue: userModel.name,
+                      onChanged: (name) {
+                        userModel = userModel.copyWith(name: name);
+                        setState(() {});
+                      },
+                      label: 'Full Name'),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  _nameTextFormDateUser('Phone'),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  _textFormDateUser(
+                      initialValue: userModel.phone,
+                      onChanged: (phone) {
+                        userModel = userModel.copyWith(phone: phone);
+                        setState(() {});
+                      },
+                      label: 'Phone number'),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: const [
+                      Text(
+                        'Select date',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  DatePickerWidget(
+                      initDate: userModel.date,
+                      onDateTimeChanged: (date) {
+                        //log(DateFormat('yyyy MMM dd').format(date).toString());
+                        userModel = userModel.copyWith(date: date);
+                      }),
+                  const SizedBox(height: 20),
+                ]),
+              ),
+            ],
+          ),
         ),
+        floatingActionButton: MaterialButtonWidget(
+            text: 'Save',
+            onTap: () {
+              widget.isEditor ? editUser(userModel) : addUser();
+              setState(() {});
+            }),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      floatingActionButton: MaterialButtonWidget(
-          text: 'Save',
-          onTap: () {
-            widget.isEditor ? editUser(userModel) : addUser();
-            setState((){});
-          }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
-  Widget _nameTextFormDateUser(String name){
+  Widget _nameTextFormDateUser(String name) {
     return Row(
       children: [
         Text(
           name,
-          style:
-          const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
       ],
     );
   }
-  Widget _textFormDateUser ({
-      String? initialValue, void Function(String)? onChanged, String? label}){
+
+  Widget _textFormDateUser(
+      {String? initialValue, void Function(String)? onChanged, String? label}) {
     return TextFormField(
       initialValue: initialValue,
       onChanged: onChanged,
@@ -197,12 +205,10 @@ class _AddContacPageState extends State<AddContacPage> {
         //isCollapsed: true,
         fillColor: AppColors.fillColor,
         border: OutlineInputBorder(
-            borderSide:
-            const BorderSide(color: AppColors.borderGray),
+            borderSide: const BorderSide(color: AppColors.borderGray),
             borderRadius: BorderRadius.circular(8)),
         labelText: label,
       ),
     );
   }
 }
-

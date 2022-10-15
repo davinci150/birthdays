@@ -102,7 +102,11 @@ class ContactsRepository {
   Future<void> editUser(UserModel user) async {
     await deleteContact(user.id!);
     await _saveUser(User(
-        name: user.name!, id: user.id!, date: user.date!, phone: user.phone!));
+        name: user.name!,
+        id: user.id!,
+        date: user.date!,
+        avatar: user.avatar,
+        phone: user.phone!));
   }
 
   Future<void> _saveUser(User user) async {
