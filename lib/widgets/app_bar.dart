@@ -17,22 +17,26 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      actions:actions,
-      title: child,
+        actions: actions,
+        title: child,
         backgroundColor: AppColors.mortar,
         elevation: 0,
-        leading: InkWell(
-            onTap: () => Navigator.pop(context),
-            child: Container(
-              margin: const EdgeInsets.only(left: 17),
-                padding: const EdgeInsets.all(0),
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle, color: AppColors.white),
-                child: const Icon(
-                  Icons.arrow_back_rounded,
-                  size: 35,
-                  color: AppColors.codGray,
-                )))
-    );
+        leading: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 8, 4, 8),
+            child: Material(
+              borderRadius: BorderRadius.circular(100),
+              child: InkWell(
+                splashColor: AppColors.mortar,
+                borderRadius: BorderRadius.circular(100),
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                    decoration: const BoxDecoration(shape: BoxShape.circle),
+                    child: const Icon(
+                      Icons.arrow_back_rounded,
+                      size: 26,
+                      color: AppColors.codGray,
+                    )),
+              ),
+            )));
   }
 }
