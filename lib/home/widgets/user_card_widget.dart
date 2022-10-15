@@ -1,5 +1,3 @@
-import 'dart:core';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -7,22 +5,15 @@ import '../../model/user_model.dart';
 import 'user_avatar_wdget.dart';
 
 class UserCard extends StatelessWidget {
-  const UserCard(
-      {required this.userModel,
-      required this.avatarColor,
-      //required this.avatarCallback,
-      Key? key})
+  const UserCard({required this.userModel, required this.avatarColor, Key? key})
       : super(key: key);
 
   final UserModel userModel;
   final Color avatarColor;
 
-  //final void Function(LongPressDownDetails details) avatarCallback;
-
   @override
   Widget build(BuildContext context) {
     String? date;
-    //String? dueData;
     int? age;
     final now = DateTime.now();
     if (userModel.date != null) {
@@ -34,47 +25,41 @@ class UserCard extends StatelessWidget {
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(19))),
-        // padding: const EdgeInsets.fromLTRB(18, 12, 0, 9),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            //GestureDetector(
-            //onLongPressDown: avatarCallback,
-            //child:
-            const SizedBox(height: 6),
-            UserAvatar(
-              user: userModel,
-            ),
-            // ),
-            const SizedBox(
-              height: 15,
-            ),
             Column(
               children: [
+                const SizedBox(height: 20),
+                UserAvatar(
+                  radius: 60,
+                  user: userModel,
+                ),
+                const SizedBox(height: 20),
                 Text(
                   userModel.name ?? '',
                   style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 32,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 20),
                 Text('$age years',
-                    // dueData!.contains(RegExp('[0-9]'))
-                    //     ? 'Via $dueData days ${age ?? '??'} age'
-                    //     : dueData,
                     style: const TextStyle(
                         color: Colors.black,
-                        fontSize: 36,
-                        fontWeight: FontWeight.w400)),
-                const SizedBox(height: 15),
-                Text('Birthdays: ${date ?? '??'}',
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
+                        fontSize: 32,
                         fontWeight: FontWeight.w400)),
               ],
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+              child: Text('Birthdays: ${date ?? '??'}',
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400)),
+            ),
           ],
         ));
     //);
