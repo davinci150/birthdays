@@ -37,6 +37,17 @@ class _UserProfilePageState extends State<UserProfilePage> {
     Navigator.pop(context);
     Navigator.pop(context);
   }
+  Future<void> openEditUser()async{
+    final dynamic userModel = await Navigator.of(context).push<dynamic>(
+        MaterialPageRoute<dynamic>(
+            builder: (context) =>
+                AddContacPage.edit(
+                    userModel: user)));
+    if (userModel is UserModel){
+      user = userModel;
+      setState((){});
+    }
+  }
 
   final radiusAvatar = 60.0;
   String? date;
@@ -52,16 +63,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
       appBar: CustomAppBar(
         actions: [
           IconButton(
-            onPressed: () async {
-          final dynamic userModel = await Navigator.of(context).push<dynamic>(
-              MaterialPageRoute<dynamic>(
-              builder: (context) =>AddContacPage.edit(
-                 userModel: user) ));
-          if (userModel is UserModel) {
-            user = userModel;
-            setState((){});
-          }
-            },
+            onPressed:openEditUser,
             icon: const Icon(Icons.edit_outlined, size: 27.5,),
           ),
           IconButton(
@@ -94,29 +96,37 @@ class _UserProfilePageState extends State<UserProfilePage> {
             child: Column(
               children: [
                 Expanded(
-                  child: Column(
-                    children: [
-                      SizedBox(height: radiusAvatar),
-                      Text(
-                        user.name ?? '',
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 32,
-                          fontWeight: FontWeight.w400,
+                  child: Padding(
+                    padding: ((phone ?? '').isNotEmpty) ? const EdgeInsets.symmetric(horizontal: 30)
+                        : const EdgeInsets.symmetric(horizontal: 48),
+                    child: Column(
+                      children: [
+                        SizedBox(height: radiusAvatar),
+                        Text(
+                          user.name ?? '',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 32,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 30),
-                      _userDataItem(
-                        CustomIcons.pieIcon,
-                        '$date'
-                      ),
-                      const SizedBox(height: 20),
-                        _userDataItem(CustomIcons.phone,
-                        phone != null ?
-                        '$phone' : 'number not defined',
-                        //contact?.phones?.first.value ?? '',
-                      ),
-                    ],
+                        const SizedBox(height: 30),
+                        _userDataItem(
+                          CustomIcons.pieIcon,
+                          '$date'
+                        ),
+                        const SizedBox(height: 20),
+                        if ((phone ?? '').isNotEmpty)
+                          _userDataItem(CustomIcons.phone, '$phone')
+                        else InkWell(
+                            onTap: openEditUser,
+                            child: const Text('Please, enter for number!',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16
+                            ),)),
+                      ],
+                    ),
                   ),
                 ),
                 _customNavigationBar(),
