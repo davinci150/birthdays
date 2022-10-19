@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import '../contacts_repository.dart';
@@ -35,7 +33,7 @@ class AddContacPage extends StatefulWidget {
 class _AddContacPageState extends State<AddContacPage> {
   late ContactsRepository repository;
   late UserModel userModel;
-
+  final _formKeyName = GlobalKey<FormState>();
   @override
   void initState() {
     if (widget.userModel != null) {
@@ -57,14 +55,13 @@ class _AddContacPageState extends State<AddContacPage> {
 
   void addUser() {
     if (userModel.date != null &&
-        (userModel.name ?? '').isNotEmpty &&
-        (userModel.phone ?? '').isNotEmpty) {
+        (userModel.name ?? '').isNotEmpty) {
       repository.addUser(userModel);
       Navigator.of(context).pop(userModel);
     }
     //
-    else {
-      //TODO: show error fields
+    else if (_formKeyName.currentState!.validate()){
+      return;
     }
   }
 
@@ -128,13 +125,22 @@ class _AddContacPageState extends State<AddContacPage> {
                   const SizedBox(
                     height: 8,
                   ),
-                  _textFormDateUser(
-                      initialValue: userModel.name,
-                      onChanged: (name) {
-                        userModel = userModel.copyWith(name: name);
-                        setState(() {});
-                      },
-                      label: 'Full Name'),
+                  Form(
+                    key: _formKeyName,
+                    child: _textFormDateUser(
+                      validator: (name){
+                        if ((name ?? '').isEmpty) {
+                          return 'Name is required';
+                        }
+                          return null;
+                      } ,
+                        initialValue: userModel.name,
+                        onChanged: (name) {
+                          userModel = userModel.copyWith(name: name);
+                          setState(() {});
+                        },
+                        label: 'Full Name'),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -199,10 +205,11 @@ class _AddContacPageState extends State<AddContacPage> {
   }
 
   Widget _textFormDateUser(
-      {String? initialValue, void Function(String)? onChanged, String? label}) {
+      {String? initialValue, void Function(String)? onChanged, String? label, String? Function(String?)? validator }) {
     return TextFormField(
       initialValue: initialValue,
       onChanged: onChanged,
+      validator: validator,
       decoration: InputDecoration(
         filled: true,
         //isCollapsed: true,
