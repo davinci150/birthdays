@@ -26,40 +26,34 @@ class UserCard extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(19))),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                const SizedBox(height: 20),
-                UserAvatar(
-                  radius: 60,
-                  user: userModel,
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  userModel.name ?? '',
-                  style: const TextStyle(
+            const SizedBox(height: 15),
+            UserAvatar(
+              radius: 50,
+              user: userModel,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              userModel.name ?? '',
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 32,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text('$age years',
+                style: const TextStyle(
                     color: Colors.black,
                     fontSize: 32,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Text('$age years',
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 32,
-                        fontWeight: FontWeight.w400)),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-              child: Text('Birthdays: ${date ?? '??'}',
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400)),
-            ),
+                    fontWeight: FontWeight.w400)),
+            const SizedBox(height: 10),
+            Text('Birthdays: ${date ?? '??'}',
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400)),
           ],
         ));
     //);

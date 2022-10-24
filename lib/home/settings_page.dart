@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import '../dao/time.dart';
 import '../presentation/colors.dart';
 import '../widgets/app_bar.dart';
-import 'widgets/time_of_day_picker_widget.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({
@@ -17,73 +16,20 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  TimeOfDay notificationTime = const TimeOfDay(hour: 9, minute: 0);
-  final String timeKey = 'timeKey';
+  TimeUtils time = TimeUtils();
   bool isShowUser = true;
   @override
   void initState() {
-    getTime().then((value) {
+   time.getTime().then((value) {
       if (value != null) {
-        notificationTime = value;
+        time.notificationTime = value;
         setState(() {});
       }
     });
     super.initState();
   }
 
-  Future<void> _selectTime(BuildContext context) async {
-    return showDialog<void>(
-        context: context,
-        builder: (context) {
-          TimeOfDay selectedTime = notificationTime;
-          return CustomDialog(
-            content: TimeOfDayPicker(
-              onDateTimeChanged: (TimeOfDay timeOfDay) {
-                selectedTime = timeOfDay;
-              },
-              initDate: notificationTime,
-            ),
-            onTapOk: () {
-              saveTime(selectedTime);
-              Navigator.pop(context);
-            },
-          );
-        });
-  }
 
-  Future<void> saveTime(TimeOfDay timeOfDay) async {
-    final pref = await SharedPreferences.getInstance();
-    notificationTime = timeOfDay;
-    // final time = timeOfDayToString();
-    await pref.setString(
-        timeKey, '${notificationTime.hour}:${notificationTime.minute}');
-    setState(() {});
-  }
-
-  // Future<void> initTime() async {
-  //   final pref = await SharedPreferences.getInstance();
-  //   final String? initTime = pref.getString(timeKey);
-  //   if (initTime != null && initTime.isNotEmpty) {
-  //     notificationTime = TimeOfDay(
-  //         hour: int.parse(initTime.split(':')[0]),
-  //         minute: int.parse(initTime.split(':')[1]));
-  //   }
-  //   setState(() {});
-  // }
-
-  Future<TimeOfDay?> getTime() async {
-    final pref = await SharedPreferences.getInstance();
-    final String? initTime = pref.getString(timeKey);
-    if (initTime != null && initTime.isNotEmpty) {
-      return notificationTime = TimeOfDay(
-          hour: int.parse(initTime.split(':')[0]),
-          minute: int.parse(initTime.split(':')[1]));
-    }
-  }
-
-  String timeOfDayToString(TimeOfDay time) {
-    return '${time.hour}:${time.minute}';
-  }
 
   //TimeOfDay timeOfDayFromString(String time) {}
 
@@ -116,10 +62,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    _selectTime(context);
+                    setState((){
+                      time.selectTime(context);
+                    });
                   },
                   child: Text(
-                    notificationTime.format(context),
+                    time.notificationTime.format(context),
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
