@@ -9,11 +9,21 @@ class CustomAvatar extends StatelessWidget {
     required this.userModel,
     this.radius = 60,
     this.onChanged,
-  }) : super(key: key);
+  }) :  isEmpty = false,
+        super(key: key);
+
+  const CustomAvatar.empty({
+    Key? key,
+    required this.userModel,
+    this.radius = 60,
+    this.onChanged,
+})  :   isEmpty = true,
+        super(key: key);
   
   final UserModel userModel;
   final double radius;
   final VoidCallback? onChanged;
+  final bool isEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +42,7 @@ class CustomAvatar extends StatelessWidget {
               user: userModel,
               radius: radius,
             )),
+        if (! isEmpty)
         GestureDetector(
             onTap: onChanged,
             child: Container(

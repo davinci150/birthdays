@@ -6,6 +6,7 @@ import '../contacts_repository.dart';
 import '../icons/custom_icons.dart';
 import '../model/user_model.dart';
 import '../presentation/colors.dart';
+import '../utils/phone_utils.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/custom_avatar.dart';
 
@@ -24,6 +25,7 @@ class UserProfilePage extends StatefulWidget {
 class _UserProfilePageState extends State<UserProfilePage> {
   late ContactsRepository repository;
   late UserModel user;
+   PhoneUtils phoneUtils = PhoneUtils();
 
   @override
   void initState() {
@@ -47,6 +49,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
       user = userModel;
       setState((){});
     }
+  }
+  void openPhoneCallAndSms(String? scheme){
+    phoneUtils.makingPhoneCallandSms(
+      scheme: scheme,
+      path: '$phone'
+    );
   }
 
   final radiusAvatar = 60.0;
@@ -82,7 +90,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
         alignment: Alignment.topCenter,
         children: [
           Container(
-            margin: EdgeInsets.only(top: radiusAvatar),
+            margin: EdgeInsets.only(top: radiusAvatar + 8.5),
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(
@@ -90,7 +98,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               ),
             ),
           ),
-          CustomAvatar(userModel: user),
+          CustomAvatar.empty(userModel: user),
           Padding(
             padding: EdgeInsets.only(top: radiusAvatar * 2, bottom: 20),
             child: Column(
@@ -165,11 +173,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         InkWell(
-          onTap: () {},
+          onTap:() => openPhoneCallAndSms('tel'),
           child: const Icon(CustomIcons.phone),
         ),
         InkWell(
-          onTap: () {},
+          onTap: () => openPhoneCallAndSms('sms') ,
           child:const  Icon(CustomIcons.message),
         ),
         InkWell(

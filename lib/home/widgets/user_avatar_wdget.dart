@@ -30,7 +30,7 @@ class UserAvatar extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Image.asset(
                   listImage[avatarFromName(user.name!, listImage.length)],
-                  height: radius*2 - 5,
+                  height: radius * 2 -5,
                 ),
               )
             ],
