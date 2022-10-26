@@ -25,7 +25,7 @@ class UserProfilePage extends StatefulWidget {
 class _UserProfilePageState extends State<UserProfilePage> {
   late ContactsRepository repository;
   late UserModel user;
-   PhoneUtils phoneUtils = PhoneUtils();
+  UriLauncher phoneUtils = UriLauncher();
 
   @override
   void initState() {
@@ -34,27 +34,27 @@ class _UserProfilePageState extends State<UserProfilePage> {
     super.initState();
   }
 
-  void deleteUser(){
+  void deleteUser() {
     repository.deleteContact(widget.id);
     Navigator.pop(context);
     Navigator.pop(context);
   }
-  Future<void> openEditUser()async{
+  Future<void> openEditUser() async {
     final dynamic userModel = await Navigator.of(context).push<dynamic>(
         MaterialPageRoute<dynamic>(
             builder: (context) =>
                 AddContacPage.edit(
                     userModel: user)));
-    if (userModel is UserModel){
+    if (userModel is UserModel) {
       user = userModel;
-      setState((){});
+      setState(() {});
     }
   }
-  void openPhoneCallAndSms(String? scheme){
-    phoneUtils.makingPhoneCallandSms(
-      scheme: scheme,
-      path: '$phone'
-    );
+  void launchCall(String phone){
+    phoneUtils.call(phone);
+  }
+  void launchSms(String phone){
+    phoneUtils.sms(phone);
   }
 
   final radiusAvatar = 60.0;
@@ -71,15 +71,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
       appBar: CustomAppBar(
         actions: [
           IconButton(
-            onPressed:openEditUser,
+            onPressed: openEditUser,
             icon: const Icon(Icons.edit_outlined, size: 27.5,),
           ),
           IconButton(
             padding: const EdgeInsets.only(right: 17),
-            onPressed: (){
+            onPressed: () {
               showDialog<dynamic>(
                 context: context,
-                builder: (context) =>  CustomAlertDialog(onPressed: deleteUser),
+                builder: (context) => CustomAlertDialog(onPressed: deleteUser),
               );
             },
             icon: const Icon(CustomIcons.userDelete),
@@ -105,7 +105,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: ((phone ?? '').isNotEmpty) ? const EdgeInsets.symmetric(horizontal: 30)
+                    padding: ((phone ?? '').isNotEmpty) ? const EdgeInsets
+                        .symmetric(horizontal: 30)
                         : const EdgeInsets.symmetric(horizontal: 48),
                     child: Column(
                       children: [
@@ -120,19 +121,19 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         ),
                         const SizedBox(height: 30),
                         _userDataItem(
-                          CustomIcons.pieIcon,
-                          '$date'
+                            CustomIcons.pieIcon,
+                            '$date'
                         ),
                         const SizedBox(height: 20),
                         if ((phone ?? '').isNotEmpty)
                           _userDataItem(CustomIcons.phone, '$phone')
                         else InkWell(
-                            onTap: openEditUser,
-                            child: const Text('Please, enter for number!',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16
-                            ),)),
+                              onTap: openEditUser,
+                              child: const Text('Please, enter for number!',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16
+                                ),)),
                       ],
                     ),
                   ),
@@ -145,7 +146,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
       ),
     );
   }
-  Widget _userDataItem(IconData icon, String text){
+  Widget _userDataItem(IconData icon, String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Row(
@@ -168,17 +169,17 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
-  Widget _customNavigationBar(){
+  Widget _customNavigationBar() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         InkWell(
-          onTap:() => openPhoneCallAndSms('tel'),
+          onTap:() => launchCall('$phone'),
           child: const Icon(CustomIcons.phone),
         ),
         InkWell(
-          onTap: () => openPhoneCallAndSms('sms') ,
-          child:const  Icon(CustomIcons.message),
+          onTap: () => launchSms('$phone'),
+          child:const Icon(CustomIcons.message),
         ),
         InkWell(
           onTap: () {},
@@ -206,7 +207,7 @@ class CustomAlertDialog extends StatelessWidget {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25))
       ),
-      titlePadding: const EdgeInsets.only(top: 10,right: 10),
+      titlePadding: const EdgeInsets.only(top: 10, right: 10),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -215,7 +216,7 @@ class CustomAlertDialog extends StatelessWidget {
           IconButton(
               iconSize: 20,
               color: Colors.black,
-              onPressed: (){
+              onPressed: () {
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.close_outlined)
@@ -227,9 +228,12 @@ class CustomAlertDialog extends StatelessWidget {
         fontWeight: FontWeight.w500,
         color: Colors.black,
       ),
-      contentPadding: const EdgeInsets.only(left: 10,right: 20),
+      contentPadding: const EdgeInsets.only(left: 10, right: 20),
       content: SizedBox(
-        height: MediaQuery.of(context).size.height /4,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height / 4,
         child: Column(
           children: [
             Row(
@@ -256,7 +260,7 @@ class CustomAlertDialog extends StatelessWidget {
                 children: [
                   Row(
                     children: const [
-                      Icon(icon,size: sizeIcon),
+                      Icon(icon, size: sizeIcon),
                       SizedBox(width: size),
                       Text('birthday\n notification'),
                     ],
@@ -264,7 +268,7 @@ class CustomAlertDialog extends StatelessWidget {
                   const SizedBox(height: size),
                   Row(
                     children: const [
-                      Icon(icon,size: sizeIcon),
+                      Icon(icon, size: sizeIcon),
                       SizedBox(width: size),
                       Text('profile')
                     ],
@@ -272,7 +276,7 @@ class CustomAlertDialog extends StatelessWidget {
                   const SizedBox(height: size),
                   Row(
                     children: const [
-                      Icon(icon,size: sizeIcon),
+                      Icon(icon, size: sizeIcon),
                       SizedBox(width: size),
                       Text('user avatar'),
                     ],
@@ -285,17 +289,17 @@ class CustomAlertDialog extends StatelessWidget {
       ),
       actions: [
         TextButton(
-            onPressed: onPressed,
-            child:const  Text('Delete',
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold
-              ),
+          onPressed: onPressed,
+          child: const Text('Delete',
+            style: TextStyle(
+                fontSize: 20,
+                color: Colors.red,
+                fontWeight: FontWeight.bold
             ),
+          ),
         ),
       ],
-      actionsPadding:const  EdgeInsets.only(right: 27,bottom: 10),
+      actionsPadding: const EdgeInsets.only(right: 27, bottom: 10),
     );
   }
 }

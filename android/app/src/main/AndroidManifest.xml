@@ -7,7 +7,7 @@
    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 
     <!-- Provide required visibility configuration for API level 30 and above -->
-    <queries>
+   <queries>
         <!-- If your app checks for SMS support -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -18,7 +18,7 @@
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="tel" />
         </intent>
-    </queries>
+   </queries>
    <application
         android:label="Birthdays"
          android:icon="@mipmap/ic_launcher">
