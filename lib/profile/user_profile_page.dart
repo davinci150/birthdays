@@ -105,8 +105,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: ((phone ?? '').isNotEmpty) ? const EdgeInsets
-                        .symmetric(horizontal: 30)
+                    padding: ((phone ?? '').isNotEmpty) ?  EdgeInsets
+                        .symmetric(horizontal: MediaQuery.of(context).padding.horizontal +20)
                         : const EdgeInsets.symmetric(horizontal: 48),
                     child: Column(
                       children: [

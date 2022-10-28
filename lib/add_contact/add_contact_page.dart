@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 import '../contacts_repository.dart';
 import '../home/widgets/date_picker_widget.dart';
@@ -39,7 +41,7 @@ class _AddContacPageState extends State<AddContacPage> {
     if (widget.userModel != null) {
       userModel = widget.userModel!;
     } else {
-      userModel = UserModel(name: '', date: DateTime.now());
+      userModel = UserModel(name: '', date: DateTime.now(), phone: '');
     }
     if (userModel.date == null) {
       userModel = userModel.copyWith(date: DateTime.now());
@@ -149,11 +151,16 @@ class _AddContacPageState extends State<AddContacPage> {
                     height: 8,
                   ),
                   _textFormDateUser(
-                      initialValue: userModel.phone,
+                    maxLength: 15,
+                    keyboardType: TextInputType.phone,
+                     initialValue: userModel.phone,
                       onChanged: (phone) {
-                        userModel = userModel.copyWith(phone: phone);
+                          userModel = userModel.copyWith(phone: phone);
                         setState(() {});
                       },
+                      inputFormatters: [
+                        MaskedInputFormatter('(###) ###-##-##')
+                      ],
                       label: 'Phone number'),
                   const SizedBox(
                     height: 20,
@@ -204,12 +211,23 @@ class _AddContacPageState extends State<AddContacPage> {
     );
   }
 
-  Widget _textFormDateUser(
-      {String? initialValue, void Function(String)? onChanged, String? label, String? Function(String?)? validator }) {
+  Widget _textFormDateUser({
+    String? initialValue,
+    void Function(String)? onChanged,
+    String? label,
+    String? Function(String?)? validator,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType,
+    int? maxLength,
+}) {
     return TextFormField(
+      autocorrect: false,
+      maxLength:maxLength ,
+      keyboardType: keyboardType,
       initialValue: initialValue,
       onChanged: onChanged,
       validator: validator,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         filled: true,
         //isCollapsed: true,
