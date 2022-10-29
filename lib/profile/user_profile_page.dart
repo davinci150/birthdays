@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:intl/intl.dart';
 
 import '../add_contact/add_contact_page.dart';
@@ -182,7 +183,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
           child:const Icon(CustomIcons.message),
         ),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            FlutterShare.share(title: 'Birthday', text: 'Сегодня День Рождения у ${user.name}!');
+          },
           child: const Icon(CustomIcons.share),
         ),
       ],
