@@ -16,8 +16,8 @@ class BottomBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: 96,
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(29)),
+        decoration: const BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(29))),
         child: Stack(
           alignment: Alignment.center,
           children: [
