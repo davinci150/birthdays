@@ -27,27 +27,31 @@ class _CalendarViewWidgetState extends State<CalendarViewWidget> {
 
   late LinkedHashMap<DateTime, List<Event>> kEvents;
 
-  final Map<DateTime, List<Event>> _kEventSource = {};
+  final Map<DateTime, List<Event>> mapEvents = {};
 
   @override
   void initState() {
     widget.listUser.forEach((e) {
-      _kEventSource.addAll({
-        DateTime(_focusedDay.year, e.date!.month, e.date!.day): [
-          Event('Birtday ${e.name}', e.id!)
-        ]
-      });
+    final keyDate = DateTime(_focusedDay.year, e.date!.month, e.date!.day);
+    List<Event> events;
+
+    if (mapEvents[keyDate] != null){
+      events = mapEvents[keyDate]!..add(Event('Birthday ${e.name}', e.id!));
+    } else {
+      events = [(Event('Birthday ${e.name}', e.id!))];
+    }
+      mapEvents[keyDate] = events;
       // _kEventSource[e.date!] = [Event('Birtday ${e.name}')];
     });
     // _kEventSource = {
     //   DateTime.now(): [Event('IS')],
     //   DateTime.now().add(Duration(days: 2)): [Event('I TOW')],
     // };
-
+ print(mapEvents);
     kEvents = LinkedHashMap<DateTime, List<Event>>(
       equals: isSameDay,
       hashCode: getHashCode,
-    )..addAll(_kEventSource);
+    )..addAll(mapEvents);
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
     super.initState();
@@ -60,8 +64,12 @@ class _CalendarViewWidgetState extends State<CalendarViewWidget> {
   }
 
   List<Event> _getEventsForDay(DateTime day) {
+    final result = kEvents[day] ?? [];
+    if (day.day == 24){
+    print('@@@Result: ${result.length}');}
+    return result;
     // Implementation example
-    return kEvents[day] ?? [];
+
   }
 
   List<Event> _getEventsForRange(DateTime start, DateTime end) {
@@ -175,14 +183,13 @@ class _CalendarViewWidgetState extends State<CalendarViewWidget> {
                 itemCount: value.length,
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12.0,
-                      vertical: 4.0,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
+                  margin: const EdgeInsets.symmetric(
+                  horizontal: 12.0,
+                  vertical: 4.0,
+                  ),
+                  decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white),
+                  borderRadius: BorderRadius.circular(12.0)),
                     child: ListTile(
                       onTap: (){
 
@@ -194,8 +201,7 @@ class _CalendarViewWidgetState extends State<CalendarViewWidget> {
                         );
 
                       },
-                      title: Text(
-                        '${value[index]}',
+                      title: Text('${value[index]}',
                         style: const TextStyle(color: Colors.white),
                       ),
                     ),
