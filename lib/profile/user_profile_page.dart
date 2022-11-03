@@ -91,7 +91,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
         alignment: Alignment.topCenter,
         children: [
           Container(
-            margin: EdgeInsets.only(top: radiusAvatar + 8.5),
+            margin: EdgeInsets.only(top: radiusAvatar),
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(
@@ -99,7 +99,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               ),
             ),
           ),
-          CustomAvatar.empty(userModel: user),
+          CustomAvatar(userModel: user),
           Padding(
             padding: EdgeInsets.only(top: radiusAvatar * 2, bottom: 20),
             child: Column(

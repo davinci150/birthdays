@@ -9,29 +9,22 @@ class CustomAvatar extends StatelessWidget {
     required this.userModel,
     this.radius = 60,
     this.onChanged,
-  }) :  isEmpty = false,
-        super(key: key);
+  }) :super(key: key);
 
-  const CustomAvatar.empty({
-    Key? key,
-    required this.userModel,
-    this.radius = 60,
-    this.onChanged,
-})  :   isEmpty = true,
-        super(key: key);
+
   
   final UserModel userModel;
   final double radius;
   final VoidCallback? onChanged;
-  final bool isEmpty;
 
   @override
   Widget build(BuildContext context) {
+    const borderWidth = 6.0;
     return Stack(
       alignment: Alignment.topRight,
       children: [
         Container(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.all(borderWidth),
             decoration: const BoxDecoration(boxShadow: [
               BoxShadow(
                   blurRadius: 3,
@@ -40,13 +33,13 @@ class CustomAvatar extends StatelessWidget {
             ], color: Colors.white, shape: BoxShape.circle),
             child: UserAvatar(
               user: userModel,
-              radius: radius,
+              radius: radius - borderWidth,
             )),
-        if (! isEmpty)
+        if (onChanged != null)
         GestureDetector(
             onTap: onChanged,
             child: Container(
-                padding: const EdgeInsets.all(7),
+                padding: const EdgeInsets.all(borderWidth + 1),
                 decoration: const BoxDecoration(
                     shape: BoxShape.circle, color: Colors.white),
                 child: const Icon(Icons.camera_alt_outlined)))
