@@ -65,8 +65,6 @@ class _CalendarViewWidgetState extends State<CalendarViewWidget> {
 
   List<Event> _getEventsForDay(DateTime day) {
     final result = kEvents[day] ?? [];
-    if (day.day == 24){
-    print('@@@Result: ${result.length}');}
     return result;
     // Implementation example
 
