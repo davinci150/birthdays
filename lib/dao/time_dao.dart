@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../home/settings_page.dart';
 import '../home/widgets/time_of_day_picker_widget.dart';
 
-class TimeUtils {
+class TimeDao {
 
   TimeOfDay notificationTime = const TimeOfDay(hour: 9, minute: 0);
   final String timeKey = 'timeKey';

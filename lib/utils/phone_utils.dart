@@ -1,7 +1,7 @@
 
 import 'package:url_launcher/url_launcher.dart';
 
-class UriLauncher {
+class PhoneUtils {
 
   Future<void> call(String phone) async{
     final Uri? url = Uri.tryParse('tel://$phone');

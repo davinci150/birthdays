@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../dao/time.dart';
+import '../dao/time_dao.dart';
 import '../presentation/colors.dart';
 import '../widgets/app_bar.dart';
 
@@ -16,7 +16,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  TimeUtils time = TimeUtils();
+  TimeDao time = TimeDao();
   bool isShowUser = true;
   @override
   void initState() {

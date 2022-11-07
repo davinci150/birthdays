@@ -26,7 +26,7 @@ class UserProfilePage extends StatefulWidget {
 class _UserProfilePageState extends State<UserProfilePage> {
   late ContactsRepository repository;
   late UserModel user;
-  UriLauncher phoneUtils = UriLauncher();
+  PhoneUtils phoneUtils = PhoneUtils();
 
   @override
   void initState() {
