@@ -152,7 +152,7 @@ class _AddContacPageState extends State<AddContacPage> {
                   ),
                   _textFormDateUser(
                     maxLength: 15,
-                    //keyboardType: TextInputType.phone,
+                    keyboardType: TextInputType.phone,
                      initialValue: userModel.phone,
                       onChanged: (phone) {
                           userModel = userModel.copyWith(phone: phone);
