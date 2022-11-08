@@ -58,7 +58,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     phoneUtils.sms(phone);
   }
 
-  final radiusAvatar = 60.0;
+  final double radiusAvatar = 60.0;
   String? date;
   String? phone;
   //Contact? contact;
@@ -95,48 +95,52 @@ class _UserProfilePageState extends State<UserProfilePage> {
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(
-                top: Radius.circular(25),
+                top: Radius.circular(29),
               ),
             ),
           ),
-          CustomAvatar(userModel: user),
+          CustomAvatar(userModel: user, radius: radiusAvatar,),
           Padding(
-            padding: EdgeInsets.only(top: radiusAvatar * 2, bottom: 20),
+            padding: EdgeInsets.only(top: radiusAvatar *2, bottom: 25),
             child: Column(
               children: [
                 Expanded(
-                  child: Padding(
-                    padding: ((phone ?? '').isNotEmpty) ?  EdgeInsets
-                        .symmetric(horizontal: MediaQuery.of(context).padding.horizontal +20)
-                        : const EdgeInsets.symmetric(horizontal: 48),
-                    child: Column(
-                      children: [
-                        SizedBox(height: radiusAvatar),
-                        Text(
-                          user.name ?? '',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 32,
-                            fontWeight: FontWeight.w400,
+                  child: Column(
+                    children: [
+                     const SizedBox(height: 40),
+                      Text(
+                        user.name ?? '',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 32,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      const SizedBox(height: 35),
+                      _userDataItem(
+                          CustomIcons.pieIcon,
+                          '$date',
+                       sizeIcon: 44,
+                        sizeWidth: 19,
+                      ),
+                      const SizedBox(height: 30),
+                      if ((phone ?? '').isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: _userDataItem(
+                            CustomIcons.phone, '$phone',
+                            sizeIcon: 34,
+                            sizeWidth: 22,
                           ),
-                        ),
-                        const SizedBox(height: 30),
-                        _userDataItem(
-                            CustomIcons.pieIcon,
-                            '$date'
-                        ),
-                        const SizedBox(height: 20),
-                        if ((phone ?? '').isNotEmpty)
-                          _userDataItem(CustomIcons.phone, '$phone')
-                        else InkWell(
-                              onTap: openEditUser,
-                              child: const Text('Please, enter for number!',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16
-                                ),)),
-                      ],
-                    ),
+                        )
+                      else InkWell(
+                            onTap: openEditUser,
+                            child: const Text('Please, enter for number!',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16
+                              ),)),
+                    ],
                   ),
                 ),
                 _customNavigationBar(),
@@ -147,15 +151,19 @@ class _UserProfilePageState extends State<UserProfilePage> {
       ),
     );
   }
-  Widget _userDataItem(IconData icon, String text) {
+  Widget _userDataItem(
+      IconData icon,
+      String text,
+      {double? sizeIcon,
+       double? sizeWidth,
+      }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon,
-          size: 40,),
-          const SizedBox(width: 20),
+          size: sizeIcon,),
+          SizedBox(width: sizeWidth),
          // if ((contact?.phones ?? []).isEmpty)
           Expanded(
             child: Text(text,
@@ -171,22 +179,23 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Widget _customNavigationBar() {
+    const double size = 27;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         InkWell(
           onTap:() => launchCall('$phone'),
-          child: const Icon(CustomIcons.phone),
+          child:  const Icon(CustomIcons.phone, size: size,),
         ),
         InkWell(
           onTap: () => launchSms('$phone'),
-          child:const Icon(CustomIcons.message),
+          child: const Icon(CustomIcons.message, size: size,),
         ),
         InkWell(
           onTap: () {
             FlutterShare.share(title: 'Birthday', text: 'Сегодня День Рождения у ${user.name}!');
           },
-          child: const Icon(CustomIcons.share),
+          child:  const Icon(CustomIcons.share, size: size,),
         ),
       ],
     );
