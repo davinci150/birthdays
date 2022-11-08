@@ -108,8 +108,8 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const SizedBox(height: 20),
             Row(
-              children: [
-                const Expanded(
+              children: const [
+                Expanded(
                   child: Text(
                     'Not receiving notification?',
                     style: TextStyle(
@@ -120,11 +120,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 IconButton(
-                    onPressed: () {
-                      openAppSettings();
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
+                    onPressed: openAppSettings,
+                    icon: Icon(
                       Icons.settings_outlined,
                       size: 30,
                       color: Colors.white,
