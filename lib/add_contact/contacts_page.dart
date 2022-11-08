@@ -121,9 +121,20 @@ class _ContactsPageState extends State<ContactsPage> {
         ),
         backgroundColor: AppColors.mortar,
         body: _contacts == null
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
+            ?   Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.perm_contact_cal_outlined, size: 30, color: Colors.white,),
+                    SizedBox(width: 10,),
+                    Text('List contacts is Empty',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white
+                    ),)
+                  ],
+                ))
             : Padding(
                 padding: const EdgeInsets.only(right: 4, left: 10),
                 child: Scrollbar(
@@ -138,7 +149,8 @@ class _ContactsPageState extends State<ContactsPage> {
                     },
                   ),
                 ),
-              ));
+              )
+    );
   }
 
   Widget userCard(Contact? contact) {
