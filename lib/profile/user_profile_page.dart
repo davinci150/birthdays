@@ -58,7 +58,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     phoneUtils.sms(phone);
   }
 
-  final double radiusAvatar = 60.0;
+  final double radiusAvatar = 74.0;
   String? date;
   String? phone;
   //Contact? contact;
@@ -101,13 +101,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
           ),
           CustomAvatar(userModel: user, radius: radiusAvatar,),
           Padding(
-            padding: EdgeInsets.only(top: radiusAvatar *2, bottom: 25),
+            padding: EdgeInsets.only(top: radiusAvatar * 2, bottom: 25),
             child: Column(
               children: [
                 Expanded(
                   child: Column(
                     children: [
-                     const SizedBox(height: 40),
+                     const SizedBox(height: 44),
                       Text(
                         user.name ?? '',
                         style: const TextStyle(
