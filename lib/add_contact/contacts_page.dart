@@ -37,6 +37,8 @@ class _ContactsPageState extends State<ContactsPage> {
   }
 
   Future<void> getContacts() async {
+    isProgress = true;
+    setState((){});
     final PermissionStatus permissionStatus = await _getPermission();
 
     if (permissionStatus == PermissionStatus.granted) {
@@ -46,6 +48,8 @@ class _ContactsPageState extends State<ContactsPage> {
         await setContact();
       }
     }
+    isProgress = false;
+    setState((){});
   }
 
   final controller = TextEditingController();
@@ -63,7 +67,7 @@ class _ContactsPageState extends State<ContactsPage> {
     }
     setState(() {});
   }
-
+ bool isProgress = false;
   @override
   void initState() {
     repository = ContactsRepository.instance;
@@ -120,7 +124,8 @@ class _ContactsPageState extends State<ContactsPage> {
           ),
         ),
         backgroundColor: AppColors.mortar,
-        body: _contacts == null
+        body: isProgress == true ? const Center(child:  CircularProgressIndicator()) :
+        _contacts == null
             ?   Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
