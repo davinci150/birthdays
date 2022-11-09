@@ -19,17 +19,27 @@ class UserAvatar extends StatelessWidget {
             radius: radius,
             backgroundImage: MemoryImage(user.avatar!),
           )
-        : Stack(
+        : user.id == null ?
+         CircleAvatar(
+          radius: radius,
+          backgroundColor: Colors.grey,
+          child: Icon(
+            Icons.person_add_alt_rounded,
+            size: radius,
+            color: Colors.white,
+          ),
+        )
+   : Stack(
             alignment: Alignment.center,
             children: [
               CircleAvatar(
                 radius: radius,
-                backgroundColor: stringToHslColor(user.name!, 0.4, 0.7),
+                backgroundColor: stringToHslColor(user.id.toString(), 0.4, 0.7),
               ),
               Container(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Image.asset(
-                  listImage[avatarFromName(user.name!, listImage.length)],
+                  listImage[avatarFromName(user.id.toString(), listImage.length)],
                   height: radius * 2 -5,
                 ),
               )
