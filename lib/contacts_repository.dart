@@ -16,13 +16,40 @@ class ContactsRepository {
   static final ContactsRepository instance = ContactsRepository._();
   BehaviorSubject<List<UserModel>> listUsers = BehaviorSubject.seeded([]);
 
+  bool isShowPastBirthdays = true;
+
   Stream<List<UserModel>> getUsers(String search) {
     if (search.isNotEmpty) {
       final list = listUsers.stream.value;
       return Stream.value(
           list.where((element) => element.name!.contains(search)).toList());
     }
-    return listUsers.stream;
+    return listUsers.stream.map((event) {
+      List<UserModel> result = [];
+
+      if (isShowPastBirthdays == false) {
+        final now = DateTime.now();
+        final compareDate = DateTime(now.year, now.month, now.day);
+
+        event.forEach((element) {
+          final userDate = element.date!;
+
+          final date = DateTime(now.year, userDate.month, userDate.day);
+          if (date.isAfter(compareDate) || date == compareDate) {
+            result.add(element);
+          }
+        });
+      } else {
+        result = event;
+      }
+      result.sort((a, b) {
+        final now = DateTime.now();
+        final aDate = DateTime(now.year, a.date!.month, a.date!.day);
+        final bDate = DateTime(now.year, b.date!.month, b.date!.day);
+        return aDate.compareTo(bDate);
+      });
+      return result;
+    });
   }
 
   NotificationService notificationService = NotificationService();
